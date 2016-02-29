@@ -15,6 +15,7 @@ main = hakyll $ do
     justCopy          "static/fonts/**"
     justCopy          "README.md"
     justCopy          "CNAME"
+    justCopy          "LICENSE"
     justCreateAndCopy ".nojekyll"
 
     prepareTemplates >> createCoverPage >> createInitPage >> createChapters

@@ -15,13 +15,6 @@ set -e
 # Устанавливаем переменную, для нашего коммит-сообщения...
 COMMIT_MESSAGE=$1
 
-#if [ "$1" = "" ]
-#then
-#    echo "А сообщение о коммите где?"
-#    echo "${USAGE}"
-#    exit 1
-#fi
-
 echo "Учитываем изменения в ветке master..."
 if [ "$1" != "" ]
 then
@@ -34,16 +27,20 @@ echo "Собираем новую версию сайта..."
 ./just_build.sh
 
 echo "Копируем во временное место, предварительно удалив старое, если нужно..."
-rm -rf /tmp/_site/ || true 1> /dev/null
-cp -R _site /tmp/
+rm -rf /tmp/_site || true 1> /dev/null
+cp -R _site /tmp
 
 echo "Переключаемся на ветку 'gh-pages'..."
 git checkout gh-pages
 
+rm -f  *.html
+rm -rf static
+rm -f  *.md
+
 echo "Копируем прямо в корень содержимое подготовленного каталога _site..."
 cp -R /tmp/_site/* .
 
-echo "Учитываем все последние новшества, если таковые имеются, и публикуем на GitHub Pages..."
+echo "Учитываем все последние новшества и публикуем на GitHub Pages..."
 git add .
 if [ "$1" != "" ]
 then
