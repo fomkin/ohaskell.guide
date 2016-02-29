@@ -40,6 +40,10 @@ rm -f  *.md
 echo "Копируем прямо в корень содержимое подготовленного каталога _site..."
 cp -R /tmp/_site/* .
 
+rm -rf chapters
+rm -rf src
+rm -rf templates
+
 echo "Учитываем все последние новшества и публикуем на GitHub Pages..."
 git add .
 if [ "$1" != "" ]
