@@ -45,6 +45,8 @@ rm -rf src
 rm -rf templates
 rm -rf epub
 rm -rf pdf
+rm -rf _site
+rm -rf _cache
 
 echo "Учитываем все последние новшества и публикуем на GitHub Pages..."
 git add .
