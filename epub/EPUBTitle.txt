@@ -1,0 +1,11 @@
+---
+title:
+- type: main
+  text: О Haskell по-человечески
+- type: subtitle
+  text:
+creator:
+- role: author
+  text: Денис Шевченко
+rights: © 2016 Денис Шевченко
+---
