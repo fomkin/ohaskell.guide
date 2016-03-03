@@ -17,7 +17,7 @@ import           System.Process         (callCommand)
 
 main :: IO ()
 main = do
-    ruTemplate <- TIO.readFile "templates/default.html"
+    ruTemplate <- TIO.readFile "../templates/default.html"
     let toc = getTOCFrom ruTemplate
         chaptersURLs = getChaptersURLsFrom toc
         mdURLs = createMarkdownURLsFrom chaptersURLs
@@ -54,7 +54,7 @@ createMarkdownURLsFrom :: [T.Text] -> [T.Text]
 createMarkdownURLsFrom chaptersURLs = map create chaptersURLs
   where
     create :: T.Text -> T.Text
-    create url = "chapters" `T.append` (T.replace ".html" ".md" url)
+    create url = "../chapters" `T.append` (T.replace ".html" ".md" url)
 
 readMD :: T.Text -> IO T.Text
 readMD mdURL = TIO.readFile $ T.unpack mdURL >>= return

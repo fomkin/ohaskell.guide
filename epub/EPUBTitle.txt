@@ -2,10 +2,9 @@
 title:
 - type: main
   text: О Haskell по-человечески
-- type: subtitle
-  text:
+- type: edition
+  text: издание 2.0
 creator:
 - role: author
   text: Денис Шевченко
-rights: © 2016 Денис Шевченко
 ---
