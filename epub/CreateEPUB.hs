@@ -23,21 +23,24 @@ main = do
         mdURLs = createMarkdownURLsFrom chaptersURLs
     chapters <- mapM readMD mdURLs
     TIO.writeFile tmpMD $ T.intercalate "\n" chapters
-    callCommand $ "pandoc -S -o ohaskell.epub --epub-stylesheet=EPUB.css --epub-embed-font="
-                  ++ mainFont
-                  ++ " --epub-embed-font="
-                  ++ codeFontNormal
-                  ++ " --epub-embed-font="
-                  ++ codeFontBold
-                  ++ " --epub-embed-font="
-                  ++ codeFontIt
-                  ++ " EPUBTitle.txt " ++ tmpMD
+    callCommand $ concat [ "pandoc -S -o ohaskell.epub --toc-depth=1"
+                         , " --epub-stylesheet="
+                         , css
+                         , " --epub-embed-font="
+                         , mainFont
+                         , " --epub-embed-font="
+                         , codeFontNormal
+                         , " --epub-embed-font="
+                         , codeFontBold
+                         , " EPUBTitle.txt "
+                         , tmpMD
+                         ]
   where
     tmpMD           = "/tmp/ohaskell-book.md"
+    css             = "EPUB.css"
     mainFont        = "/Library/Fonts/PTSerif.ttc"
     codeFontNormal  = "/Users/dshevchenko/Library/Fonts/SourceCodePro-Regular.ttf"
     codeFontBold    = "/Users/dshevchenko/Library/Fonts/SourceCodePro-Semibold.ttf"
-    codeFontIt      = "/Users/dshevchenko/Library/Fonts/SourceCodePro-It.ttf"
 
 getTOCFrom :: T.Text -> T.Text
 getTOCFrom ruTemplate = case parseOnly tocParser ruTemplate of
