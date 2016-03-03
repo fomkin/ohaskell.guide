@@ -15,6 +15,9 @@ set -e
 # Устанавливаем переменную, для нашего коммит-сообщения...
 COMMIT_MESSAGE=$1
 
+echo "Собираем новую версию сайта..."
+./just_build.sh
+
 echo "Учитываем изменения в ветке master..."
 if [ "$1" != "" ]
 then
@@ -22,9 +25,6 @@ then
     git commit -a -m "$COMMIT_MESSAGE"
     git push origin master
 fi
-
-echo "Собираем новую версию сайта..."
-./just_build.sh
 
 echo "Копируем во временное место, предварительно удалив старое, если нужно..."
 rm -rf /tmp/_site || true 1> /dev/null
