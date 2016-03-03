@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'PT Serif';
+    font-style: normal;
+    font-weight: normal;
+    src:url("PTSerif.ttc");
+}
+
+@font-face {
+    font-family: 'PT Serif';
+    font-style: normal;
+    font-weight: bold;
+    src:url("PTSerif.ttc");
+}
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: normal;
+    src:url("SourceCodePro-Regular.ttf");
+}
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: bold;
+    src:url("SourceCodePro-Semibold.ttf");
+}
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: italic;
+    font-weight: normal;
+    src:url("SourceCodePro-It.ttf");
+}
+
+body {
+    margin: 5%;
+    text-align: justify;
+    font-size: 12px;
+    font-family: "PT Serif";
+}
+
+code {
+    font-family: "Source Code Pro", monospace;
+}
+
+h1 {
+    text-align: left;
+}
+
+h2 {
+    text-align: left;
+}
+
+h3 {
+    text-align: left;
+}
+
+h4 {
+    text-align: left;
+}
+
+h5 {
+    text-align: left;
+}
+
+h6 {
+    text-align: left;
+}
+
+h1.title { }
+
+h2.author { }
+
+h3.date { }
+
+ol.toc {
+    padding: 0;
+    margin-left: 1em;
+}
+
+ol.toc li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
