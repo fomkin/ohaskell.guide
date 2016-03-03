@@ -23,9 +23,22 @@ main = do
         mdURLs = createMarkdownURLsFrom chaptersURLs
     chapters <- mapM readMD mdURLs
     TIO.writeFile tmpMD $ T.intercalate "\n" chapters
-    callCommand $ "pandoc --latex-engine=xelatex --variable mainfont=\"PT Serif\" -o ohaskell.pdf "
-                  ++ tmpMD
+    callCommand $ concat [ "pandoc --latex-engine=xelatex --include-before-body="
+                         , tmpLATEX
+                         , " --toc"
+                         , " -V mainfont=\"PT Serif\""
+                         , " -V monofont=\"Source Code Pro\""
+                         , " -V fontsize=12pt"
+                         , " -V toc-depth=1"
+                         , " -V documentclass=\"book\""
+                         , " -V title=\"О Haskell по-человечески\""
+                         , " -V author=\"Денис Шевченко\""
+                         , " -V polyglossia-lang=\"ru\""
+                         , " -o ohaskell.pdf "
+                         , tmpMD
+                         ]
   where
+    tmpLATEX = "header.tex"
     tmpMD = "/tmp/ohaskell-book.md"
 
 getTOCFrom :: T.Text -> T.Text
