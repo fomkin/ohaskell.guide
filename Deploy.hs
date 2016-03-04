@@ -1,6 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ExtendedDefaultRules #-}
--- {-# OPTIONS_GHC -fno-warn-type-defaults #-}
+-- {-# LANGUAGE ExtendedDefaultRules #-}
 
 {-
     Deploy the book to GitHub.
