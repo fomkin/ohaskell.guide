@@ -1,13 +1,37 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Chapters (
-      prepareTemplates
-    , createCoverPage
-    , createInitPage
-    , createChapters
+module CreateHtml (
+    createHtml
 ) where
 
 import Hakyll
+import Control.Exception (finally)
+
+import PrepareHtmlTOC
+
+createHtml :: IO ()
+createHtml = (hakyll $ do
+    justCopy          "static/images/*"
+    justCopy          "static/css/*"
+    justCopy          "static/js/*"
+    justCopy          "static/fonts/**"
+    justCopy          "README.md"
+    justCopy          "CNAME"
+    justCopy          "LICENSE"
+    justCreateAndCopy ".nojekyll"
+
+    prepareTemplates >> createCoverPage >> createInitPage >> createChapters)
+        `finally` prepareHtmlTOC
+
+justCopy :: Pattern -> Rules ()
+justCopy something = match something $ do
+    route   idRoute
+    compile copyFileCompiler
+
+justCreateAndCopy :: Identifier -> Rules ()
+justCreateAndCopy something = create [something] $ do
+    route   idRoute
+    compile copyFileCompiler
 
 prepareTemplates :: Rules ()
 prepareTemplates = match "templates/*" $ compile templateCompiler
