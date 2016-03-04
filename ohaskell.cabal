@@ -20,8 +20,11 @@ cabal-version:       >= 1.10
 executable ohaskell
   main-is:             Main.hs
 
-  other-modules:       Copiers
-                       Chapters
+  other-modules:       CreatePdf
+                       CreateEpub
+                       CreateHtml
+                       PrepareHtmlTOC
+                       TOC
 
   build-depends:       base,
                        split,
@@ -31,7 +34,11 @@ executable ohaskell
                        mtl,
                        containers,
                        blaze-html,
-                       old-locale
+                       old-locale,
+                       attoparsec,
+                       text,
+                       process,
+                       vector
 
   hs-source-dirs:      src
 
