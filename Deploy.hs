@@ -43,6 +43,10 @@ main = void . shelly $ verbosely $ do
         rm_rf "static"
         rm_f  "*.md"
         rm_f  "*.cabal"
+
+        echo "Копируем..."
+        cp_r "/tmp/_site/." "."
+
         rm_rf "chapters"
         rm_rf "src"
         rm_rf "templates"
@@ -51,12 +55,12 @@ main = void . shelly $ verbosely $ do
         rm_rf "_site"
         rm_rf "_cache"
 
-        echo "Копируем..."
-        cp   "/tmp/_site/*.html"  "."
-        cp   "/tmp/_site/*.md"    "."
-        cp   "/tmp/_site/CNAME"   "."
-        cp   "/tmp/_site/LICENSE" "."
-        cp_r "/tmp/_site/static"  "."
+        --echo "Копируем..."
+        --cp   "/tmp/_site/*.html"  "."
+        --cp   "/tmp/_site/*.md"    "."
+        --cp   "/tmp/_site/CNAME"   "."
+        --cp   "/tmp/_site/LICENSE" "."
+        --cp_r "/tmp/_site/static"  "."
 
         echo "Учитываем все изменения и публикуем на GitHub Pages..."
         gitAdd ["."]
