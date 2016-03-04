@@ -39,8 +39,8 @@ main = do
     tmpMD           = "/tmp/ohaskell-book.md"
     css             = "EPUB.css"
     mainFont        = "/Library/Fonts/PTSerif.ttc"
-    codeFontNormal  = "/Users/dshevchenko/Library/Fonts/SourceCodePro-Regular.ttf"
-    codeFontBold    = "/Users/dshevchenko/Library/Fonts/SourceCodePro-Semibold.ttf"
+    codeFontNormal  = "/Users/dshevchenko/Library/Fonts/UbuntuMono-Regular.ttf"
+    codeFontBold    = "/Users/dshevchenko/Library/Fonts/UbuntuMono-Bold.ttf"
 
 getTOCFrom :: T.Text -> T.Text
 getTOCFrom ruTemplate = case parseOnly tocParser ruTemplate of

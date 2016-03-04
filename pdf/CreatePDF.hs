@@ -27,7 +27,7 @@ main = do
                          , tmpLATEX
                          , " --toc"
                          , " -V mainfont=\"PT Serif\""
-                         , " -V monofont=\"Source Code Pro\""
+                         , " -V monofont=\"Ubuntu Mono\""
                          , " -V fontsize=12pt"
                          , " -V toc-depth=1"
                          , " -V documentclass=\"book\""
