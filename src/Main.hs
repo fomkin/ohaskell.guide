@@ -1,22 +1,14 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Main where
 
-import Copiers
-import Chapters
-
-import Hakyll
+import TOC
+import CreatePdf
+import CreateEpub
+import CreateHtml
 
 main :: IO ()
-main = hakyll $ do
-    justCopy          "static/images/*"
-    justCopy          "static/css/*"
-    justCopy          "static/js/*"
-    justCopy          "static/fonts/**"
-    justCopy          "README.md"
-    justCopy          "CNAME"
-    justCopy          "LICENSE"
-    justCreateAndCopy ".nojekyll"
-
-    prepareTemplates >> createCoverPage >> createInitPage >> createChapters
+main = do
+    pathToSingleMarkdown <- createSingleMarkdown
+    putStrLn "Creating PDF..."  >> createPdf pathToSingleMarkdown
+    putStrLn "Creating EPUB..." >> createEpub pathToSingleMarkdown
+    putStrLn "Creating HTML..." >> createHtml
 

@@ -1,48 +1,22 @@
-{-
- - Handle book's TOC.
- - Usage:
- - $ cd ohaskell
- - $ stack exec runhaskell HandleTOC.hs
- -}
-
 {-# LANGUAGE OverloadedStrings #-}
 
-module HandleTOC where
+module PrepareHtmlTOC (
+    prepareHtmlTOC
+) where
 
 import qualified Data.Vector            as V
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
-import           Data.Attoparsec.Text
 
-main :: IO ()
-main = do
-    ruTemplate <- TIO.readFile "templates/default.html"
-    let toc = getTOCFrom ruTemplate
+import           TOC
+
+prepareHtmlTOC :: IO ()
+prepareHtmlTOC = do
+    template <- TIO.readFile mainTemplate
+    let toc = getTOCFrom template
         chaptersURLs = getChaptersURLsFrom toc
         chaptersURLsWithIndex = V.indexed . V.fromList $ chaptersURLs
     V.mapM_ (handle chaptersURLsWithIndex) chaptersURLsWithIndex
-
-getTOCFrom :: T.Text -> T.Text
-getTOCFrom ruTemplate = case parseOnly tocParser ruTemplate of
-    Left  _   -> ""
-    Right toc -> toc
-  where
-    tocParser :: Parser T.Text
-    tocParser = substringParser '%'
-
-getChaptersURLsFrom :: T.Text -> [T.Text]
-getChaptersURLsFrom toc = case parseOnly urlsParser toc of
-    Left  _    -> []
-    Right urls -> urls
-  where
-    urlsParser :: Parser [T.Text]
-    urlsParser = many1 (substringParser '"')
-
-substringParser :: Char -> Parser T.Text
-substringParser ch = do
-    skipWhile (/= ch)
-    ss <- char ch *> manyTill' anyChar (char ch)
-    return . T.pack $ ss
 
 handle :: V.Vector (Int, T.Text) -> (Int, T.Text) -> IO ()
 handle chaptersURLsWithIndex (currentChapterIndex, currentChapterURL) = do
