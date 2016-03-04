@@ -40,6 +40,7 @@ main = void . shelly $ do
 
         echo "Удаляем ненужное..."
         rm_f  "*.html"
+        rm_rf "static"
         rm_f  "*.md"
         rm_f  "*.cabal"
         rm_f  "*.hs"
