@@ -46,7 +46,7 @@ main = void . shelly $ verbosely $ do
         rm_f  "*.hs"
 
         echo "Копируем..."
-        cpR ["/tmp/_site/*", "."]
+        cpR ["/tmp/_site/.", "."]
 
         rm_rf "chapters"
         rm_rf "src"
