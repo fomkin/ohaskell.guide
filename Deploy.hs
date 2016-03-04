@@ -17,7 +17,7 @@ import           Control.Monad.IO.Class (liftIO)
 import           Control.Exception.Base
 
 main :: IO ()
-main = void . shelly $ verbosely $ do
+main = void . shelly $ do
     args <- liftIO getArgs
     if length args /= 1 then commitMessagePlease else do
         let [commitMessageRaw] = args
@@ -33,7 +33,7 @@ main = void . shelly $ verbosely $ do
 
         echo "Копируем во временное место, предварительно удалив старое, если нужно..."
         rm_rf "/tmp/_site" `catch_sh` ifNot
-        run_ "cp" ["-R", "_site", "/tmp"]
+        cp_r "_site" "/tmp"
 
         echo "Переключаемся на ветку 'gh-pages'..."
         gitCheckout ["gh-pages"]
@@ -46,8 +46,7 @@ main = void . shelly $ verbosely $ do
         rm_f  "*.hs"
 
         echo "Копируем..."
-        -- cpR ["/tmp/_site/.", "."]
-        run_ "cp" ["-R", "/tmp/_site/*", "."]
+        cp_r "/tmp/_site/." "."
 
         rm_rf "chapters"
         rm_rf "src"
@@ -77,8 +76,6 @@ main = void . shelly $ verbosely $ do
     gitCommit   = command_ "git" ["commit", "-a", "-m"]
     gitPush     = command_ "git" ["push", "origin"]
     gitCheckout = command_ "git" ["checkout"]
-
-    cpR = command_ "cp" ["-R"]
 
     ifNot :: SomeException -> Sh ()
     ifNot _ = return ()
