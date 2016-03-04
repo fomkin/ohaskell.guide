@@ -61,8 +61,8 @@ main = void . shelly $ verbosely $ do
 
         echo "Учитываем все изменения и публикуем на GitHub Pages..."
         gitAdd ["."]
-        gitCommit [commitMessage]
-        gitPush ["gh-pages"]
+        gitCommit [commitMessage] `catch_sh` ifNot
+        gitPush ["gh-pages"] `catch_sh` ifNot
 
         echo "Возвращаемся в ветку 'master'..."
         gitCheckout ["master"]
