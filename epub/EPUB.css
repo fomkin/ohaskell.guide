@@ -13,17 +13,17 @@
 }
 
 @font-face {
-    font-family: 'Source Code Pro';
+    font-family: 'Ubuntu Mono';
     font-style: normal;
     font-weight: normal;
-    src:url("SourceCodePro-Regular.ttf");
+    src:url("UbuntuMono-Regular.ttf");
 }
 
 @font-face {
-    font-family: 'Source Code Pro';
+    font-family: 'Ubuntu Mono';
     font-style: normal;
     font-weight: bold;
-    src:url("SourceCodePro-Semibold.ttf");
+    src:url("UbuntuMono-Bold.ttf");
 }
 
 body {
@@ -34,7 +34,7 @@ body {
 }
 
 code {
-    font-family: "Source Code Pro", monospace;
+    font-family: "Ubuntu Mono", monospace;
 }
 
 h1 {
