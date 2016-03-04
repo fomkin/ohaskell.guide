@@ -33,7 +33,7 @@ main = void . shelly $ verbosely $ do
 
         echo "Копируем во временное место, предварительно удалив старое, если нужно..."
         rm_rf "/tmp/_site" `catch_sh` ifNot
-        cp_r "_site" "/tmp"
+        cpR ["_site", "/tmp"]
 
         echo "Переключаемся на ветку 'gh-pages'..."
         gitCheckout ["gh-pages"]
@@ -46,7 +46,7 @@ main = void . shelly $ verbosely $ do
         rm_f  "*.hs"
 
         echo "Копируем..."
-        cp_r "/tmp/_site/." "."
+        cpR ["/tmp/_site/*", "."]
 
         rm_rf "chapters"
         rm_rf "src"
@@ -76,6 +76,8 @@ main = void . shelly $ verbosely $ do
     gitCommit   = command_ "git" ["commit", "-a", "-m"]
     gitPush     = command_ "git" ["push", "origin"]
     gitCheckout = command_ "git" ["checkout"]
+
+    cpR = command_ "cp" ["-R"]
 
     ifNot :: SomeException -> Sh ()
     ifNot _ = return ()
