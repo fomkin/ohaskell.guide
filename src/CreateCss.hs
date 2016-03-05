@@ -42,7 +42,6 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         colorBase01
         fontSize        $ px 30
         centerAlign
-        -- fontWeight      (weight 500)
         paddingTop      $ px 40
         paddingBottom   $ px 35
 
