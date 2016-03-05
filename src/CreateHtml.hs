@@ -8,20 +8,22 @@ import Hakyll
 import Control.Exception (finally)
 
 import PrepareHtmlTOC
+import CreateCss
 
 createHtml :: IO ()
-createHtml = (hakyll $ do
-    justCopy          "static/images/*"
-    justCopy          "static/css/*"
-    justCopy          "static/js/*"
-    justCopy          "static/fonts/**"
-    justCopy          "README.md"
-    justCopy          "CNAME"
-    justCopy          "LICENSE"
-    justCreateAndCopy ".nojekyll"
+createHtml = do
+    createCss
+    (hakyll $ do
+        justCopy          "static/images/*"
+        justCopy          "static/css/*"
+        justCopy          "static/js/*"
+        justCopy          "README.md"
+        justCopy          "CNAME"
+        justCopy          "LICENSE"
+        justCreateAndCopy ".nojekyll"
 
-    prepareTemplates >> createCoverPage >> createInitPage >> createChapters)
-        `finally` prepareHtmlTOC
+        prepareTemplates >> createCoverPage >> createInitPage >> createChapters)
+            `finally` prepareHtmlTOC
 
 justCopy :: Pattern -> Rules ()
 justCopy something = match something $ do
