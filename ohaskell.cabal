@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                ohaskell
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            О Haskell по-человечески
 
 homepage:            http://www.ohaskell.guide
@@ -22,6 +22,7 @@ executable ohaskell
 
   other-modules:       CreatePdf
                        CreateEpub
+                       CreateCss
                        CreateHtml
                        PrepareHtmlTOC
                        TOC
@@ -38,7 +39,8 @@ executable ohaskell
                        attoparsec,
                        text,
                        process,
-                       vector
+                       vector,
+                       clay
 
   hs-source-dirs:      src
 
