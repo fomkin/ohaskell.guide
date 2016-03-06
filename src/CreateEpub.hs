@@ -6,13 +6,16 @@ module CreateEpub (
 
 import System.Process (callCommand)
 
+import CreateEpubCss
+
 createEpub :: FilePath -> IO ()
-createEpub pathToSingleMarkdown =
+createEpub pathToSingleMarkdown = do
+    createEpubCss pathToCss
     callCommand $ concat [ "pandoc -S -o "
                          , out
                          , " --toc-depth=1"
                          , " --epub-stylesheet="
-                         , css
+                         , pathToCss
                          , " --epub-embed-font="
                          , mainFont
                          , " --epub-embed-font="
@@ -26,7 +29,7 @@ createEpub pathToSingleMarkdown =
                          ]
   where
     out             = "epub/ohaskell.epub"
-    css             = "epub/EPUB.css"
+    pathToCss       = "epub/EPUB.css"
     title           = "epub/EPUBTitle.txt"
     mainFont        = "/Library/Fonts/PTSerif.ttc"
     codeFontNormal  = "/Users/dshevchenko/Library/Fonts/UbuntuMono-Regular.ttf"

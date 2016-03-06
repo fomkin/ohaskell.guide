@@ -1,97 +1,101 @@
-@font-face {
-    font-family: 'PT Serif';
-    font-style: normal;
-    font-weight: normal;
-    src:url("PTSerif.ttc");
+
+@font-face
+{
+  font-family : "PT Serif", serif;
+  font-style  : normal;
+  font-weight : normal;
+  src         : url("PTSerif.ttc");
 }
 
-@font-face {
-    font-family: 'PT Serif';
-    font-style: normal;
-    font-weight: bold;
-    src:url("PTSerif.ttc");
+@font-face
+{
+  font-family : "PT Serif", serif;
+  font-style  : normal;
+  font-weight : bold;
+  src         : url("PTSerif.ttc");
 }
 
-@font-face {
-    font-family: 'Ubuntu Mono';
-    font-style: normal;
-    font-weight: normal;
-    src:url("UbuntuMono-Regular.ttf");
+@font-face
+{
+  font-family : "Ubuntu Mono", monospace;
+  font-style  : normal;
+  font-weight : normal;
+  src         : url("UbuntuMono-Regular.ttf");
 }
 
-@font-face {
-    font-family: 'Ubuntu Mono';
-    font-style: normal;
-    font-weight: bold;
-    src:url("UbuntuMono-Bold.ttf");
+@font-face
+{
+  font-family : "Ubuntu Mono", monospace;
+  font-style  : normal;
+  font-weight : normal;
+  src         : url("UbuntuMono-Bold.ttf");
 }
 
-body {
-    margin: 5%;
-    text-align: justify;
-    font-size: 11px;
-    font-family: "PT Serif";
+body
+{
+  margin      : 5% 5% 5% 5%;
+  text-align  : justify;
+  font-size   : 11px;
+  font-family : "PT Serif", serif;
 }
 
-code {
-    font-family: "Ubuntu Mono", monospace;
+code
+{
+  font-family : "Ubuntu Mono", monospace;
 }
 
-h1 {
-    text-align: left;
-    font-size: 20px;
-    padding-bottom: 18px;
+h1
+{
+  text-align     : left;
+  font-size      : 20px;
+  padding-bottom : 18px;
 }
 
-h2 {
-    text-align: left;
-    font-size: 15px;
-    padding-top: 18px;
+h2
+{
+  text-align  : left;
+  font-size   : 15px;
+  padding-top : 18px;
 }
 
-h3 {
-    text-align: left;
+h3
+{
+  text-align : left;
 }
 
-h4 {
-    text-align: left;
+h1.main
+{
+  text-align  : center;
+  font-size   : 26px;
+  padding-top : 50px;
 }
 
-h5 {
-    text-align: left;
+h1.edition
+{
+  text-align     : center;
+  font-size      : 13px;
+  padding-bottom : 50px;
 }
 
-h6 {
-    text-align: left;
+h2.author
+{
+  text-align : center;
+  font-size  : 13px;
 }
 
-h1.main {
-    text-align: center;
-    font-size: 26px;
-    padding-top: 50px;
+ol.toc
+{
+  padding     : 0 0 0 0;
+  margin-left : 1em;
 }
 
-h1.edition {
-    text-align: center;
-    font-size: 13px;
-    padding-bottom: 50px;
+
+ol.toc li
+{
+  list-style-type : none;
+  margin          : 0 0 0 0;
+  padding         : 0 0 0 0;
 }
 
-h2.author {
-    text-align: center;
-    font-size: 13px;
-}
 
-h3.date { }
-
-ol.toc {
-    padding: 0;
-    margin-left: 1em;
-}
-
-ol.toc li {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
+/* Generated with Clay, http://fvisser.nl/clay */
