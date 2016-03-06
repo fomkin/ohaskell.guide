@@ -11,6 +11,7 @@ import qualified Data.Text.Lazy as L
 createCss :: IO ()
 createCss = writeFile "static/css/default.css" . L.unpack . render $ do
     let colorBase01 = color "#586e75"
+        colorBase03 = color "#002b36"
         base2       = "#eee8d5"
         blue        = "#268bd2"
         centerAlign = textAlign $ alignSide sideCenter
@@ -32,7 +33,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
     importUrl "https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Ubuntu+Mono:400,400italic,700&subset=latin,cyrillic"
 
     body ? do
-        colorBase01
+        colorBase03
         fontSize        $ px 17
         fontFamily      ["PT Serif"] [serif]
         backgroundColor "#fdf6e3"
@@ -82,6 +83,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
     ".cover-v2" ? do
         colorBase01
         fontSize        $ px 20
+        paddingTop      $ px 20
         paddingBottom   $ px 70
 
     ".sans" ? do

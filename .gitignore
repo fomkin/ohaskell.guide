@@ -15,4 +15,4 @@ cabal.config
 _cache
 _site
 static/css/default.css
-
+templates/*.html
