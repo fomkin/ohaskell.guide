@@ -23,6 +23,7 @@ executable ohaskell
   other-modules:       Chapters
                        CreatePdf
                        CreateEpub
+                       CreateEpubCss
                        CreateCss
                        CreateHtml
                        CreateHtmlTemplates
