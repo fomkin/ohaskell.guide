@@ -20,12 +20,14 @@ cabal-version:       >= 1.10
 executable ohaskell
   main-is:             Main.hs
 
-  other-modules:       CreatePdf
+  other-modules:       Chapters
+                       CreatePdf
                        CreateEpub
                        CreateCss
                        CreateHtml
+                       CreateHtmlTemplates
                        PrepareHtmlTOC
-                       TOC
+                       SingleMarkdown
 
   build-depends:       base,
                        split,
@@ -35,6 +37,7 @@ executable ohaskell
                        mtl,
                        containers,
                        blaze-html,
+                       blaze-markup,
                        old-locale,
                        attoparsec,
                        text,

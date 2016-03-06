@@ -8,15 +8,12 @@ import qualified Data.Vector            as V
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
 
-import           TOC
+import           Chapters
 
 prepareHtmlTOC :: IO ()
-prepareHtmlTOC = do
-    template <- TIO.readFile mainTemplate
-    let toc = getTOCFrom template
-        chaptersURLs = getChaptersURLsFrom toc
-        chaptersURLsWithIndex = V.indexed . V.fromList $ chaptersURLs
-    V.mapM_ (handle chaptersURLsWithIndex) chaptersURLsWithIndex
+prepareHtmlTOC = V.mapM_ (handle chaptersURLsWithIndex) chaptersURLsWithIndex
+  where
+    chaptersURLsWithIndex = V.indexed . V.fromList $ chaptersURLs
 
 handle :: V.Vector (Int, T.Text) -> (Int, T.Text) -> IO ()
 handle chaptersURLsWithIndex (currentChapterIndex, currentChapterURL) = do
