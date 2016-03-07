@@ -9,7 +9,8 @@ module Chapters (
 import qualified Data.Text as T
 
 chaptersURLsNNames :: [(T.Text, T.Text)]
-chaptersURLsNNames = [ ("/haskell-faq.html",              "Первые вопросы")
+chaptersURLsNNames = [ ("/init.html",                     "Добро пожаловать!")
+                     , ("/haskell-faq.html",              "Первые вопросы")
                      , ("/this-book.html",                "Об этой книге")
                      , ("/setup.html",                    "Приготовимся")
                      , ("/modules-minimum.html",          "Модули: знакомство")

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module PrepareHtmlTOC (
-    prepareHtmlTOC
+    polishHtml
 ) where
 
 import qualified Data.Vector            as V
@@ -9,6 +9,9 @@ import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
 
 import           Chapters
+
+polishHtml :: IO ()
+polishHtml = prepareHtmlTOC >> prepareHtmlPageTitles
 
 prepareHtmlTOC :: IO ()
 prepareHtmlTOC = V.mapM_ (handle chaptersURLsWithIndex) chaptersURLsWithIndex
@@ -46,3 +49,14 @@ handle chaptersURLsWithIndex (currentChapterIndex, currentChapterURL) = do
         let chapter'  = T.replace "PREV_CHAPTER_URL" prev chapter
             chapter'' = T.replace "NEXT_CHAPTER_URL" next chapter'
         TIO.writeFile current chapter''
+
+prepareHtmlPageTitles :: IO ()
+prepareHtmlPageTitles = mapM_ prepare chaptersURLsNNames
+  where
+    prepare :: (T.Text, T.Text) -> IO ()
+    prepare (url, name) = do
+        let path = "_site" ++ T.unpack url
+        chapter <- TIO.readFile path
+        let chapter' = T.replace "PAGE_TITLE" name chapter
+        TIO.writeFile path chapter'
+

@@ -4,8 +4,6 @@ module CreateHtmlTemplates (
     createHtmlTemplates
 ) where
 
--- import Prelude                      hiding (div, span, head)
-
 import           Text.Blaze.Html5                   as H
 import           Text.Blaze.Html5.Attributes        as A
 import           Text.Blaze.Html.Renderer.Pretty
@@ -22,7 +20,7 @@ createHtmlTemplates = do
 
 createCover :: Html
 createCover = docTypeHtml ! lang "ru" $ do
-    commonHead
+    commonHead "О Haskell по-человечески"
 
     body $ do
         nav $
@@ -53,7 +51,7 @@ createCover = docTypeHtml ! lang "ru" $ do
 
 createDefault :: Html
 createDefault = docTypeHtml ! lang "ru" $ do
-    commonHead
+    commonHead "PAGE_TITLE <- О Haskell по-человечески"
 
     body $ do
         H.div ! class_ "navbar-fixed" $
@@ -113,13 +111,15 @@ createChapter = do
     H.div ! A.id "disqus_thread" ! A.style "padding-top: 30px;" $ ""
 
 --
-commonHead :: Html
-commonHead = H.head $ do
+commonHead :: T.Text -> Html
+commonHead customTitle = H.head $ do
     meta ! charset "utf-8"
     meta ! name "description" ! content "О Haskell по-человечески. Ваша первая книга о прекрасном и удивительном языке программирования."
     meta ! name "author" ! content "Денис Шевченко"
     meta ! name "viewport" ! content "width=device-width, initial-scale=1, maximum-scale=1.0"
-    H.title "О Haskell по-человечески"
+
+    H.title $ toHtml customTitle
+
     link ! rel "icon" ! href "/static/images/favicon.ico"
     link ! rel "stylesheet" ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
     script ! src "https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" $ ""
@@ -128,7 +128,7 @@ commonHead = H.head $ do
     link ! rel "stylesheet" ! href "/static/css/default.css"
     script ! src "/static/js/default.js" $ ""
 
---
+-- Author's contacts at up right corner.
 contacts :: Html
 contacts =
     ul ! A.id "nav-mobile" ! class_ "right" $ do
