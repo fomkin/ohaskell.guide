@@ -23,7 +23,7 @@ createHtml = do
         justCreateAndCopy ".nojekyll"
 
         prepareTemplates >> createCoverPage >> createInitPage >> createChapters)
-            `finally` prepareHtmlTOC
+            `finally` polishHtml
 
 justCopy :: Pattern -> Rules ()
 justCopy something = match something $ do
