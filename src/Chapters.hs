@@ -13,10 +13,9 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/haskell-faq.html",              "Первые вопросы")
                      , ("/this-book.html",                "Об этой книге")
                      , ("/setup.html",                    "Приготовимся")
-                     , ("/modules-minimum.html",          "Модули: знакомство")
-                     , ("/hackage.html",                  "Hackage")
-                     , ("/expressions-n-functions.html",  "Мир выражений и функций")
+                     , ("/whales-n-turtle.html",          "Киты и Черепаха")
                      , ("/immutability-n-purity.html",    "Неизменность и чистота")
+                     , ("/hackage.html",                  "Hackage")
                      ]
 
 chaptersURLs :: [T.Text]
