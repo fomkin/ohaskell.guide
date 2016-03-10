@@ -16,6 +16,7 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/whales-n-turtle.html",          "Киты и Черепаха")
                      , ("/immutability-n-purity.html",    "Неизменность и чистота")
                      , ("/if-n-return.html",              "Выбираем и возвращаемся")
+                     , ("/choose-n-patterns.html",        "Выбор и образцы")
                      , ("/hackage.html",                  "Hackage")
                      ]
 

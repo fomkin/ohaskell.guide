@@ -1,0 +1,215 @@
+# Выбор и образцы
+
+Эта глава откроет нам другие способы логического выбора, а также познакомит нас с образцами. Уверяю, вы влюбитесь в них!
+
+## Не только из двух
+
+Часто мы хотим выбирать не только из двух возможных вариантов. Вот как это можно сделать:
+
+```haskell
+analizeGold :: Int -> String
+analizeGold standard =
+  if standard == 999
+    then "Wow! 999 standard!"
+    else if standard == 750
+           then "Great! 750 standard."
+           else if standard == 585
+                  then "Not bad! 585 standard."
+                  else "I don't know such a standard..."
+
+main :: IO ()
+main = putStrLn (analizeGold 999)
+```
+
+Уверен, вы уже стираете плевок с экрана. Вложенная `if-then-else` конструкция не может понравится никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счатью, в Haskell можно написать так:
+
+```haskell
+analizeGold :: Int -> String
+analizeGold standard =
+  if | standard == 999 -> "Wow! 999 standard!"
+     | standard == 750 -> "Great! 750 standard."
+     | standard == 585 -> "Not bad! 585 standard."
+     | otherwise -> "I don't know such a standard..."
+```
+
+Не правда ли, так красивее? Это &mdash; множественный `if`. Работает он по схеме:
+
+```haskell
+if | CONDITION1 -> EXPRESSION1
+   | CONDITION2 -> EXPRESSION2
+   | ...
+   | CONDITIONn -> EXPRESSIONn
+   | otherwise  -> COMMON_EXPRESSION
+```
+
+где `CONDITION1..n` &mdash; выражения, дающие ложь или истину, а `EXPRESSION1..n` &mdash; соответствующие им результирующие выражения. Слово `otherwise` соответствует общему случаю, когда ни одно из логических выражений не дало `True`, и в этой ситуации результатом условной конструкции послужит выражение `COMMON_EXPRESSION`.
+
+Не пренебрегайте словом `otherwise`! Если вы его не укажете и при этом примените функцию `analizeGold` к значению, отличному от проверяемых:
+
+```haskell
+analizeGold :: Int -> String
+analizeGold standard =
+  if | standard == 999 -> "Wow! 999 standard!"
+     | standard == 750 -> "Great! 750 standard."
+     | standard == 585 -> "Not bad! 585 standard."
+
+main :: IO ()
+main = putStrLn (analizeGold 583)  -- Ой...
+```
+
+компиляция завершится успешно, однако в момент запуска программы вас ожидает неприятный сюрприз в виде сообщения:
+
+```bash
+Non-exhaustive guards in multi-way if
+```
+
+Проверка получилась неполной, вот и получите ошибку.
+
+<div class="card-panel orange darken-2 left-align smaller-text"><span class="white-text">
+Видите слово `guards` в сообщении об ошибке? Вертикальные черты перед логическими выражениями &mdash; это и есть охранники (англ. guard), неусыпно охраняющие наши условия.
+</span></div>
+
+А сейчас стоп. Вы ведь попробовали скомпилировать этот код, не так ли? А почему вы не ругаетесь? Ведь такой код не скомпилируется без одной важной детали. Вот как должен выглядеть модуль `Main`:
+
+```haskell
+{-# LANGUAGE MultiWayIf #-}
+
+module Main where
+
+analizeGold :: Int -> String
+analizeGold standard =
+  if | standard == 999 -> "Wow! 999 standard!"
+     | standard == 750 -> "Great! 750 standard."
+     | standard == 585 -> "Not bad! 585 standard."
+     | otherwise -> "I don't know such a standard..."
+
+main :: IO ()
+main = putStrLn (analizeGold 999)
+```
+
+Вот теперь всё в порядке. Но что это за странный такой комментарий в первой строке модуля? Вроде бы заключён оформлен как многострочный комментарий, но выглядит необычно. Это &mdash; указание расширения языка Haskell.
+
+Стандарт [Haskell 2010](https://www.haskell.org/onlinereport/haskell2010/) &mdash; это официальный стержень языка. Однако компилятор GHC, давно ставший стандартном де-факто при разработке на Haskell, обладает рядом особых возможностей. По умолчанию многие из этих возможностей выключены, а прагма `LANGUAGE` способна их включать/активизировать. В данном случае мы включили расширение `MultiWayIf`. Именно это расширение позволяет нам использовать множественный `if`. Такого рода расширений существует весьма много, и мы будем часто их использовать.
+
+<div class="card-panel orange darken-2 left-align smaller-text"><span class="white-text">
+Расширение, включённое с помощью прагмы `LANGUAGE`, действует лишь в рамках текущего модуля. И если я прописал его только в модуле `app/Main.hs`, то на модуль `src/Lib.hs` механизм `MultiWayIf` не распространяется.
+</span></div>
+
+## Без Если
+
+Множественный `if` весьма удобен, но есть способ более красивый. Взгляните:
+
+```haskell
+analizeGold :: Int -> String
+analizeGold standard
+  | standard == 999 = "Wow! 999 standard!"
+  | standard == 750 = "Great! 750 standard."
+  | standard == 585 = "Not bad! 585 standard."
+  | otherwise       = "I don't know such a standard..."
+```
+
+Ключевое слово `if` исчезло за ненадобностью. Схема здесь такая:
+
+```haskell
+function arg
+  | CONDITION1 = EXPRESSION1
+  | CONDITION2 = EXPRESSION2
+  | ...
+  | CONDITIONn = EXPRESSIONn
+  | otherwise  = COMMON_EXPRESSION
+```
+
+Устройство почти такое же, только помимо исчезновения ключевого слова `if` мы используем знаки равенства вместо стрелок. Именно поэтому исчез знакомый нам знак равенства после имени аргумента `arg`. В действительности он, конечно, никуда не исчез, он лишь перешёл в выражения. А чтобы это было легче прочесть, напишем выражения в строчку:
+
+```haskell
+function arg |       CONDITION1  =     EXPRESSION1 | ...
+это          в       истинности  суть  вот это     и т.д.
+выражение    случае  этого             выражение
+                     выражения
+```
+
+Фактически, перед нами уже не одно определение функции, а цепочка определений, потому нам и не нужно ключевое слово `if`. А ведь в ряде случаев эту цепочку можно сделать ещё более простой.
+
+## Сравнение с образцом
+
+Убрав слово `if`, мы и с охранниками можем расстаться. В этом случае останется лишь:
+
+```haskell
+analizeGold :: Int -> String
+analizeGold 999 = "Wow! 999 standard!"
+analizeGold 750 = "Great! 750 standard."
+analizeGold 585 = "Not bad! 585 standard."
+analizeGold _   = "I don't know such a standard..."
+```
+
+Мы просто перечислили определения функции `analizeGold` одно за другим. На первый взгляд, возможность множества определений одной и той же функции удивляет, но если вспомнить, что применение функции суть выражение, тогда ничего удивительного. Вот как это читается:
+
+```haskell
+      analizeGold  999          =      "Wow! 999 standard!"
+если  эта функция  применяется  тогда  этому выражению
+                   к этому      она
+                   аргументу    равна
+
+      analizeGold  750          =      "Wow! 999 standard!"
+если  эта функция  применяется  тогда  другому выражению
+                   к другому    она
+                   аргументу    равна
+...
+           analizeGold _ =       "I don't know such a standard..."
+в
+противном  эта функция   просто  общему выражению
+случае                   равна
+```
+
+Таким образом, когда функция `analizeGold` применяется к конкретному аргументу, этот аргумент сравнивается с образцом (англ. pattern matching). Образца здесь три: `999`, `750` и `585`. И если раньше мы сравнивали аргумент с этими числовыми значениями явно, посредством функции `==`, теперь это происходит скрыто.
+
+<div class="card-panel orange darken-2 left-align smaller-text"><span class="white-text">
+Сравнение с образцом используется в Haskell чрезвычайно широко. В русскоязычной литературе перевод словосочетания &laquo;pattern matching&raquo; не закрепился, вместо этого так и говорят &laquo;паттерн матчинг&raquo;. Я поступлю так же.
+</span></div>
+
+Да, а что это за символ подчёркивания такой, в последнем варианте определения? Вот этот:
+
+```haskell
+analizeGold _ = "I don't know such a standard..."
+            ^
+```
+
+С формальной точки зрения, это &mdash; универсальный образец, сравнение с которым всегда истинно. А с неформальной &mdash; это символ, который можно прочесть как &laquo;мне всё равно&raquo;. Мы как бы говорим: &laquo;В данном случае нас не интересует конкретное содержимое аргумента, просто возвращаем строку `I don't know such a standard...`&raquo;.
+
+Важно отметить, что сравнение аргумента с образцами происходит последовательно, в данном случае сверху вниз. Поэтому если мы напишем так:
+
+```haskell
+analizeGold :: Int -> String
+analizeGold _   = "I don't know such a standard..."
+analizeGold 999 = "Wow! 999 standard!"
+analizeGold 750 = "Great! 750 standard."
+analizeGold 585 = "Not bad! 585 standard."
+```
+
+наша функция будет всегда возвращать выражение `I don't know such a standard...`, и это логично: первая же проверка гарантированно даст `True`, ведь с образцом `_` совпадает что угодно.
+
+## case
+
+Существует ещё один элеганный способ паттерн матчинга:
+
+```haskell
+analizeGold standard =
+  case standard of
+    999       -> "Wow! 999 standard!"
+    750       -> "Great! 750 standard."
+    585       -> "Not bad! 585 standard."
+    otherwise -> "I don't know such a standard..."
+```
+
+Запомните конструкцию `case-of`, мы встретимся с нею не раз. Работает она по модели:
+
+```haskell
+case EXPRESSION of
+  PATTERN1  -> EXPRESSION1
+  PATTERN2  -> EXPRESSION2
+  ...
+  PATTERNn  -> EXPRESSIONn
+  otherwise -> COMMON_EXPRESSION
+```
+
+Здесь у нас тоже нет явного сравнения посредством `==`, ведь сравнение реального значения `standard` с образцами происходит скрыто.
