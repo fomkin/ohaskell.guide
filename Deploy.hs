@@ -58,6 +58,8 @@ main = void . shelly $ do
         rm_f  "*.md"
         rm_f  "*.cabal"
         rm_f  "*.hs"
+        rm_f  "*.yml"
+        rm_f  "*.config"
 
         echo "Учитываем все изменения и публикуем на GitHub Pages..."
         gitAdd ["."]
