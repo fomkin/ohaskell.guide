@@ -3,8 +3,11 @@
 
 {-
     Deploy the book to GitHub.
+
     $ stack ghc -- Deploy.hs
     $ ./Deploy "Commit message"
+    or
+    $ stack exec runhaskell Deploy.hs "Commit message"
 -}
 
 module Main where
