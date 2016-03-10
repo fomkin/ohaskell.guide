@@ -3,10 +3,11 @@
 
 {-
     Deploy the book to GitHub.
-    $ stack exec runhaskell Deploy.hs "Commit message"
+    $ stack ghc -- Deploy.hs
+    $ ./Deploy "Commit message"
 -}
 
-module Deploy where
+module Main where
 
 import           Shelly
 import qualified Data.Text              as T
@@ -69,7 +70,7 @@ main = void . shelly $ do
         echo "Готово!"
   where
     commitMessagePlease = liftIO . putStrLn $
-        "Сообщение о коммите забыли, нужно Deploy.hs \"Что-нибудь\""
+        "Сообщение о коммите забыли, нужно ./Deploy \"Что-нибудь интересное.\""
 
     gitAdd      = command_ "git" ["add"]
     gitCommit   = command_ "git" ["commit", "-a", "-m"]

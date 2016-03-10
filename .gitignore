@@ -10,10 +10,10 @@ cabal-dev
 .hsenv
 .cabal-sandbox/
 cabal.sandbox.config
-cabal.config
 .stack-work/
 _cache
 _site
 static/css/default.css
 templates/*.html
 epub/EPUB.css
+Deploy
