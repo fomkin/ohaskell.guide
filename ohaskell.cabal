@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                ohaskell
-version:             0.2.0.0
+version:             2.0.0.0
 synopsis:            О Haskell по-человечески
 
 homepage:            http://www.ohaskell.guide
