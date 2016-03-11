@@ -27,6 +27,7 @@ main = void . shelly $ do
             commitMessage      = T.pack commitMessageRaw
 
         echo "Собираем новую версию книги..."
+        run "stack" ["install"]
         run "ohaskell" ["rebuild"]
 
         echo "Учитываем изменения в ветке 'master'..."
