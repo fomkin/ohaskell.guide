@@ -27,13 +27,13 @@ calculateTime timeInS =
 
 Вот, совсем другое дело! Мы избавились от &laquo;магических чисел&raquo;, введя поясняющие выражения `threshold`, `correction` и `delta`, и код функции стал куда понятнее.
 
-Конструкция `let-in` вводит поясняющее выражение по схеме:
+Конструкция `let-in` вводит поясняющие выражения по схеме:
 
 ```haskell
-let DECLARATION in EXPRESSION
+let DECLARATIONS in EXPRESSION
 ```
 
-где `DECLARATION` &mdash; выражение, декларируемое нами, а `EXPRESSION` &mdash; выражение, в котором используется `DECLARATION`. Так, когда мы написали:
+где `DECLARATIONS` &mdash; выражения, декларируемые нами, а `EXPRESSION` &mdash; выражение, в котором используется выражения из `DECLARATION`. Так, когда мы написали:
 
 ```haskell
 let threshold = 40
