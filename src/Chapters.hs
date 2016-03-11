@@ -17,6 +17,7 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/immutability-n-purity.html",    "Неизменность и чистота")
                      , ("/if-n-return.html",              "Выбираем и возвращаемся")
                      , ("/choose-n-patterns.html",        "Выбор и образцы")
+                     , ("/let-n-where.html",              "Пусть будет там, Где...")
                      ]
 
 chaptersURLs :: [T.Text]
