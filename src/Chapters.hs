@@ -18,6 +18,9 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/if-n-return.html",              "Выбираем и возвращаемся")
                      , ("/choose-n-patterns.html",        "Выбор и образцы")
                      , ("/let-n-where.html",              "Пусть будет там, Где...")
+                     , ("/operators.html",                "Мир операторов")
+                     , ("/list.html",                     "Список: знакомство")
+                     , ("/tuple.html",                    "Кортеж")
                      ]
 
 chaptersURLs :: [T.Text]
