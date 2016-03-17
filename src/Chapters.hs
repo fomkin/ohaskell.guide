@@ -21,8 +21,8 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/operators.html",                "Мир операторов")
                      , ("/list.html",                     "Список: знакомство")
                      , ("/tuple.html",                    "Кортеж")
+                     , ("/lambda-function.html",          "Лямбда-функция")
                      -- , ("/.html",                    "Генераторы списков") 4
-                     -- , ("/.html",                    "Лямбда") 3
                      -- , ("/.html",                    "Применение функций") 3
                      -- , ("/.html",                    "ФВП") 3
                      -- , ("/.html",                    "Hackage") 2

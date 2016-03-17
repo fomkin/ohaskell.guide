@@ -1,12 +1,10 @@
-\documentclass[11pt,oneside,$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{book}
+\documentclass[11pt,oneside]{book}
 
 \usepackage{fancyhdr}
-
-$if(fontfamily)$
-\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
-$else$
 \usepackage{lmodern}
-$endif$
+
+% \usepackage[english,russian]{babel}
+
 $if(linestretch)$
 \usepackage{setspace}
 \setstretch{$linestretch$}
@@ -14,6 +12,7 @@ $endif$
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
+
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1,T2A]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -29,17 +28,10 @@ $endif$
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
   \newcommand{\euro}{€}
 
-    \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{PT Serif}
-
-$if(sansfont)$
-    \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
-$endif$
-
+    \setmainfont[]{PT Serif}
     \setmonofont[Mapping=tex-ansi,Scale=0.9]{Ubuntu Mono}
+    \setmathfont(Greek)[]{PT Serif}
 
-$if(mathfont)$
-    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-$endif$
 $if(CJKmainfont)$
     \usepackage{xeCJK}
     \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
@@ -58,36 +50,30 @@ $endif$
 \usepackage{hyperref}
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 \hypersetup{unicode=true,
-$if(title-meta)$
-            pdftitle={$title-meta$},
-$endif$
-$if(author-meta)$
-            pdfauthor={$author-meta$},
-$endif$
-$if(subtitle)$
-            pdfsubject={$subtitle$},
-$endif$
-$if(keywords)$
-            pdfkeywords={$for(keywords)$$keywords$$sep$; $endfor$},
-$endif$
+            pdftitle={О Haskell по-человечески},
+            pdfauthor={Денис Шевченко},
+            pdfsubject={Ваша первая книга о языке программирования Haskell},
+            pdfkeywords={Haskell},
             colorlinks=true,
-            linkcolor=$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
-            citecolor=$if(citecolor)$$citecolor$$else$Blue$endif$,
-            urlcolor=$if(urlcolor)$$urlcolor$$else$Blue$endif$,
+            linkcolor=Maroon,
+            citecolor=Blue,
+            urlcolor=Blue,
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 $if(lang)$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[shorthands=off,$for(babel-otherlangs)$$babel-otherlangs$,$endfor$main=$babel-lang$]{babel}
+  \usepackage[shorthands=off,english,russian]{babel}
 $if(babel-newcommands)$
   $babel-newcommands$
 $endif$
 \else
-  \usepackage{polyglossia}
-  \setmainlanguage[$polyglossia-lang.options$]{ru}
-  \setotherlanguage[$polyglossia-otherlangs.options$]{en}
-  \enablehyphenation
+  %\usepackage{polyglossia}
+  %\setdefaultlanguage[]{russian}
+  %\setmainlanguage[]{russian}
+  %\setotherlanguage[]{english}
+  %\setotherlanguage[]{greek}
+  %\enablehyphenation
 \fi
 $endif$
 $if(natbib)$
@@ -100,9 +86,7 @@ $for(bibliography)$
 \addbibresource{$bibliography$}
 $endfor$
 $endif$
-$if(listings)$
 \usepackage{listings}
-$endif$
 $if(lhs)$
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
 $endif$
@@ -167,42 +151,34 @@ $if(dir)$
 \fi
 $endif$
 
-\newcommand*{\ohaskelltitle}{\begingroup % Create the command for including the title page in the document
+\newcommand*{\ohaskelltitle}{\begingroup
 \newlength{\drop} % Command for generating a specific amount of whitespace
 \drop=0.1\textheight % Define the command as 10% of the total text height
-
-% \rule{\textwidth}{1pt}\par % Thick horizontal line
-% \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
-% \rule{\textwidth}{0.4pt}\par % Thin horizontal line
 
 \vspace{\drop} % Whitespace between the top lines and title
 \centering % Center all text
 \textcolor{MidnightBlue}{ % Red font color
 {\Huge О Haskell по-человечески}\\[0.5\baselineskip] % Title line 1
-% {\Large OF}\\[0.75\baselineskip] % Title line 2
 \vspace{15pt}
 {\Large издание 2.0}
 } % Title line 3
 
-\vspace{0.25\drop} % Whitespace between the title and short horizontal line
-\rule{0.3\textwidth}{0.4pt}\par % Short horizontal line under the title
-\vspace{\drop} % Whitespace between the thin horizontal line and the author name
+\vspace{0.25\drop}
+\rule{0.3\textwidth}{0.4pt}\par
+\vspace{\drop}
 
-{\large \textsc{Денис Шевченко}}\par % Author name
+{\large \textsc{Денис Шевченко}}\par
 
-\vfill % Whitespace between the author name and publisher text
+\vfill
 {\large \textsc{www.ohaskell.guide}}\par
 {\Large \textsc{2016}}\par
-
 \endgroup}
 
 \newcommand*{\ohaskelllicense}{\begingroup
-
 \vspace*{\fill}
 \centering
 {\large \textsc{Книга бесплатна и распространяется на условиях лицензии \href{https://github.com/denisshevchenko/ohaskell.guide/blob/master/LICENSE}{CC BY-NC 4.0}}}\par
 \vspace*{\fill}
-
 \endgroup}
 
 \date{$date$}
@@ -261,17 +237,6 @@ $endif$
 $body$
 
 $if(natbib)$
-$if(bibliography)$
-$if(biblio-title)$
-$if(book-class)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
-
-$endif$
 $endif$
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
