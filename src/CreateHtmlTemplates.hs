@@ -100,7 +100,7 @@ createDefault = docTypeHtml ! lang "ru" $ do
     dataActivates = attribute "data-activates" " data-activates=\""
 
     chapterPoint :: (T.Text, T.Text) -> Html
-    chapterPoint (url, name) = li $ a ! href (textValue url) $ toHtml name
+    chapterPoint (anUrl, aName) = li $ a ! href (textValue anUrl) $ toHtml aName
 
 createChapter :: Html
 createChapter = do
