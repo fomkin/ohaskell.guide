@@ -1,8 +1,6 @@
 dependencies:
-  cache_directories:
-    - "~/.stack"
   pre:
-    - wget https://www.stackage.org/stack/linux-x86_64 -O /tmp/stack.gz
+    - wget https://www.stackage.org/stack/linux-x86_64-gmp4 -O /tmp/stack.gz
     - gunzip /tmp/stack.gz && chmod +x /tmp/stack
     - sudo mv /tmp/stack /usr/bin/stack
   override:
