@@ -20,6 +20,7 @@ createHtml = do
         justCopy          "README.md"
         justCopy          "CNAME"
         justCopy          "LICENSE"
+        justCopy          "circle.yml"
         justCreateAndCopy ".nojekyll"
 
         prepareTemplates >> createCoverPage >> createInitPage >> createChapters)
