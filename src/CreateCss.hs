@@ -10,12 +10,12 @@ import qualified Data.Text.Lazy as L
 
 createCss :: IO ()
 createCss = writeFile "static/css/default.css" . L.unpack . render $ do
-    let colorBase01 = color "#586e75"
-        colorBase03 = color "#002b36"
-        base2       = "#eee8d5"
-        blue        = "#268bd2"
-        centerAlign = textAlign $ alignSide sideCenter
-        leftAlign   = textAlign $ alignSide sideLeft
+    let colorBase01   = color "#586e75"
+        colorBase03   = color "#002b36"
+        base2         = "#eee8d5"
+        solarizedBlue = "#268bd2"
+        centerAlign   = textAlign $ alignSide sideCenter
+        leftAlign     = textAlign $ alignSide sideLeft
 
         hsCode = code <? do
             color           "#000"
@@ -64,7 +64,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
     span ? hsCode
     li   ? hsCode
 
-    a ? color blue
+    a ? color solarizedBlue
     a # hover   ? (textDecoration none)
     a # visited ? (textDecoration none)
     a # active  ? (textDecoration none)
