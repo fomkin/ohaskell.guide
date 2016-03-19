@@ -90,7 +90,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         fontFamily ["PT Sans"] [sansSerif]
 
     ".get-button" ? do
-        width $ px 120
+        width $ px 138
 
     ".get-button-separator" ? do
         paddingBottom $ px 25
