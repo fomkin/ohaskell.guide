@@ -16,6 +16,7 @@ createPdf pathToSingleMarkdown = createPdfDesktop >> createPdfMobile
                                             , " -V classoption=\"oneside\""
                                             , " -V geometry=\"margin=1.2in\""
                                             , " -V geometry=\"headsep=0.5in\""
+                                            , " --no-highlight"
                                             , " -o "
                                             , outDesktop
                                             , " "
@@ -33,6 +34,7 @@ createPdf pathToSingleMarkdown = createPdfDesktop >> createPdfMobile
                                            , " -V geometry=\"left=0.3in\""
                                            , " -V geometry=\"right=0.3in\""
                                            , " -V geometry=\"paper=a5paper\""
+                                           , " --no-highlight"
                                            , " -o "
                                            , outMobile
                                            , " "

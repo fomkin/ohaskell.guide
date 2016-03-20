@@ -1,53 +1,20 @@
-% \documentclass[12pt,oneside]{book}
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{book}
+\documentclass[oneside,11pt]{book}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{PT Serif}
+\setsansfont{PT Sans}
+\setmonofont[Mapping=tex-ansi,Scale=0.9]{Ubuntu Mono}
+
+\usepackage{polyglossia}
+\setdefaultlanguage[]{russian}
+\setmainlanguage[]{russian}
+\setotherlanguage[]{english}
+\newfontfamily\cyrillicfont{PT Serif}
 
 \usepackage{fancyhdr}
-\usepackage{lmodern}
 
-% \usepackage[english,russian]{babel}
-
-$if(linestretch)$
-\usepackage{setspace}
-\setstretch{$linestretch$}
-$endif$
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[T1,T2A]{fontenc}
-  \usepackage[utf8]{inputenc}
-$if(euro)$
-  \usepackage{eurosym}
-$endif$
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
-
-    \setmainfont[]{PT Serif}
-    \setmonofont[Mapping=tex-ansi,Scale=0.9]{Ubuntu Mono}
-    \setmathfont(Greek)[]{PT Serif}
-
-$if(CJKmainfont)$
-    \usepackage{xeCJK}
-    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
-$endif$
-\fi
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-
-% \usepackage[margin=0.3in,headsep=0.3in,top=0.7in,bottom=0.75in,paper=a5paper]{geometry}
-\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+\usepackage[parfill]{parskip}
 
 \usepackage{hyperref}
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
@@ -55,7 +22,6 @@ $endif$
             pdftitle={О Haskell по-человечески},
             pdfauthor={Денис Шевченко},
             pdfsubject={Ваша первая книга о языке программирования Haskell},
-            pdfkeywords={Haskell},
             colorlinks=true,
             linkcolor=Maroon,
             citecolor=Blue,
@@ -63,95 +29,18 @@ $endif$
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-$if(lang)$
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[shorthands=off,english,russian]{babel}
-$if(babel-newcommands)$
-  $babel-newcommands$
-$endif$
-\else
-  %\usepackage{polyglossia}
-  %\setdefaultlanguage[]{russian}
-  %\setmainlanguage[]{russian}
-  %\setotherlanguage[]{english}
-  %\setotherlanguage[]{greek}
-  %\enablehyphenation
-\fi
-$endif$
-$if(natbib)$
-\usepackage{natbib}
-\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
-$endif$
-$if(biblatex)$
-\usepackage{biblatex}
-$for(bibliography)$
-\addbibresource{$bibliography$}
-$endfor$
-$endif$
-\usepackage{listings}
-$if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
-$endif$
-$if(highlighting-macros)$
-$highlighting-macros$
-$endif$
-$if(verbatim-in-note)$
-\usepackage{fancyvrb}
-\VerbatimFootnotes % allows verbatim text in footnotes
-$endif$
-$if(tables)$
-\usepackage{longtable,booktabs}
-$endif$
-$if(graphics)$
-\usepackage{graphicx,grffile}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-$endif$
-$if(links-as-notes)$
-% Make links footnotes instead of hotlinks:
-\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
-$endif$
-$if(strikeout)$
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
-$endif$
-$if(indent)$
-$else$
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-$endif$
+
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-$if(numbersections)$
-\setcounter{secnumdepth}{5}
-$else$
-\setcounter{secnumdepth}{0}
-$endif$
-$if(dir)$
-\ifxetex
-  % load bidi as late as possible as it modifies e.g. graphicx
-  $if(latex-dir-rtl)$
-  \usepackage[RTLdocument]{bidi}
-  $else$
-  \usepackage{bidi}
-  $endif$
-\fi
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \TeXXeTstate=1
-  \newcommand{\RL}[1]{\beginR #1\endR}
-  \newcommand{\LR}[1]{\beginL #1\endL}
-  \newenvironment{RTL}{\beginR}{\endR}
-  \newenvironment{LTR}{\beginL}{\endL}
-\fi
-$endif$
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\VerbatimFootnotes % allows verbatim text in footnotes
+
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+
+\usepackage{setspace}
 
 \newcommand*{\ohaskelltitle}{\begingroup
 \newlength{\drop} % Command for generating a specific amount of whitespace
@@ -183,27 +72,6 @@ $endif$
 \vspace*{\fill}
 \endgroup}
 
-\date{$date$}
-$for(header-includes)$
-$header-includes$
-$endfor$
-
-$if(subparagraph)$
-$else$
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-$endif$
-
-\renewcommand{\contentsname}{Содержание}
-\renewcommand{\chaptername}{Глава}
-
 \begin{document}
 
 \pagestyle{empty}
@@ -212,40 +80,22 @@ $endif$
 \pagestyle{empty}
 \ohaskelllicense
 
-$for(include-before)$
-$include-before$
-
-$endfor$
-{
 \hypersetup{linkcolor=black}
+\setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{1}
 \pagestyle{empty}
+\doublespacing
 \tableofcontents
+\singlespacing
 \thispagestyle{empty}
 \clearpage
-}
-$if(lot)$
-\listoftables
-$endif$
-$if(lof)$
-\listoffigures
-$endif$
 
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\nouppercase{\rightmark}}
-\rhead{\nouppercase{\leftmark}}
-\fancyfoot[C]{\thepage}
+\fancyhead[L]{\fontsize{10}{12} \selectfont \rmfamily{\nouppercase\leftmark}}
+\fancyhead[R]{\fontsize{10}{12} \selectfont \rmfamily{\thepage}}
+
 $body$
 
-$if(natbib)$
-$endif$
-$if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-
-$endif$
-$for(include-after)$
-$include-after$
-
-$endfor$
 \end{document}
+
