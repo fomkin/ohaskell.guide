@@ -6,11 +6,22 @@ import CreateEpub
 import CreateHtml
 import CreateHtmlTemplates
 
+import Control.Concurrent.Async
+
 main :: IO ()
 main = do
+    putStrLn "Build a new version of the book, be patient..."
+
     createHtmlTemplates
     pathToSingleMarkdown <- createSingleMarkdown
-    putStrLn "Creating PDF..."  >> createPdf pathToSingleMarkdown
-    putStrLn "Creating EPUB..." >> createEpub pathToSingleMarkdown
-    putStrLn "Creating HTML..." >> createHtml
+
+    pdfDesktopDone <- async $ createPdfDesktop pathToSingleMarkdown
+    pdfMobileDone  <- async $ createPdfMobile pathToSingleMarkdown
+    epubDone       <- async $ createEpub pathToSingleMarkdown
+    htmlDone       <- async $ createHtml
+
+    wait pdfDesktopDone
+    wait pdfMobileDone
+    wait epubDone
+    wait htmlDone
 

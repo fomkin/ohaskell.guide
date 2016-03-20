@@ -1,21 +1,27 @@
-\documentclass[oneside,11pt]{book}
+% Строим книгу.
+\documentclass[$if(fontsize)$$fontsize$$endif$,oneside]{book}
 
+% Задаём русский и моноширинный шрифты.
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
 \setmainfont{PT Serif}
 \setsansfont{PT Sans}
 \setmonofont[Mapping=tex-ansi,Scale=0.9]{Ubuntu Mono}
 
+% Поддержка русского языка с переносами.
 \usepackage{polyglossia}
 \setdefaultlanguage[]{russian}
 \setmainlanguage[]{russian}
 \setotherlanguage[]{english}
 \newfontfamily\cyrillicfont{PT Serif}
 
+% Для красивых колонтитулов.
 \usepackage{fancyhdr}
 
+% Абзацы без горизонтального отступа, но с вертиальным отступом.
 \usepackage[parfill]{parskip}
 
+% Задаём метаданные и характеристики гиперссылок.
 \usepackage{hyperref}
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 \hypersetup{unicode=true,
@@ -28,7 +34,8 @@
             urlcolor=Blue,
             pdfborder={0 0 0},
             breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+% Шрифт гиперссылок не моноширинный.
+\urlstyle{same}
 
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
@@ -40,6 +47,7 @@
 
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 
+% Для увеличенного интерлиньяжа.
 \usepackage{setspace}
 
 \newcommand*{\ohaskelltitle}{\begingroup
