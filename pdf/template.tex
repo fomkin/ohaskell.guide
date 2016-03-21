@@ -52,6 +52,9 @@
 
 \usepackage{textcomp}
 
+% Для вставки полноразмерных PDF-страниц без полей.
+\usepackage{pdfpages}
+
 % Титульная страница книги.
 \newcommand*{\ohaskelltitle}{\begingroup
 \newlength{\drop} % Command for generating a specific amount of whitespace
@@ -86,6 +89,9 @@
 \endgroup}
 
 \begin{document}
+
+% Обложка.
+\includepdf{pdf/cover.pdf}
 
 % Титульная и лицензионная страницы - без нумерации.
 \pagestyle{empty}

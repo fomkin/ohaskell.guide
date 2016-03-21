@@ -22,6 +22,8 @@ createEpub pathToSingleMarkdown = do
                          , codeFontNormal
                          , " --epub-embed-font="
                          , codeFontBold
+                         , " --epub-cover-image="
+                         , cover
                          , " "
                          , title
                          , " "
@@ -34,4 +36,5 @@ createEpub pathToSingleMarkdown = do
     mainFont        = "/Library/Fonts/PTSerif.ttc"
     codeFontNormal  = "/Users/dshevchenko/Library/Fonts/UbuntuMono-Regular.ttf"
     codeFontBold    = "/Users/dshevchenko/Library/Fonts/UbuntuMono-Bold.ttf"
+    cover           = "epub/cover.png"
 
