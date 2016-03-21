@@ -141,10 +141,22 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         paddingLeft $ px 15
 
     ".chapter-arrow" ? do
-        (fontSize $ px 21)
+        fontSize $ px 21
 
     ".sourceCode" ? code ? do
         fontFamily ["Ubuntu Mono"] [monospace]
+
+    ".donate" ? do
+        paddingTop $ px 50
+
+    ".donate-button" ? do
+        textTransform   none
+        color           "#f17603"
+        fontSize        $ px 18
+
+    ".donate-area" ? do
+        paddingTop      $ px 30
+        centerAlign
 
     pre # ".sourceCode" ? do
         color           "#000"
