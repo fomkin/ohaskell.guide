@@ -70,6 +70,8 @@ createCover = docTypeHtml ! lang "ru" $ do
                     H.span ! A.style "padding-right: 10px;" $ ""
                     H.i ! class_ "fa fa-book" ! A.style "font-size: 20px;" $ ""
 
+                H.div ! class_ "get-button-separator" $ ""
+
 createDefault :: Html
 createDefault = docTypeHtml ! lang "ru" $ do
     commonHead "PAGE_TITLE <- О Haskell по-человечески"
