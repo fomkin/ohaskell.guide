@@ -50,6 +50,9 @@
 % Для увеличенного интерлиньяжа.
 \usepackage{setspace}
 
+\usepackage{textcomp}
+
+% Титульная страница книги.
 \newcommand*{\ohaskelltitle}{\begingroup
 \newlength{\drop} % Command for generating a specific amount of whitespace
 \drop=0.1\textheight % Define the command as 10% of the total text height
@@ -73,34 +76,44 @@
 {\Large \textsc{2016}}\par
 \endgroup}
 
+% Вторая страница, со ссылкой на лицензию CC.
 \newcommand*{\ohaskelllicense}{\begingroup
 \vspace*{\fill}
 \centering
-{\large \textsc{Книга распространяется на условиях лицензии \href{http://creativecommons.org/licenses/by-nc/4.0/deed.ru}{CC BY-NC 4.0}}}\par
+{\large \textsc{Книга свободно распространяется на условиях лицензии \href{http://creativecommons.org/licenses/by-nc/4.0/deed.ru}{CC BY-NC 4.0}}}\par
+{\footnotesize \textsc{\textcopyright \enspace Денис Шевченко, 2014-2016}}\par
 \vspace*{\fill}
 \endgroup}
 
 \begin{document}
 
+% Титульная и лицензионная страницы - без нумерации.
 \pagestyle{empty}
 \ohaskelltitle
 \newpage
 \pagestyle{empty}
 \ohaskelllicense
 
+% Устанавливаем цвет ссылок в Оглавлении.
 \hypersetup{linkcolor=black}
+% Части глав не нумеруются, только главы.
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{1}
 \pagestyle{empty}
+% Двойной интерлиньяж для пунктов в Оглавлении.
 \doublespacing
 \tableofcontents
+% Возвращаем нормальный интерлиньяж.
 \singlespacing
 \thispagestyle{empty}
 \clearpage
 
+% Устанавливаем колонтитулы (в данном случае используется только верхний).
 \pagestyle{fancy}
 \fancyhf{}
+% В верхнем левом углу - название текущей главы.
 \fancyhead[L]{\fontsize{10}{12} \selectfont \rmfamily{\nouppercase\leftmark}}
+% В верхнем правом углу - номер текущей страницы.
 \fancyhead[R]{\fontsize{10}{12} \selectfont \rmfamily{\thepage}}
 
 $body$
