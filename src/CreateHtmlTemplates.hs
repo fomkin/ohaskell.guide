@@ -42,8 +42,8 @@ createCover = docTypeHtml ! lang "ru" $ do
 
                 a ! class_ "waves-effect waves-light btn btn-large blue accent-2 get-button sans"
                   ! href "/init.html" $ do
-                    H.span ! class_ "sans" $ "Web"
-                    H.span ! A.style "padding-right: 13px;" $ ""
+                    H.span ! class_ "sans" ! A.style "text-transform: none;" $ "Web"
+                    H.span ! A.style "padding-right: 15px;" $ ""
                     H.i ! class_ "fa fa-cloud" ! A.style "font-size: 20px;" $ ""
 
                 H.div ! class_ "get-button-separator" $ ""
