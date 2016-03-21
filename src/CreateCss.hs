@@ -82,7 +82,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
 
     ".cover-v2" ? do
         colorBase01
-        fontSize        $ px 20
+        fontSize        $ px 22
         paddingTop      $ px 20
         paddingBottom   $ px 70
 
