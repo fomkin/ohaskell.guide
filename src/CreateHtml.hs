@@ -23,7 +23,11 @@ createHtml = do
         justCopy          "circle.yml"
         justCreateAndCopy ".nojekyll"
 
-        prepareTemplates >> createCoverPage >> createInitPage >> createChapters)
+        prepareTemplates
+        createCoverPage
+        createInitPage
+        createDonatePage
+        createChapters)
             `finally` polishHtml
 
 justCopy :: Pattern -> Rules ()
@@ -47,6 +51,16 @@ createCoverPage = create ["index.html"] $ do
                                    , defaultContext
                                    ]
         in makeItem "" >>= loadAndApplyTemplate "templates/cover.html" indexContext
+                       >>= relativizeUrls
+
+createDonatePage :: Rules ()
+createDonatePage = create ["donate.html"] $ do
+    route idRoute
+    compile $
+        let donateContext = mconcat [ constField "title" "Поддержать проект"
+                                    , defaultContext
+                                    ]
+        in makeItem "" >>= loadAndApplyTemplate "templates/donate.html" donateContext
                        >>= relativizeUrls
 
 createInitPage :: Rules ()
