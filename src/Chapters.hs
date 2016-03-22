@@ -24,11 +24,9 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/lambda-function.html",          "Лямбда-функция")
                      , ("/function-composition.html",     "Композиция функций")
                      , ("/hof.html",                      "ФВП")
+                     -- , ("/hackage.html",                  "Hackage и библиотеки")
                      --, ("/list-generators.html",          "Генераторы списков")
                      -- , ("/recursion.html",                "Рекурсия")
-                     -- , ("/.html",                    "Hackage") 2
-                     -- , ("/.html",                    "Модули: подробнее") 2
-                     --
                      -- , ("/.html",                    "Тип: создаём") 3
                      -- , ("/.html",                    "АДТ") 4
                      -- , ("/.html",                    "Конструктор типа") 5
