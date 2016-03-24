@@ -29,7 +29,7 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      -- , ("/recursion.html",                "Рекурсия")
                      -- , ("/laziness.html",              "Лень")
                      , ("/own-types.html",                "Наши типы")
-                     , ("/adt.html",                      "АДТ")
+                     , ("/adt.html",                      "АТД")
                      -- , ("/.html",                    "Конструктор типа") 5
                      -- , ("/.html",                    "Практика: фантомный тип") 5
                      -- , ("/.html",                    "Функтор")
