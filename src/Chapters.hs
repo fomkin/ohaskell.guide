@@ -27,8 +27,9 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      , ("/hackage.html",                  "Hackage и библиотеки")
                      --, ("/list-generators.html",          "Генераторы списков")
                      -- , ("/recursion.html",                "Рекурсия")
-                     -- , ("/.html",                    "Тип: создаём") 3
-                     -- , ("/.html",                    "АДТ") 4
+                     -- , ("/laziness.html",              "Лень")
+                     , ("/own-types.html",                "Наши типы")
+                     , ("/adt.html",                      "АДТ")
                      -- , ("/.html",                    "Конструктор типа") 5
                      -- , ("/.html",                    "Практика: фантомный тип") 5
                      -- , ("/.html",                    "Функтор")
@@ -37,7 +38,7 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      -- , ("/.html",                    "Монадный трансформер") 10
                      -- , ("/.html",                    "Stackage") 3
                      -- , ("/.html",                    "форматирование") 3
-                     -- , ("/.html",                    "На десерт: демистификация") 3
+                     -- , ("/demystification.html",          "Демистификация Haskell")
                      ]
 
 chaptersURLs :: [T.Text]
