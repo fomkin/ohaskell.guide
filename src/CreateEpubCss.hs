@@ -12,72 +12,80 @@ createEpubCss :: FilePath -> IO ()
 createEpubCss pathToCss = writeFile pathToCss . L.unpack . render $ do
     let centerAlign     = textAlign $ alignSide sideCenter
         leftAlign       = textAlign $ alignSide sideLeft
+
+        paddingTopPx    = paddingTop . px
+        paddingBottomPx = paddingBottom . px
+
+        fontSizePx      = fontSize . px
+
         fontPTSerif     = fontFamily ["PT Serif"] [serif]
         fontUbuntuMono  = fontFamily ["Ubuntu Mono"] [monospace]
 
+        fontFaceByName aName = fontFaceSrc [FontFaceSrcUrl aName Nothing]
+
     fontFace $ do
         fontPTSerif
         fontStyle       normal
         fontWeight      normal
-        fontFaceSrc     [FontFaceSrcUrl "PTSerif.ttc" Nothing]
+        fontFaceByName  "PTSerif.ttc"
 
     fontFace $ do
         fontPTSerif
         fontStyle       normal
         fontWeight      bold
-        fontFaceSrc     [FontFaceSrcUrl "PTSerif.ttc" Nothing]
+        fontFaceByName  "PTSerif.ttc"
 
     fontFace $ do
         fontUbuntuMono
         fontStyle       normal
         fontWeight      normal
-        fontFaceSrc     [FontFaceSrcUrl "UbuntuMono-Regular.ttf" Nothing]
+        fontFaceByName  "UbuntuMono-Regular.ttf"
 
     fontFace $ do
         fontUbuntuMono
         fontStyle       normal
         fontWeight      bold
-        fontFaceSrc     [FontFaceSrcUrl "UbuntuMono-Bold.ttf" Nothing]
+        fontFaceByName  "UbuntuMono-Bold.ttf"
 
     body ? do
         margin          (pct 5) (pct 5) (pct 5) (pct 5)
         textAlign       justify
-        fontSize        $ px 11
-        fontFamily      ["PT Serif"] [serif]
+        fontSizePx      11
+        fontPTSerif
 
-    code ? do
+    code ?
         fontUbuntuMono
 
     h1 ? do
         leftAlign
-        fontSize        $ px 20
-        paddingBottom   $ px 18
+        fontSizePx      20
+        paddingBottomPx 18
 
     h2 ? do
         leftAlign
-        fontSize        $ px 15
-        paddingTop      $ px 18
+        fontSizePx      15
+        paddingTopPx    18
 
-    h3 ? do
+    h3 ?
         leftAlign
 
     h1 # ".main" ? do
         centerAlign
-        fontSize        $ px 26
-        paddingTop      $ px 50
+        fontSizePx      26
+        paddingTopPx    50
 
     h1 # ".edition" ? do
         centerAlign
-        fontSize        $ px 13
-        paddingBottom   $ px 50
+        fontSizePx      13
+        paddingBottomPx 50
 
     h2 # ".author" ? do
         centerAlign
-        fontSize        $ px 13
+        fontSizePx 13
 
     ol # ".toc" ? do
         padding         nil nil nil nil
-        marginLeft      $ em 1
+        marginLeft      (em 1)
 
     ol # ".toc" ? li ? do
         listStyleType none
