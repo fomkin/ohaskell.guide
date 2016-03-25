@@ -18,7 +18,7 @@ main = do
     pdfDesktopDone <- async $ createPdfDesktop pathToSingleMarkdown
     pdfMobileDone  <- async $ createPdfMobile pathToSingleMarkdown
     epubDone       <- async $ createEpub pathToSingleMarkdown
-    htmlDone       <- async $ createHtml
+    htmlDone       <- async createHtml
 
     wait pdfDesktopDone
     wait pdfMobileDone

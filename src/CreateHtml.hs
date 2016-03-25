@@ -13,7 +13,8 @@ import CreateCss
 createHtml :: IO ()
 createHtml = do
     createCss
-    (hakyll $ do
+    hakyll
+      (do
         justCopy          "static/images/*"
         justCopy          "static/css/*"
         justCopy          "static/js/*"
@@ -28,7 +29,7 @@ createHtml = do
         createInitPage
         createDonatePage
         createChapters)
-            `finally` polishHtml
+      `finally` polishHtml
 
 justCopy :: Pattern -> Rules ()
 justCopy something = match something $ do
@@ -69,8 +70,8 @@ createInitPage = match markdownPage $ do
     compile $ pandocCompiler >>= loadAndApplyTemplate templateName defaultContext
                              >>= relativizeUrls
   where
-    markdownPage = fromGlob $ "chapters/init.md"
-    templateName = fromFilePath $ "templates/default.html"
+    markdownPage = fromGlob "chapters/init.md"
+    templateName = fromFilePath "templates/default.html"
 
 createChapters :: Rules ()
 createChapters = match chapters $ do
@@ -79,9 +80,9 @@ createChapters = match chapters $ do
                              >>= loadAndApplyTemplate defaulTemplateName defaultContext
                              >>= relativizeUrls
   where
-    chapters            = fromGlob $ "chapters/**"
-    chapterTemplateName = fromFilePath $ "templates/chapter.html"
-    defaulTemplateName  = fromFilePath $ "templates/default.html"
+    chapters            = fromGlob "chapters/**"
+    chapterTemplateName = fromFilePath "templates/chapter.html"
+    defaulTemplateName  = fromFilePath "templates/default.html"
 
 removeChaptersDirectoryFromURLs :: Routes
 removeChaptersDirectoryFromURLs = gsubRoute "chapters/" (const "")

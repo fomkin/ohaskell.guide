@@ -13,7 +13,7 @@ createEpub pathToSingleMarkdown = do
     createEpubCss pathToCss
     callCommand $ concat [ "pandoc -S -o "
                          , out
-                         , " --toc-depth=1"
+                         , " --toc-depth=2"
                          , " --epub-stylesheet="
                          , pathToCss
                          , " --epub-embed-font="

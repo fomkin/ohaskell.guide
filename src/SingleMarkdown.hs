@@ -11,18 +11,17 @@ import           Chapters
 
 createSingleMarkdown :: IO FilePath
 createSingleMarkdown = do
-    chapters <- mapM readMD $ createMarkdownURLs
+    chapters <- mapM readMarkdownFile createMarkdownURLs
     TIO.writeFile pathToSingleMarkdown $ T.intercalate "\n" chapters
     return pathToSingleMarkdown
   where
-    pathToSingleMarkdown :: FilePath
     pathToSingleMarkdown = "/tmp/ohaskell-book.md"
 
 createMarkdownURLs :: [T.Text]
 createMarkdownURLs = map create chaptersURLs
   where
-    create url = "chapters" `T.append` (T.replace ".html" ".md" url)
+    create url = "chapters" `T.append` T.replace ".html" ".md" url
 
-readMD :: T.Text -> IO T.Text
-readMD mdURL = TIO.readFile $ T.unpack mdURL >>= return
+readMarkdownFile :: T.Text -> IO T.Text
+readMarkdownFile = TIO.readFile . T.unpack
 

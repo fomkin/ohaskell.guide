@@ -19,30 +19,29 @@ prepareHtmlTOC = V.mapM_ (handle chaptersURLsWithIndex) chaptersURLsWithIndex
     chaptersURLsWithIndex = V.indexed . V.fromList $ chaptersURLs
 
 handle :: V.Vector (Int, T.Text) -> (Int, T.Text) -> IO ()
-handle chaptersURLsWithIndex (currentChapterIndex, currentChapterURL) = do
-    if currentChapterIndex == 0
-       then handleFirstChapter
-       else if currentChapterIndex + 1 == V.length chaptersURLsWithIndex
-               then handleLastChapter
-               else handleChapter
+handle chaptersURLsWithIndex (currentChapterIndex, currentChapterURL)
+    | currentChapterIndex == 0 = handleFirstChapter
+    | otherwise = if currentChapterIndex + 1 == V.length chaptersURLsWithIndex
+                      then handleLastChapter
+                      else handleChapter
   where
     pathToCurrentChapter = "_site" ++ T.unpack currentChapterURL
     initChapter = "/index.html" :: T.Text
 
-    handleFirstChapter = do
+    handleFirstChapter =
         let prevChapterURL      = initChapter
             (_, nextChapterURL) = chaptersURLsWithIndex V.! (currentChapterIndex + 1)
-        replaceInChapter prevChapterURL nextChapterURL pathToCurrentChapter
+        in replaceInChapter prevChapterURL nextChapterURL pathToCurrentChapter
 
-    handleChapter = do
+    handleChapter =
         let (_, prevChapterURL) = chaptersURLsWithIndex V.! (currentChapterIndex - 1)
             (_, nextChapterURL) = chaptersURLsWithIndex V.! (currentChapterIndex + 1)
-        replaceInChapter prevChapterURL nextChapterURL pathToCurrentChapter
+        in replaceInChapter prevChapterURL nextChapterURL pathToCurrentChapter
 
-    handleLastChapter = do
+    handleLastChapter =
         let (_, prevChapterURL) = chaptersURLsWithIndex V.! (currentChapterIndex - 1)
             nextChapterURL      = initChapter
-        replaceInChapter prevChapterURL nextChapterURL pathToCurrentChapter
+        in replaceInChapter prevChapterURL nextChapterURL pathToCurrentChapter
 
     replaceInChapter prev next current = do
         chapter <- TIO.readFile current
