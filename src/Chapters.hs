@@ -8,6 +8,7 @@ module Chapters (
 
 import qualified Data.Text as T
 
+-- Главы перечислены в Оглавлении в таком же порядке.
 chaptersURLsNNames :: [(T.Text, T.Text)]
 chaptersURLsNNames = [ ("/init.html",                     "Добро пожаловать!")
                      , ("/haskell-faq.html",              "Первые вопросы")

@@ -4,7 +4,7 @@ module CreateHtmlTemplates (
     createHtmlTemplates
 ) where
 
-import           Prelude hiding                     (div, span)
+import           Prelude                            hiding (div, span)
 import           Text.Blaze.Html5                   as H
 import           Text.Blaze.Html5.Attributes        as A
 import           Text.Blaze.Html.Renderer.Pretty
