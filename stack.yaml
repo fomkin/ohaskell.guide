@@ -1,5 +1,6 @@
 flags: {}
 packages:
 - '.'
-extra-deps: []
+extra-deps:
+- roman-numerals-0.5.1.5
 resolver: lts-5.5

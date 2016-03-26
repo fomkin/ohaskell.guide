@@ -28,6 +28,7 @@ createHtml = do
         createCoverPage
         createInitPage
         createDonatePage
+        createSubjectIndexPage
         createChapters)
       `finally` polishHtml
 
@@ -47,22 +48,23 @@ prepareTemplates = match "templates/*" $ compile templateCompiler
 createCoverPage :: Rules ()
 createCoverPage = create ["index.html"] $ do
     route idRoute
-    compile $
-        let indexContext = mconcat [ constField "title" "#ohaskell"
-                                   , defaultContext
-                                   ]
-        in makeItem "" >>= loadAndApplyTemplate "templates/cover.html" indexContext
-                       >>= relativizeUrls
+    compile $ makeItem ""
+        >>= loadAndApplyTemplate "templates/cover.html" defaultContext
+        >>= relativizeUrls
+
+createSubjectIndexPage :: Rules ()
+createSubjectIndexPage = create ["subject-index.html"] $ do
+    route idRoute
+    compile $ makeItem ""
+        >>= loadAndApplyTemplate "templates/subject-index.html" defaultContext
+        >>= relativizeUrls
 
 createDonatePage :: Rules ()
 createDonatePage = create ["donate.html"] $ do
     route idRoute
-    compile $
-        let donateContext = mconcat [ constField "title" "Поддержать проект"
-                                    , defaultContext
-                                    ]
-        in makeItem "" >>= loadAndApplyTemplate "templates/donate.html" donateContext
-                       >>= relativizeUrls
+    compile $ makeItem ""
+        >>= loadAndApplyTemplate "templates/donate.html" defaultContext
+        >>= relativizeUrls
 
 createInitPage :: Rules ()
 createInitPage = match markdownPage $ do
