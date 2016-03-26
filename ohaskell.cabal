@@ -28,6 +28,7 @@ executable ohaskell
                      , CreateHtmlTemplates
                      , PrepareHtmlTOC
                      , SingleMarkdown
+                     , SubjectIndex
 
   build-depends:       base
                      , text
@@ -39,6 +40,7 @@ executable ohaskell
                      , vector
                      , async
                      , directory
+                     , roman-numerals
 
   hs-source-dirs:      src
 

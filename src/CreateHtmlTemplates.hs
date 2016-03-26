@@ -8,17 +8,18 @@ import           Prelude                            hiding (div, span)
 import           Text.Blaze.Html5                   as H
 import           Text.Blaze.Html5.Attributes        as A
 import           Text.Blaze.Html.Renderer.Pretty
-import           Text.Blaze.Internal                (attribute)
 import qualified Data.Text                          as T
 
 import           Chapters
+import           SubjectIndex
 
 createHtmlTemplates :: IO ()
 createHtmlTemplates = do
-    writeFile "templates/cover.html"   $ renderHtml createCover
-    writeFile "templates/default.html" $ renderHtml createDefault
-    writeFile "templates/chapter.html" $ renderHtml createChapter
-    writeFile "templates/donate.html"  $ renderHtml createDonate
+    writeFile "templates/cover.html"         $ renderHtml createCover
+    writeFile "templates/default.html"       $ renderHtml createDefault
+    writeFile "templates/chapter.html"       $ renderHtml createChapter
+    writeFile "templates/subject-index.html" $ renderHtml createSubjectIndex
+    writeFile "templates/donate.html"        $ renderHtml createDonate
 
 data Donate = Ask | Skip
 
@@ -93,29 +94,12 @@ createDefault = docTypeHtml ! lang "ru" $ do
         div ! class_ "navbar-fixed" $
             nav $
                 div ! class_ "nav-wrapper" $ do
-                    a ! class_ "brand-logo center sans"
-                      ! href "/" $ "#ohaskell"
-
-                    a ! href "#"
-                      ! dataActivates "mobile-demo"
-                      ! class_ "button-collapse show-on-large"
-                      ! A.style "padding-left: 15px;" $
-                        H.span ! class_ "fa fa-list-ul" ! A.style "font-size: 26px;" $ ""
-
-                    -- Build side TOC
-                    ul ! class_ "side-nav sans" ! A.id "mobile-demo" $
-                        mapM_ chapterPoint chaptersURLsNNames
-
+                    hashtag
+                    navigation
                     contacts Skip
 
         div ! class_ "container" $
             preEscapedToHtml ("$body$" :: String)
-  where
-    dataActivates :: AttributeValue -> Attribute
-    dataActivates = attribute "data-activates" " data-activates=\""
-
-    chapterPoint :: (T.Text, T.Text) -> Html
-    chapterPoint (anUrl, aName) = li $ a ! href (textValue anUrl) $ toHtml aName
 
 createChapter :: Html
 createChapter = do
@@ -146,6 +130,40 @@ createChapter = do
     -- The empty element required for Disqus to loads comments into
     div ! A.id "disqus_thread" ! A.style "padding-top: 30px;" $ ""
 
+createSubjectIndex :: Html
+createSubjectIndex = docTypeHtml ! lang "ru" $ do
+    commonHead "Предметный указатель <- О Haskell по-человечески"
+
+    body $ do
+        div ! class_ "navbar-fixed" $
+            nav $
+                div ! class_ "nav-wrapper" $ do
+                    hashtag
+                    navigation
+                    contacts Skip
+
+        div ! class_ "container" $ do
+            H.h1 "Предметный указатель"
+
+            div ! class_ "subject-index-wrapper" $ do
+                mapM_ subjectPoint subjectIndexWithHrefs
+
+subjectPoint :: (SubjectName, [HrefWithLabel]) -> Html
+subjectPoint (subjectName, hrefs) =
+    div ! class_ "row" $ do
+        div ! class_ "col s12 m6 l6" $
+            H.span ! class_ "" $ toHtml subjectName
+        div ! class_ "col s12 m6 l6" $ do
+            mapM_ subjectOneHref hrefs
+  where
+    subjectOneHref :: HrefWithLabel -> Html
+    subjectOneHref (aHref, aLabel) = do
+        a ! class_ "mono"
+          ! href (toValue aHref) $
+            toHtml aLabel
+
+        H.span $ preEscapedToHtml ("&nbsp;&nbsp;" :: String)
+
 createDonate :: Html
 createDonate = docTypeHtml ! lang "ru" $ do
     commonHead "Поддержать <- О Haskell по-человечески"
@@ -154,9 +172,7 @@ createDonate = docTypeHtml ! lang "ru" $ do
         div ! class_ "navbar-fixed" $
             nav $
                 div ! class_ "nav-wrapper" $ do
-                    a ! class_ "brand-logo center sans"
-                      ! href "/" $ "#ohaskell"
-
+                    hashtag
                     contacts Skip
 
         div ! class_ "container" $ do
@@ -205,3 +221,26 @@ contacts donate =
                         H.span ! class_ "fa fa-rub" ! A.style "font-size: 23px;" $ ""
         Skip -> return ()
 
+hashtag :: Html
+hashtag =
+    a ! class_ "brand-logo center sans"
+      ! href "/" $ "#ohaskell"
+
+navigation :: Html
+navigation = do
+    ul ! A.id "nav-mobile" ! class_ "left" $ do
+        li $
+            a ! href "#"
+              ! dataAttribute "activates" "mobile-demo"
+              ! class_ "button-collapse show-on-large" $
+                H.span ! class_ "fa fa-list-ul" ! A.style "font-size: 26px;" $ ""
+        li $
+            a ! href "/subject-index.html" $
+                H.span ! class_ "fa fa-tags" ! A.style "font-size: 22px;" $ ""
+
+        -- Build side TOC
+    ul ! class_ "side-nav sans" ! A.id "mobile-demo" $
+        mapM_ chapterPoint chaptersURLsNNames
+  where
+    chapterPoint :: (T.Text, T.Text) -> Html
+    chapterPoint (anUrl, aName) = li $ a ! href (textValue anUrl) $ toHtml aName

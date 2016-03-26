@@ -107,6 +107,9 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
     ".sans" ?
         fontFamily ["PT Sans"] [sansSerif]
 
+    ".mono" ?
+        monoFont
+
     ".get-button" ?
         width (px 138)
 

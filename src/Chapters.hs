@@ -1,16 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiWayIf #-}
 
 module Chapters (
       chaptersURLsNNames
     , chaptersURLs
     , chaptersNames
+    , chapterURLByName
 ) where
 
 import qualified Data.Text as T
 
 -- Главы перечислены в Оглавлении в таком же порядке.
 chaptersURLsNNames :: [(T.Text, T.Text)]
-chaptersURLsNNames = [ ("/init.html",                     "Добро пожаловать!")
+chaptersURLsNNames = [ ("/init.html",                     "Приветствую!")
                      , ("/haskell-faq.html",              "Первые вопросы")
                      , ("/this-book.html",                "Об этой книге")
                      , ("/setup.html",                    "Приготовимся")
@@ -48,4 +50,11 @@ chaptersURLs = [url | (url, _) <- chaptersURLsNNames]
 
 chaptersNames :: [T.Text]
 chaptersNames = [name | (_, name) <- chaptersURLsNNames]
+
+chapterURLByName :: T.Text -> Maybe T.Text
+chapterURLByName aName =
+    let urls = [if aName == name then url else "" | (url, name) <- chaptersURLsNNames]
+        realUrls = filter (not . T.null) urls
+    in if | null realUrls -> Nothing
+          | otherwise     -> Just $ head realUrls
 
