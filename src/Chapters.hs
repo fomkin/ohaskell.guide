@@ -31,6 +31,7 @@ chaptersURLsNNames = [ ("/init.html",                     "Добро пожал
                      -- , ("/laziness.html",              "Лень")
                      , ("/own-types.html",                "Наши типы")
                      , ("/adt.html",                      "АТД")
+                     , ("/adt-field-labels.html",         "АТД: поля с метками")
                      -- , ("/.html",                    "Конструктор типа") 5
                      -- , ("/.html",                    "Практика: фантомный тип") 5
                      -- , ("/.html",                    "Функтор")
