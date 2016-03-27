@@ -11,9 +11,8 @@ import qualified Data.Text              as T
 import qualified Data.Vector            as V
 import           Text.Numeral.Roman     (toRoman)
 
-import           Chapters
+import           SingleMarkdown
 
-type ChapterName = T.Text
 type SectionName = T.Text
 type SubjectName = T.Text
 type Link        = (ChapterName, SectionName)
@@ -54,12 +53,12 @@ subjectIndex =
 
 ------------------------------------------------------------------------
 
-subjectIndexWithHrefs :: [SubjectItemWithHref]
-subjectIndexWithHrefs = map create subjectIndex
+subjectIndexWithHrefs :: [ChapterPoint] -> [SubjectItemWithHref]
+subjectIndexWithHrefs chapterPoints = map (create chapterPoints) subjectIndex
 
-create :: SubjectItem -> SubjectItemWithHref
-create (subjectName, links) =
-    let hrefs           = map createHrefFromLink links
+create :: [ChapterPoint] -> SubjectItem -> SubjectItemWithHref
+create chapterPoints (subjectName, links) =
+    let hrefs           = map (createHrefFromLink chapterPoints) links
         hrefsWithIndex  = V.indexed . V.fromList $ hrefs
         hrefsWithLabels = V.map makeLabel hrefsWithIndex
     in (subjectName, V.toList hrefsWithLabels)
@@ -69,11 +68,11 @@ makeLabel (index, href) = (href, roman)
   where
     roman = toRoman (index + 1) :: T.Text
 
-createHrefFromLink :: Link -> Href
-createHrefFromLink (chapterName, sectionName) =
-    case chapterURLByName chapterName of
+createHrefFromLink :: [ChapterPoint] -> Link -> Href
+createHrefFromLink chapterPoints (chapterName, sectionName) =
+    case lookup chapterName chapterPoints of
         Nothing  -> error $ "No such chapter '" ++ T.unpack chapterName ++ "', abort!"
-        Just url -> url `T.append` "#" `T.append` createIdFrom sectionName
+        Just url -> T.pack url `T.append` "#" `T.append` createIdFrom sectionName
   where
     createIdFrom aSectionName = T.toLower $ T.replace " " "-" aSectionName
 

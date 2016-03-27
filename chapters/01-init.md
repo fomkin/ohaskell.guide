@@ -22,7 +22,3 @@
 
 Возможно, вы по уши влюбитесь в Haskell. Возможно, он вызовет у вас отвращение. Обещаю одно &mdash; скучно не будет. Начнём.
 
-<div style="padding-top: 20px; padding-bottom: 50px;" class="right">
-<a href="/haskell-faq.html" class="btn waves-effect waves-light"><span class="fa fa-angle-double-right chapter-arrow"></span></a>
-</div>
-

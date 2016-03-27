@@ -10,16 +10,16 @@ import           Text.Blaze.Html5.Attributes        as A
 import           Text.Blaze.Html.Renderer.Pretty
 import qualified Data.Text                          as T
 
-import           Chapters
+import           SingleMarkdown
 import           SubjectIndex
 
-createHtmlTemplates :: IO ()
-createHtmlTemplates = do
-    writeFile "templates/cover.html"         $ renderHtml createCover
-    writeFile "templates/default.html"       $ renderHtml createDefault
-    writeFile "templates/chapter.html"       $ renderHtml createChapter
-    writeFile "templates/subject-index.html" $ renderHtml createSubjectIndex
-    writeFile "templates/donate.html"        $ renderHtml createDonate
+createHtmlTemplates :: [ChapterPoint] -> IO ()
+createHtmlTemplates chapterPoints = do
+    writeFile "templates/cover.html"         $ renderHtml   createCover
+    writeFile "templates/default.html"       $ renderHtml $ createDefault chapterPoints
+    writeFile "templates/chapter.html"       $ renderHtml   createChapter
+    writeFile "templates/subject-index.html" $ renderHtml $ createSubjectIndex chapterPoints
+    writeFile "templates/donate.html"        $ renderHtml   createDonate
 
 data Donate = Ask | Skip
 
@@ -86,8 +86,8 @@ createCover = docTypeHtml ! lang "ru" $ do
                     div ! class_ "col s12 m1 l1" $
                         preEscapedToHtml ("&nbsp;" :: String)
 
-createDefault :: Html
-createDefault = docTypeHtml ! lang "ru" $ do
+createDefault :: [ChapterPoint] -> Html
+createDefault chapterPoints = docTypeHtml ! lang "ru" $ do
     commonHead "PAGE_TITLE <- О Haskell по-человечески"
 
     body $ do
@@ -95,7 +95,7 @@ createDefault = docTypeHtml ! lang "ru" $ do
             nav $
                 div ! class_ "nav-wrapper" $ do
                     hashtag
-                    navigation
+                    navigation chapterPoints
                     contacts Skip
 
         div ! class_ "container" $
@@ -130,8 +130,8 @@ createChapter = do
     -- The empty element required for Disqus to loads comments into
     div ! A.id "disqus_thread" ! A.style "padding-top: 30px;" $ ""
 
-createSubjectIndex :: Html
-createSubjectIndex = docTypeHtml ! lang "ru" $ do
+createSubjectIndex :: [ChapterPoint] -> Html
+createSubjectIndex chapterPoints = docTypeHtml ! lang "ru" $ do
     commonHead "Предметный указатель <- О Haskell по-человечески"
 
     body $ do
@@ -139,14 +139,14 @@ createSubjectIndex = docTypeHtml ! lang "ru" $ do
             nav $
                 div ! class_ "nav-wrapper" $ do
                     hashtag
-                    navigation
+                    navigation chapterPoints
                     contacts Skip
 
         div ! class_ "container" $ do
             H.h1 "Предметный указатель"
 
             div ! class_ "subject-index-wrapper" $ do
-                mapM_ subjectPoint subjectIndexWithHrefs
+                mapM_ subjectPoint $ subjectIndexWithHrefs chapterPoints
 
 subjectPoint :: (SubjectName, [HrefWithLabel]) -> Html
 subjectPoint (subjectName, hrefs) =
@@ -226,8 +226,8 @@ hashtag =
     a ! class_ "brand-logo center sans"
       ! href "/" $ "#ohaskell"
 
-navigation :: Html
-navigation = do
+navigation :: [ChapterPoint] -> Html
+navigation chapterPoints = do
     ul ! A.id "nav-mobile" ! class_ "left" $ do
         li $
             a ! href "#"
@@ -240,7 +240,8 @@ navigation = do
 
         -- Build side TOC
     ul ! class_ "side-nav sans" ! A.id "mobile-demo" $
-        mapM_ chapterPoint chaptersURLsNNames
+        mapM_ chapterPoint chapterPoints
   where
-    chapterPoint :: (T.Text, T.Text) -> Html
-    chapterPoint (anUrl, aName) = li $ a ! href (textValue anUrl) $ toHtml aName
+    chapterPoint :: (ChapterName, ChapterPath) -> Html
+    chapterPoint (aName, anUrl) = li $ a ! href (stringValue anUrl) $ toHtml aName
+

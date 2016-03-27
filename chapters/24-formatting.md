@@ -1,8 +1,4 @@
-----
-title: О форматировании
-prevChapter: /ru/miscellaneous/about-apostrophe.html
-nextChapter: /ru/miscellaneous/about-hlint.html
-----
+# О форматировании
 
 Haskell-код является форматно-зависимым, поэтому мы не можем расставлять отступы там, где нам заблагорассудится. Необходимо придерживаться определённых правил.
 
