@@ -10,7 +10,7 @@ module SingleMarkdown (
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
 import           System.Directory       (getDirectoryContents)
-import           System.FilePath.Posix  (replaceExtension)
+import           System.FilePath.Posix
 
 type ChapterName     = T.Text
 type ChapterPath     = FilePath
@@ -21,7 +21,7 @@ type ChapterPoint    = (ChapterName, ChapterPath)
 createSingleMarkdown :: IO (FilePath, [ChapterPoint])
 createSingleMarkdown = do
     allPathsToMarkdownFiles <- getDirectoryContents "chapters"
-    let pathsToMarkdownFiles = filter notMarkdown allPathsToMarkdownFiles
+    let pathsToMarkdownFiles = filter markdownOnly allPathsToMarkdownFiles
     chaptersInfo <- mapM readMarkdownFile pathsToMarkdownFiles
     let singleMarkdown = composeSingleMarkdownFrom chaptersInfo
         chapterPoints  = collectChapterPointsFrom chaptersInfo
@@ -29,7 +29,7 @@ createSingleMarkdown = do
     return (pathToSingleMarkdown, chapterPoints)
   where
     pathToSingleMarkdown = "/tmp/ohaskell-book.md"
-    notMarkdown path = path /= "." && path /= ".."
+    markdownOnly path = takeExtensions path == ".md"
 
 readMarkdownFile :: ChapterPath -> IO (ChapterContent, ChapterName, ChapterPath)
 readMarkdownFile path = do

@@ -249,11 +249,7 @@ takeWhile PREDICATE LIST
 
 
 
-----
-title: Диапазоны
-prevChapter: /ru/about-lists/lists-at-a-glance.html
-nextChapter: /ru/about-lists/tuples.html
-----
+# Диапазоны
 
 Диапазон - это конструкция, автоматически создающая список по заданному признаку.
 
