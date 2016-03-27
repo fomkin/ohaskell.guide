@@ -75,7 +75,7 @@ createChapters = match chapters $ do
                              >>= loadAndApplyTemplate defaulTemplateName defaultContext
                              >>= relativizeUrls
   where
-    chapters            = fromGlob "chapters/**"
+    chapters            = fromGlob "chapters/*.md"
     chapterTemplateName = fromFilePath "templates/chapter.html"
     defaulTemplateName  = fromFilePath "templates/default.html"
 
