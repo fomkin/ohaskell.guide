@@ -19,8 +19,7 @@ cabal-version:       >= 1.10
 executable ohaskell
   main-is:             Main.hs
 
-  other-modules:       Chapters
-                     , CreatePdf
+  other-modules:       CreatePdf
                      , CreateEpub
                      , CreateEpubCss
                      , CreateCss
@@ -40,6 +39,7 @@ executable ohaskell
                      , vector
                      , async
                      , directory
+                     , filepath
                      , roman-numerals
 
   hs-source-dirs:      src

@@ -12,16 +12,17 @@ main :: IO ()
 main = do
     putStrLn "Build a new version of the book, be patient..."
 
-    createHtmlTemplates
-    pathToSingleMarkdown <- createSingleMarkdown
+    (pathToSingleMarkdown, chapterPoints) <- createSingleMarkdown
 
-    pdfDesktopDone <- async $ createPdfDesktop pathToSingleMarkdown
-    pdfMobileDone  <- async $ createPdfMobile pathToSingleMarkdown
-    epubDone       <- async $ createEpub pathToSingleMarkdown
-    htmlDone       <- async createHtml
+    createHtmlTemplates chapterPoints
 
-    wait pdfDesktopDone
-    wait pdfMobileDone
-    wait epubDone
+    --pdfDesktopDone <- async $ createPdfDesktop pathToSingleMarkdown
+    --pdfMobileDone  <- async $ createPdfMobile pathToSingleMarkdown
+    --epubDone       <- async $ createEpub pathToSingleMarkdown
+    htmlDone       <- async $ createHtml chapterPoints
+
+    --wait pdfDesktopDone
+    --wait pdfMobileDone
+    --wait epubDone
     wait htmlDone
 

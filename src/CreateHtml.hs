@@ -5,13 +5,14 @@ module CreateHtml (
 ) where
 
 import Hakyll
-import Control.Exception (finally)
+import Control.Exception    (finally)
 
 import PrepareHtmlTOC
 import CreateCss
+import SingleMarkdown
 
-createHtml :: IO ()
-createHtml = do
+createHtml :: [ChapterPoint] -> IO ()
+createHtml chapterPoints = do
     createCss
     hakyll
       (do
@@ -26,11 +27,10 @@ createHtml = do
 
         prepareTemplates
         createCoverPage
-        createInitPage
         createDonatePage
         createSubjectIndexPage
-        createChapters)
-      `finally` polishHtml
+        createChapters
+      ) `finally` polishHtml chapterPoints
 
 justCopy :: Pattern -> Rules ()
 justCopy something = match something $ do
@@ -66,18 +66,11 @@ createDonatePage = create ["donate.html"] $ do
         >>= loadAndApplyTemplate "templates/donate.html" defaultContext
         >>= relativizeUrls
 
-createInitPage :: Rules ()
-createInitPage = match markdownPage $ do
-    route $ removeChaptersDirectoryFromURLs `composeRoutes` setExtension "html"
-    compile $ pandocCompiler >>= loadAndApplyTemplate templateName defaultContext
-                             >>= relativizeUrls
-  where
-    markdownPage = fromGlob "chapters/init.md"
-    templateName = fromFilePath "templates/default.html"
-
 createChapters :: Rules ()
 createChapters = match chapters $ do
-    route $ removeChaptersDirectoryFromURLs `composeRoutes` setExtension "html"
+    route $ removeChaptersDirectoryFromURLs
+            `composeRoutes` removeChapterNumberFromURLs
+            `composeRoutes` setExtension "html"
     compile $ pandocCompiler >>= loadAndApplyTemplate chapterTemplateName defaultContext
                              >>= loadAndApplyTemplate defaulTemplateName defaultContext
                              >>= relativizeUrls
@@ -88,4 +81,7 @@ createChapters = match chapters $ do
 
 removeChaptersDirectoryFromURLs :: Routes
 removeChaptersDirectoryFromURLs = gsubRoute "chapters/" (const "")
+
+removeChapterNumberFromURLs :: Routes
+removeChapterNumberFromURLs = customRoute $ drop 3 . toFilePath
 

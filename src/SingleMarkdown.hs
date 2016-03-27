@@ -1,27 +1,56 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module SingleMarkdown (
-    createSingleMarkdown
+      createSingleMarkdown
+    , ChapterName
+    , ChapterPath
+    , ChapterPoint
 ) where
 
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
+import           System.Directory       (getDirectoryContents)
+import           System.FilePath.Posix  (replaceExtension)
 
-import           Chapters
+type ChapterName     = T.Text
+type ChapterPath     = FilePath
+type ChapterContent  = T.Text
+type ChaptersContent = T.Text
+type ChapterPoint    = (ChapterName, ChapterPath)
 
-createSingleMarkdown :: IO FilePath
+createSingleMarkdown :: IO (FilePath, [ChapterPoint])
 createSingleMarkdown = do
-    chapters <- mapM readMarkdownFile createMarkdownURLs
-    TIO.writeFile pathToSingleMarkdown $ T.intercalate "\n" chapters
-    return pathToSingleMarkdown
+    allPathsToMarkdownFiles <- getDirectoryContents "chapters"
+    let pathsToMarkdownFiles = filter notMarkdown allPathsToMarkdownFiles
+    chaptersInfo <- mapM readMarkdownFile pathsToMarkdownFiles
+    let singleMarkdown = composeSingleMarkdownFrom chaptersInfo
+        chapterPoints  = collectChapterPointsFrom chaptersInfo
+    TIO.writeFile pathToSingleMarkdown singleMarkdown
+    return (pathToSingleMarkdown, chapterPoints)
   where
     pathToSingleMarkdown = "/tmp/ohaskell-book.md"
+    notMarkdown path = path /= "." && path /= ".."
 
-createMarkdownURLs :: [T.Text]
-createMarkdownURLs = map create chaptersURLs
+readMarkdownFile :: ChapterPath -> IO (ChapterContent, ChapterName, ChapterPath)
+readMarkdownFile path = do
+    content <- TIO.readFile $ "chapters/" ++ path
+    let name = extractChapterNameFrom content
+    return (content, name, htmlPath)
   where
-    create url = "chapters" `T.append` T.replace ".html" ".md" url
+    -- Убираем `01-` из глав, на уровне путей они не нужны.
+    htmlPath = "/" ++ (drop 3 $ replaceExtension path "html")
+    extractChapterNameFrom aContent = aName
+      where
+        firstLine = head . T.lines $ aContent
+        aName     = T.strip $ case T.stripPrefix "#" firstLine of
+                                  Nothing      -> firstLine
+                                  Just rawName -> rawName
 
-readMarkdownFile :: T.Text -> IO T.Text
-readMarkdownFile = TIO.readFile . T.unpack
+composeSingleMarkdownFrom :: [(ChapterContent, ChapterName, ChapterPath)] -> ChaptersContent
+composeSingleMarkdownFrom chaptersInfo =
+    T.intercalate "\n" [content | (content, _, _) <- chaptersInfo]
+
+collectChapterPointsFrom :: [(ChapterContent, ChapterName, ChapterPath)] -> [ChapterPoint]
+collectChapterPointsFrom chaptersInfo =
+    [(name, path) | (_, name, path) <- chaptersInfo]
 
