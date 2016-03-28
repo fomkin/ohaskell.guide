@@ -32,13 +32,13 @@ createEpub pathToSingleMarkdown = do
                          , pathToSingleMarkdown
                          ]
   where
-    out             = "epub/ohaskell.epub"
-    pathToCss       = "epub/EPUB.css"
-    title           = "epub/EPUBTitle.txt"
-    cover           = "epub/cover.png"
+    out       = "epub/ohaskell.epub"
+    pathToCss = "epub/EPUB.css"
+    title     = "epub/EPUBTitle.txt"
+    cover     = "epub/cover.png"
 
     -- Пути актуальны для OS X. Подразумевается,
-    -- что данные шрифты у вас уже установлены.
+    -- что данные шрифты уже установлены.
     mainFont = "/Library/Fonts/PTSerif.ttc"
 
     codeFontNormal :: FilePath -> FilePath
