@@ -7,7 +7,7 @@ module CreateHtmlTemplates (
 import           Prelude                            hiding (div, span)
 import           Text.Blaze.Html5                   as H
 import           Text.Blaze.Html5.Attributes        as A
-import           Text.Blaze.Html.Renderer.Pretty
+import           Text.Blaze.Html.Renderer.Pretty    (renderHtml)
 import qualified Data.Text                          as T
 
 import           SingleMarkdown
@@ -179,6 +179,7 @@ createDonate = docTypeHtml ! lang "ru" $ do
             H.h1 "Поддержать проект"
 
             div ! class_ "donate-area" $
+                -- Форма сбора пожертвований Яндекс.Деньги.
                 preEscapedToHtml ("<iframe frameborder=\"0\" allowtransparency=\"true\" scrolling=\"no\" src=\"https://money.yandex.ru/embed/donate.xml?account=410012187867374&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&targets=%D0%A0%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8&target-visibility=on&project-name=%D0%9E+Haskell+%D0%BF%D0%BE-%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D1%87%D0%B5%D1%81%D0%BA%D0%B8&project-site=http%3A%2F%2Fwww.ohaskell.guide%2F&button-text=05&successURL=\" width=\"508\" height=\"117\"></iframe>" :: String)
 
             H.h3 ! class_ "center-align" $ "Благодарю вас!"
@@ -200,7 +201,7 @@ commonHead customTitle = H.head $ do
     link ! rel "stylesheet" ! href "/static/css/default.css"
     script ! src "/static/js/default.js" $ ""
 
--- Author's contacts at up right corner.
+-- Контакты для верхнего правого угла страницы.
 contacts :: Donate -> Html
 contacts donate =
     ul ! A.id "nav-mobile" ! class_ "right" $ do
@@ -226,6 +227,7 @@ hashtag =
     a ! class_ "brand-logo center sans"
       ! href "/" $ "#ohaskell"
 
+-- Оглавление и Предметный указатель для верхнего левого угла.
 navigation :: [ChapterPoint] -> Html
 navigation chapterPoints = do
     ul ! A.id "nav-mobile" ! class_ "left" $ do
@@ -238,7 +240,7 @@ navigation chapterPoints = do
             a ! href "/subject-index.html" $
                 H.span ! class_ "fa fa-tags" ! A.style "font-size: 22px;" $ ""
 
-        -- Build side TOC
+    -- Строим левое боковое оглавление.
     ul ! class_ "side-nav sans" ! A.id "mobile-demo" $
         mapM_ chapterPoint chapterPoints
   where
