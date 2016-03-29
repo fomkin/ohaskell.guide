@@ -99,6 +99,7 @@ No, it's not a localhost.
 ```haskell
 main :: IO ()
 main = putStrLn (checkLocalhost "173.194.22.100")
+
                  |___ выражение типа String ___|
 ```
 
@@ -113,6 +114,7 @@ main = putStrLn checkLocalhost "173.194.22.100"
 
 ```haskell
 main = putStrLn     checkLocalhost  "173.194.22.100"
+
        функция      к этому
        применяется  аргументу...
                                     и к этому??
