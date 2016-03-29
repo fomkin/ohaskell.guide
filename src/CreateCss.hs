@@ -176,7 +176,6 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         fontSizePx      18
 
     ".donate-area" ? do
-        paddingTopPx 30
         centerAlign
 
     pre # ".sourceCode" ? do

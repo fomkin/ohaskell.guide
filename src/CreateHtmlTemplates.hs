@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes       #-}
 
 module CreateHtmlTemplates (
     createHtmlTemplates
@@ -9,6 +10,7 @@ import           Text.Blaze.Html5                   as H
 import           Text.Blaze.Html5.Attributes        as A
 import           Text.Blaze.Html.Renderer.Pretty    (renderHtml)
 import qualified Data.Text                          as T
+import           Text.RawString.QQ
 
 import           SingleMarkdown
 import           SubjectIndex
@@ -178,9 +180,14 @@ createDonate = docTypeHtml ! lang "ru" $ do
         div ! class_ "container" $ do
             H.h1 "Поддержать проект"
 
-            div ! class_ "donate-area" $
-                -- Форма сбора пожертвований Яндекс.Деньги.
-                preEscapedToHtml ("<iframe frameborder=\"0\" allowtransparency=\"true\" scrolling=\"no\" src=\"https://money.yandex.ru/embed/donate.xml?account=410012187867374&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&targets=%D0%A0%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8&target-visibility=on&project-name=%D0%9E+Haskell+%D0%BF%D0%BE-%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D1%87%D0%B5%D1%81%D0%BA%D0%B8&project-site=http%3A%2F%2Fwww.ohaskell.guide%2F&button-text=05&successURL=\" width=\"508\" height=\"117\"></iframe>" :: String)
+            div ! class_ "donate-area" $ do
+                H.h3 ! class_ "center-align" $
+                    preEscapedToHtml ("Яндекс.Деньги" :: String)
+                preEscapedToHtml yandexMoneyForm
+
+                H.h3 ! class_ "center-align" $
+                    preEscapedToHtml ("PayPal" :: String)
+                preEscapedToHtml payPalDonateForm
 
             H.h3 ! class_ "center-align" $ "Благодарю вас!"
 
@@ -246,4 +253,17 @@ navigation chapterPoints = do
   where
     chapterPoint :: (ChapterName, ChapterPath) -> Html
     chapterPoint (aName, anUrl) = li $ a ! href (stringValue anUrl) $ toHtml aName
+
+yandexMoneyForm :: String
+yandexMoneyForm = [r|
+<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/donate.xml?account=410012187867374&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&targets=%D0%A0%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8&target-visibility=on&project-name=%D0%9E+Haskell+%D0%BF%D0%BE-%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D1%87%D0%B5%D1%81%D0%BA%D0%B8&project-site=http%3A%2F%2Fwww.ohaskell.guide%2F&button-text=05&successURL=" width="508" height="117"></iframe>|]
+
+payPalDonateForm :: String
+payPalDonateForm = [r|
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="hidden" name="hosted_button_id" value="6JWPGQPDWY2X6">
+    <input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — более безопасный и легкий способ оплаты через Интернет!">
+    <img alt="" border="0" src="https://www.paypalobjects.com/ru_RU/i/scr/pixel.gif" width="1" height="1">
+</form>|]
 
