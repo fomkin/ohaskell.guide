@@ -41,6 +41,7 @@ executable ohaskell
                      , directory
                      , filepath
                      , roman-numerals
+                     , raw-strings-qq
 
   hs-source-dirs:      src
 
