@@ -41,8 +41,10 @@ createCover = docTypeHtml ! lang "ru" $ do
 
         div ! class_ "container" $
             div ! class_ "row center" ! A.style "padding-top: 70px;" $ do
-                div ! class_ "cover-title" $
-                    "О Haskell по-человечески"
+                div ! class_ "cover-title" $ do
+                    toHtml ("О Haskell по-человечески" :: String)
+                    H.span ! A.style "font-size: 26px; color: orangered;" $
+                        preEscapedToHtml ("&nbsp;&Beta;&eta;&tau;&alpha;" :: String)
 
                 div ! class_ "cover-v2" $
                     "издание 2.0"
@@ -232,7 +234,10 @@ contacts donate =
 hashtag :: Html
 hashtag =
     a ! class_ "brand-logo center sans"
-      ! href "/" $ "#ohaskell"
+      ! href "/" $ do
+        preEscapedToHtml ("#ohaskell" :: String)
+        H.span ! A.style "font-size: 18px; color: yellow;" $
+            preEscapedToHtml ("&Beta;&eta;&tau;&alpha;" :: String)
 
 -- Оглавление и Предметный указатель для верхнего левого угла.
 navigation :: [ChapterPoint] -> Html
