@@ -59,7 +59,7 @@ createCover = docTypeHtml ! lang "ru" $ do
                                 a ! class_ "waves-effect waves-light btn btn-large blue accent-2 get-button sans"
                                   ! href "/init.html" $ do
                                     H.span ! class_ "sans" ! A.style "text-transform: none;" $ "Web"
-                                    H.span ! A.style "padding-right: 15px;" $ ""
+                                    H.span ! A.style "padding-right: 10px;" $ ""
                                     H.i ! class_ "fa fa-cloud" ! A.style "font-size: 20px;" $ ""
                                 div ! class_ "get-button-separator" $ ""
 
@@ -67,7 +67,7 @@ createCover = docTypeHtml ! lang "ru" $ do
                                 a ! class_ "waves-effect waves-light btn btn-large red darken-1 get-button sans"
                                   ! href "https://github.com/denisshevchenko/ohaskell.guide/blob/master/pdf/ohaskell.pdf?raw=true" $ do
                                     H.span ! class_ "sans" $ "PDF"
-                                    H.span ! A.style "padding-right: 17px;" $ ""
+                                    H.span ! A.style "padding-right: 10px;" $ ""
                                     H.i ! class_ "fa fa-desktop" ! A.style "font-size: 20px;" $ ""
                                 div ! class_ "get-button-separator" $ ""
 
@@ -75,7 +75,7 @@ createCover = docTypeHtml ! lang "ru" $ do
                                 a ! class_ "waves-effect waves-light btn btn-large red lighten-1 get-button sans"
                                   ! href "https://github.com/denisshevchenko/ohaskell.guide/blob/master/pdf/ohaskell-mobile.pdf?raw=true" $ do
                                     H.span ! class_ "sans" $ "PDF"
-                                    H.span ! A.style "padding-right: 26px;" $ ""
+                                    H.span ! A.style "padding-right: 10px;" $ ""
                                     H.i ! class_ "fa fa-tablet" ! A.style "font-size: 20px;" $ ""
                                 div ! class_ "get-button-separator" $ ""
 
