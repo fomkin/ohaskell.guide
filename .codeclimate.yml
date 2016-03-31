@@ -1,0 +1,14 @@
+---
+engines:
+  hlint:
+    enabled: true
+  markdownlint:
+    enabled: true
+  eslint:
+    enabled: true
+
+  ratings:
+    paths:
+      - "**.hs"
+      - "**.js"
+
