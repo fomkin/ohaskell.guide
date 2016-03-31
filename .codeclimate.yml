@@ -2,13 +2,24 @@
 engines:
   hlint:
     enabled: true
-  markdownlint:
-    enabled: true
+
+  ratings:
+    paths:
+      - "**.hs"
+
+engines:
   eslint:
     enabled: true
 
   ratings:
     paths:
-      - "**.hs"
       - "**.js"
+
+engines:
+  markdownlint:
+    enabled: true
+
+  ratings:
+    paths:
+      - "**.md"
 
