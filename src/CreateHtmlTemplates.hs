@@ -152,6 +152,8 @@ createSubjectIndex chapterPoints = docTypeHtml ! lang "ru" $ do
             div ! class_ "subject-index-wrapper" $ do
                 mapM_ subjectPoint $ subjectIndexWithHrefs chapterPoints
 
+        div ! A.style "padding-bottom: 30px;" $ ""
+
 subjectPoint :: (SubjectName, [HrefWithLabel]) -> Html
 subjectPoint (subjectName, hrefs) =
     div ! class_ "row" $ do
