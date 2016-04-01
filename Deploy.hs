@@ -11,8 +11,8 @@
     $ stack exec runhaskell Deploy.hs "Commit message"
 -}
 
-module Main where
 
+{-
 import           Shelly
 import qualified Data.Text              as T
 import           Control.Monad          (void)
@@ -85,4 +85,86 @@ main = void . shelly $ do
 
     ifNot :: SomeException -> Sh ()
     ifNot _ = return ()
+-}
+
+
+
+
+
+
+module Main where
+
+import Control.Monad            (unless)
+import Data.List                (intercalate)
+import Data.Monoid              ((<>))
+import System.Directory.Extra   ( doesDirectoryExist
+                                , withCurrentDirectory
+                                , removeDirectoryRecursive
+                                )
+import System.Process           (callProcess, readProcess)
+import System.IO.Temp           (withSystemTempDirectory)
+import System.Exit
+
+main :: IO ()
+main = do
+    putStrLn $ "Собираем новую версию книги..."
+
+    shouldBeInRepoRoot
+    branchShouldBeMaster
+
+    originUrl <- git ["config", "remote.origin.url"]
+    userEmail <- git ["config", "user.email"]
+    headId <- git ["rev-parse", "HEAD"]
+
+    withSystemTempDirectory "github-pages-deploy." $ \tmpDir -> do
+        putStrLn $ "Готовим временный клон во временном каталоге '" ++ tmpDir ++ "'..."
+        git_ [ "clone"
+             , "--config=user.email=" <> userEmail
+             , "--no-checkout"
+             , "."
+             , tmpDir
+             ]
+
+        withCurrentDirectory tmpDir $ do
+            putStrLn $ "Собираем все варианты книги во временном каталоге '" ++ tmpDir ++ "'..."
+            compileBook
+            rebuildBook
+
+            -- Теперь в каталоге _site лежит веб-версия, а также файлы:
+            -- pdf/ohaskell.pdf
+            -- pdf/ohaskell-mobile.pdf
+            -- epub/ohaskell.epub
+
+            storeFilesInSite
+
+            --git_ ["add", "--verbose", "."]
+            --git_ ["commit", "--quiet", "--reuse-message=" <> headId]
+            --git_ ["push", "--force", originUrl, "master:gh-pages"]
+
+        --removeDirectoryRecursive tmpDir
+
+        --git_ ["fetch"]
+  where
+    shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
+        unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
+
+    branchShouldBeMaster = readFile ".git/HEAD" >>= \headValue ->
+        unless (strip headValue == "ref: refs/heads/master") $
+            die $ "Я желаю ветку master, а вовсе не '" ++ show headValue ++ "'..."
+
+    git args = strip <$> readProcess "git" args ""
+
+    strip = intercalate "\n" . lines
+
+    git_ = callProcess "git"
+
+    compileBook = callProcess "stack" ["build"]
+    rebuildBook = callProcess "stack" ["exec", "--", "ohaskell"]
+
+    storeFilesInSite = do
+        callProcess "mkdir" ["-p", "_site/pdf"]
+        callProcess "cp" ["pdf/*.pdf", "_site/pdf/"]
+
+        callProcess "mkdir" ["-p", "_site/epub"]
+        callProcess "cp" ["epub/*.epub", "_site/epub/"]
 
