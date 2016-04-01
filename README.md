@@ -36,8 +36,22 @@ $ stack exec -- ohaskell
 
 Однако вы можете собрать лишь нужные вам варианты:
 
-1. Для HTML: `$ stack exec -- ohaskell --html`.
-2. Для PDF:  `$ stack exec -- ohaskell --pdf`.
-3. Для EPUB: `$ stack exec -- ohaskell --epub`.
+1. Для HTML:
+
+```bash
+$ stack exec -- ohaskell --html
+```
+
+2. Для PDF:
+
+```bash
+$ stack exec -- ohaskell --pdf
+```
+
+3. Для EPUB:
+
+```bash
+$ stack exec -- ohaskell --epub
+```
 
 Проверено на OS X Yosemite, [stack 1.0.2](http://docs.haskellstack.org/en/stable/README/), [pandoc 1.15.2.1](https://github.com/jgm/pandoc/releases/tag/1.15.2) и [LTS Haskell 5.5](https://www.stackage.org/lts-5.5).
