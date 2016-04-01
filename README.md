@@ -18,20 +18,26 @@
 
 ## Локальная сборка
 
-Для локальной сборки вам понадобятся [stack](http://docs.haskellstack.org/en/stable/README/), [pandoc](http://pandoc.org/) и TeX-дистрибутив (я использую [MacTeX](https://tug.org/mactex/)). Подразумевается, что каталог `~/.local/bin` уже добавлен в ваш `PATH`. Делаем:
+Для локальной сборки вам понадобятся [stack](http://docs.haskellstack.org/en/stable/README/), [pandoc](http://pandoc.org/) и TeX-дистрибутив (я использую [MacTeX](https://tug.org/mactex/)). Делаем:
 
 ```bash
 $ git clone git@github.com:denisshevchenko/ohaskell.guide.git
 $ cd ohaskell.guide
-$ stack install
-$ ohaskell rebuild
+$ stack build
+$ stack exec -- ohaskell
 ```
 
-Результаты сборки:
+По умолчанию, при запуске `ohaskell` без аргументов, собираются все варианты книги:
 
-1. HTML: `_site/index.html`
-2. PDF: `pdf/ohaskell.pdf`
-3. PDF, мобильный вариант: `pdf/ohaskell-mobile.pdf`
-4. EPUB: `epub/ohaskell.epub`
+1. HTML: `_site/index.html`.
+2. PDF: `pdf/ohaskell.pdf`.
+3. PDF, мобильный вариант: `pdf/ohaskell-mobile.pdf`.
+4. EPUB: `epub/ohaskell.epub`.
+
+Однако вы можете собрать лишь нужные вам варианты:
+
+1. Для HTML: `$ stack exec -- ohaskell --html`.
+2. Для PDF:  `$ stack exec -- ohaskell --pdf`.
+3. Для EPUB: `$ stack exec -- ohaskell --epub`.
 
 Проверено на OS X Yosemite, [stack 1.0.2](http://docs.haskellstack.org/en/stable/README/), [pandoc 1.15.2.1](https://github.com/jgm/pandoc/releases/tag/1.15.2) и [LTS Haskell 5.5](https://www.stackage.org/lts-5.5).
