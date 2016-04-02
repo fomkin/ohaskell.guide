@@ -85,14 +85,17 @@ main = do
     compileBook = (putStrLn $ "Компилируем...") >> callProcess "stack" ["build"]
     rebuildBook = (putStrLn $ "Собираем...")    >> callProcess "stack" ["exec", "--", "ohaskell"]
 
-    fullWeb = "_site"
+    fullWeb         = "_site"
+    pdfBinary       = "ohaskell.pdf"
+    pdfMobileBinary = "ohaskell-mobile.pdf"
+    epubBinary      = "ohaskell.epub"
     storeArtefactsInSite = do
         createDirectory $ fullWeb </> "pdf"
-        copyFile "pdf/ohaskell.pdf"         $ fullWeb </> "pdf"
-        copyFile "pdf/ohaskell-mobile.pdf"  $ fullWeb </> "pdf"
+        copyFile ("pdf" </> pdfBinary)       $ fullWeb </> "pdf" </> pdfBinary
+        copyFile ("pdf" </> pdfMobileBinary) $ fullWeb </> "pdf" </> pdfMobileBinary
 
         createDirectory $ fullWeb </> "/epub"
-        copyFile "epub/ohaskell.epub"       $ fullWeb </> "epub"
+        copyFile ("epub" </> epubBinary)     $ fullWeb </> "epub" </> epubBinary
 
     saveSiteInTempDirectory     = callProcess "cp" ["-R", fullWeb, "/tmp"]
     checkoutToGhPages           = git_ ["checkout", "gh-pages"]
