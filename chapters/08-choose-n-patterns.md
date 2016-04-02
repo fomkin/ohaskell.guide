@@ -198,24 +198,24 @@ analizeGold 585 = "Not bad! 585 standard."
 ```haskell
 analizeGold standard =
   case standard of
-    999       -> "Wow! 999 standard!"
-    750       -> "Great! 750 standard."
-    585       -> "Not bad! 585 standard."
-    otherwise -> "I don't know such a standard..."
+    999 -> "Wow! 999 standard!"
+    750 -> "Great! 750 standard."
+    585 -> "Not bad! 585 standard."
+    _   -> "I don't know such a standard..."
 ```
 
 Запомните конструкцию `case-of`, мы встретимся с нею не раз. Работает она по модели:
 
 ```haskell
 case EXPRESSION of
-  PATTERN1  -> EXPR1
-  PATTERN2  -> EXPR2
+  PATTERN1 -> EXPR1
+  PATTERN2 -> EXPR2
   ...
-  PATTERNn  -> EXPRn
-  otherwise -> COMMON_EXPRESSION
+  PATTERNn -> EXPRn
+  _        -> COMMON_EXPRESSION
 ```
 
-где `EXPRESSION` &mdash; анализируемое выражение, последовательно сравниваемое с образцами `PATTERN1..n`. Если ни одно не сработало &mdash; как обычно, упираемся в `otherwise` и выдаём `COMMON_EXPRESSION`.
+где `EXPRESSION` &mdash; анализируемое выражение, последовательно сравниваемое с образцами `PATTERN1..n`. Если ни одно не сработало &mdash; как обычно, упираемся в универсальный образец `_` и выдаём `COMMON_EXPRESSION`.
 
 В последующих главах мы встретимся и с другими видами паттерн матчинга, ведь он используется не только для выбора.
 
