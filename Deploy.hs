@@ -46,11 +46,11 @@ main = do
     storeArtefactsInSite
     saveSiteInTempDirectory
     checkoutToGhPages
-    resetLastCommit             -- Во избежание накопления истории в ветке gh-pages.
+    cleanGhPages
     takeSiteFromTempDirectory
     commitNPushToGhPages
-    removeTempDirectory
-    backToMaster
+    -- removeTempDirectory
+    -- backToMaster
   where
     shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
         unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
@@ -109,4 +109,14 @@ main = do
     takeSiteFromTempDirectory   = callProcess "cp" ["-R", "/tmp" </> fullWeb ++ "/.", "."]
     removeTempDirectory         = removeDirectoryRecursive $ "/tmp" </> fullWeb
     backToMaster                = git_ ["checkout", "master"]
+
+    cleanGhPages = do
+        git_ ["add", "."]
+        git_ ["commit", "-a", "-m", "Trash."]
+        git_ ["reset", "--hard", "HEAD~2"]
+        -- git_ ["rm", "-r", "-f", "."]
+        -- callProcess "rm" ["-r", "-f", ".stack-work"]
+        -- callProcess "rm" ["Deploy*"]
+        -- callProcess "rm" [".DS_Store"]
+        -- git_ ["commit", "-a", "-m", "Remove last version."]
 
