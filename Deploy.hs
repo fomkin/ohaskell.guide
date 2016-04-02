@@ -1,109 +1,30 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiWayIf #-}
 
 {-
-    Deploy the book to GitHub.
+    Деплоим книгу на GitHub (включая Pages).
 
     $ stack ghc -- Deploy.hs
-    $ ./Deploy "Commit message"
+    $ ./Deploy "Сообщение о коммите"
 
-    or
+    или
 
-    $ stack exec runhaskell Deploy.hs "Commit message"
+    $ stack exec runhaskell Deploy.hs "Сообщение о коммите"
 -}
-
-
-{-
-import           Shelly
-import qualified Data.Text              as T
-import           Control.Monad          (void)
-import           System.Environment     (getArgs)
-import           Control.Monad.IO.Class (liftIO)
-import           Control.Exception.Base
-
-main :: IO ()
-main = void . shelly $ do
-    args <- liftIO getArgs
-    if length args /= 1 then commitMessagePlease else do
-        let [commitMessageRaw] = args
-            commitMessage      = T.pack commitMessageRaw
-
-        echo "Собираем новую версию книги..."
-        run "ohaskell" []
-
-        echo "Учитываем изменения в ветке 'master'..."
-        gitAdd ["."]
-        gitCommit [commitMessage]
-        gitPush ["master"]
-
-        echo "Копируем во временное место, предварительно удалив старое, если нужно..."
-        rm_rf "/tmp/_site" `catch_sh` ifNot
-        cp_r "_site" "/tmp"
-
-        echo "Переключаемся на ветку 'gh-pages'..."
-        gitCheckout ["gh-pages"]
-
-        echo "Удаляем ненужное..."
-        rm_f  "*.html"
-        rm_rf "static"
-        rm_f  "*.md"
-        rm_f  "*.cabal"
-        rm_f  "*.hs"
-
-        echo "Копируем..."
-        cp_r "/tmp/_site/." "."
-
-        rm_rf "chapters"
-        rm_rf "src"
-        rm_rf "templates"
-        rm_rf "epub"
-        rm_rf "pdf"
-        rm_rf "_site"
-        rm_rf "_cache"
-        rm_f  "*.md"
-        rm_f  "*.cabal"
-        rm_f  "*.hs"
-        rm_f  "*.config"
-        rm_f  "Deploy"
-
-        echo "Учитываем все изменения и публикуем на GitHub Pages..."
-        gitAdd ["."]
-        gitCommit [commitMessage] `catch_sh` ifNot
-        gitPush ["gh-pages"] `catch_sh` ifNot
-
-        echo "Возвращаемся в ветку 'master'..."
-        gitCheckout ["master"]
-
-        echo "Готово!"
-  where
-    commitMessagePlease = liftIO . putStrLn $
-        "Сообщение о коммите забыли, нужно ./Deploy \"Что-нибудь интересное.\""
-
-    gitAdd      = command_ "git" ["add"]
-    gitCommit   = command_ "git" ["commit", "-a", "-m"]
-    gitPush     = command_ "git" ["push", "origin"]
-    gitCheckout = command_ "git" ["checkout"]
-
-    ifNot :: SomeException -> Sh ()
-    ifNot _ = return ()
--}
-
-
-
-
-
 
 module Main where
 
 import Control.Monad            (unless)
 import Data.List                (intercalate)
-import Data.Monoid              ((<>))
-import System.Directory.Extra   ( doesDirectoryExist
-                                , withCurrentDirectory
+import System.Directory         ( createDirectory
+                                , copyFile
+                                , doesDirectoryExist
                                 , removeDirectoryRecursive
                                 )
-import System.Process           (callProcess, readProcess)
-import System.IO.Temp           (withSystemTempDirectory)
-import System.Exit
+import System.FilePath.Posix    ((</>))
+import System.Process           (callProcess)
+import System.Exit              (die)
+import System.Environment       (getArgs)
 
 main :: IO ()
 main = do
@@ -112,38 +33,24 @@ main = do
     shouldBeInRepoRoot
     branchShouldBeMaster
 
-    originUrl <- git ["config", "remote.origin.url"]
-    userEmail <- git ["config", "user.email"]
-    headId <- git ["rev-parse", "HEAD"]
+    compileBook
+    commitNPushToMasterIfNecessary
+    rebuildBook
 
-    withSystemTempDirectory "github-pages-deploy." $ \tmpDir -> do
-        putStrLn $ "Готовим временный клон во временном каталоге '" ++ tmpDir ++ "'..."
-        git_ [ "clone"
-             , "--config=user.email=" <> userEmail
-             , "--no-checkout"
-             , "."
-             , tmpDir
-             ]
+    -- Артефакты сборки (в ветке master не учитываются):
+    -- _site                    -> полная веб-версия
+    -- pdf/ohaskell.pdf         -> PDF A4
+    -- pdf/ohaskell-mobile.pdf  -> PDF A5
+    -- epub/ohaskell.epub       -> EPUB
 
-        withCurrentDirectory tmpDir $ do
-            putStrLn $ "Собираем все варианты книги во временном каталоге '" ++ tmpDir ++ "'..."
-            compileBook
-            rebuildBook
-
-            -- Теперь в каталоге _site лежит веб-версия, а также файлы:
-            -- pdf/ohaskell.pdf
-            -- pdf/ohaskell-mobile.pdf
-            -- epub/ohaskell.epub
-
-            storeFilesInSite
-
-            --git_ ["add", "--verbose", "."]
-            --git_ ["commit", "--quiet", "--reuse-message=" <> headId]
-            --git_ ["push", "--force", originUrl, "master:gh-pages"]
-
-        --removeDirectoryRecursive tmpDir
-
-        --git_ ["fetch"]
+    storeArtefactsInSite
+    saveSiteInTempDirectory
+    checkoutToGhPages
+    resetLastCommit             -- Во избежание накопления истории в ветке gh-pages.
+    takeSiteFromTempDirectory
+    commitNPushToGhPages
+    removeTempDirectory
+    backToMaster
   where
     shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
         unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
@@ -151,20 +58,46 @@ main = do
     branchShouldBeMaster = readFile ".git/HEAD" >>= \headValue ->
         unless (strip headValue == "ref: refs/heads/master") $
             die $ "Я желаю ветку master, а вовсе не '" ++ show headValue ++ "'..."
-
-    git args = strip <$> readProcess "git" args ""
-
-    strip = intercalate "\n" . lines
+      where
+        strip = intercalate "\n" . lines
 
     git_ = callProcess "git"
 
-    compileBook = callProcess "stack" ["build"]
-    rebuildBook = callProcess "stack" ["exec", "--", "ohaskell"]
+    commitNPushToMasterIfNecessary = do
+        arguments <- getArgs
+        if | null arguments -> do
+               putStrLn "Сообщения о коммите нет, считаем, что в ветке master нет локальных изменений."
+               return ()
+           | length arguments == 1 -> do
+               putStrLn "Учитываем изменения в ветке master..."
+               let [commitMessage] = arguments
+               git_ ["commit", "-a", "-m", commitMessage]
+               git_ ["push", "origin", "master"]
+           | otherwise -> die $
+               "Запускайте с одним сообщением о коммите, или совсем без него."
 
-    storeFilesInSite = do
-        callProcess "mkdir" ["-p", "_site/pdf"]
-        callProcess "cp" ["pdf/*.pdf", "_site/pdf/"]
+    commitNPushToGhPages = do
+        putStrLn "Учитываем изменения в ветке gh-pages..."
+        git_ ["add", "."]
+        git_ ["commit", "-a", "-m", "Current."]
+        -- git_ ["push", "-f", "origin", "gh-pages"]
 
-        callProcess "mkdir" ["-p", "_site/epub"]
-        callProcess "cp" ["epub/*.epub", "_site/epub/"]
+    compileBook = (putStrLn $ "Компилируем...") >> callProcess "stack" ["build"]
+    rebuildBook = (putStrLn $ "Собираем...")    >> callProcess "stack" ["exec", "--", "ohaskell"]
+
+    fullWeb = "_site"
+    storeArtefactsInSite = do
+        createDirectory $ fullWeb </> "pdf"
+        copyFile "pdf/ohaskell.pdf"         $ fullWeb </> "pdf"
+        copyFile "pdf/ohaskell-mobile.pdf"  $ fullWeb </> "pdf"
+
+        createDirectory $ fullWeb </> "/epub"
+        copyFile "epub/ohaskell.epub"       $ fullWeb </> "epub"
+
+    saveSiteInTempDirectory     = callProcess "cp" ["-R", fullWeb, "/tmp"]
+    checkoutToGhPages           = git_ ["checkout", "gh-pages"]
+    resetLastCommit             = git_ ["reset", "--hard", "HEAD~1"]
+    takeSiteFromTempDirectory   = callProcess "cp" ["-R", "/tmp" </> fullWeb ++ "/.", "."]
+    removeTempDirectory         = removeDirectoryRecursive $ "/tmp" </> fullWeb
+    backToMaster                = git_ ["checkout", "master"]
 
