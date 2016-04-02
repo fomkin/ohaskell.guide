@@ -82,8 +82,14 @@ main = do
         git_ ["commit", "-a", "-m", "Current."]
         -- git_ ["push", "-f", "origin", "gh-pages"]
 
-    compileBook = (putStrLn $ "Компилируем...") >> callProcess "stack" ["build"]
-    rebuildBook = (putStrLn $ "Собираем...")    >> callProcess "stack" ["exec", "--", "ohaskell"]
+    compileBook = do
+        putStrLn $ "Компилируем..."
+        callProcess "stack" ["clean"]
+        callProcess "stack" ["build"]
+
+    rebuildBook = do
+        putStrLn $ "Собираем..."
+        callProcess "stack" ["exec", "--", "ohaskell"]
 
     fullWeb         = "_site"
     pdfBinary       = "ohaskell.pdf"
@@ -94,7 +100,7 @@ main = do
         copyFile ("pdf" </> pdfBinary)       $ fullWeb </> "pdf" </> pdfBinary
         copyFile ("pdf" </> pdfMobileBinary) $ fullWeb </> "pdf" </> pdfMobileBinary
 
-        createDirectory $ fullWeb </> "/epub"
+        createDirectory $ fullWeb </> "epub"
         copyFile ("epub" </> epubBinary)     $ fullWeb </> "epub" </> epubBinary
 
     saveSiteInTempDirectory     = callProcess "cp" ["-R", fullWeb, "/tmp"]
