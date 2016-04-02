@@ -49,8 +49,8 @@ main = do
     cleanGhPages
     takeSiteFromTempDirectory
     commitNPushToGhPages
-    -- removeTempDirectory
-    -- backToMaster
+    backToMaster
+    removeTempDirectory
   where
     shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
         unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
@@ -80,7 +80,7 @@ main = do
         putStrLn "Учитываем изменения в ветке gh-pages..."
         git_ ["add", "."]
         git_ ["commit", "-a", "-m", "Current."]
-        -- git_ ["push", "-f", "origin", "gh-pages"]
+        git_ ["push", "-f", "origin", "gh-pages"]
 
     compileBook = do
         putStrLn $ "Компилируем..."
