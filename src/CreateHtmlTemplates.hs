@@ -65,7 +65,7 @@ createCover = docTypeHtml ! lang "ru" $ do
 
                             div ! class_ "col s12 l3" $ do
                                 a ! class_ "waves-effect waves-light btn btn-large red darken-1 get-button sans"
-                                  ! href "https://github.com/denisshevchenko/ohaskell.guide/blob/master/pdf/ohaskell.pdf?raw=true" $ do
+                                  ! href "https://www.ohaskell.guide/pdf/ohaskell.pdf" $ do
                                     H.span ! class_ "sans" $ "PDF"
                                     H.span ! A.style "padding-right: 10px;" $ ""
                                     H.i ! class_ "fa fa-desktop" ! A.style "font-size: 20px;" $ ""
@@ -73,7 +73,7 @@ createCover = docTypeHtml ! lang "ru" $ do
 
                             div ! class_ "col s12 l3" $ do
                                 a ! class_ "waves-effect waves-light btn btn-large red lighten-1 get-button sans"
-                                  ! href "https://github.com/denisshevchenko/ohaskell.guide/blob/master/pdf/ohaskell-mobile.pdf?raw=true" $ do
+                                  ! href "https://www.ohaskell.guide/pdf/ohaskell-mobile.pdf" $ do
                                     H.span ! class_ "sans" $ "PDF"
                                     H.span ! A.style "padding-right: 10px;" $ ""
                                     H.i ! class_ "fa fa-tablet" ! A.style "font-size: 20px;" $ ""
@@ -81,7 +81,7 @@ createCover = docTypeHtml ! lang "ru" $ do
 
                             div ! class_ "col s12 l3" $ do
                                 a ! class_ "waves-effect waves-light btn btn-large light-green darken-1 get-button sans"
-                                  ! href "https://github.com/denisshevchenko/ohaskell.guide/blob/master/epub/ohaskell.epub?raw=true" $ do
+                                  ! href "https://www.ohaskell.guide/epub/ohaskell.epub" $ do
                                     H.span ! class_ "sans" $ "EPUB"
                                     H.span ! A.style "padding-right: 10px;" $ ""
                                     H.i ! class_ "fa fa-book" ! A.style "font-size: 20px;" $ ""
