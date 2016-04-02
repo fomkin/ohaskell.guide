@@ -114,9 +114,4 @@ main = do
         git_ ["add", "."]
         git_ ["commit", "-a", "-m", "Trash."]
         git_ ["reset", "--hard", "HEAD~2"]
-        -- git_ ["rm", "-r", "-f", "."]
-        -- callProcess "rm" ["-r", "-f", ".stack-work"]
-        -- callProcess "rm" ["Deploy*"]
-        -- callProcess "rm" [".DS_Store"]
-        -- git_ ["commit", "-a", "-m", "Remove last version."]
 
