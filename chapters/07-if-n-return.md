@@ -35,13 +35,13 @@ main =
 На всякий случай напоминаю команду сборки, запускаемую из корня проекта:
 
 ```bash
-$ stack install
+$ stack build
 ```
 
-После сборки проект запускаем:
+После сборки запускаем:
 
 ```bash
-$ real-exe
+$ stack exec real-exe
 Hi, real world!
 ```
 
