@@ -68,7 +68,7 @@ calculateTime timeInS =
         | timeInS >= threshold ->
           let delta     = 8 in timeInS
                                + delta
-                               + + correction
+                               + correction
 
               это              существует лишь в
               выражение        рамках этого выражения
