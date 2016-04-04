@@ -6,7 +6,7 @@
 \defaultfontfeatures{Ligatures=TeX}
 \setmainfont{PT Serif}
 \setsansfont{PT Sans}
-\setmonofont[Mapping=tex-ansi,Scale=0.9]{Ubuntu Mono}
+\setmonofont[Scale=0.9]{Ubuntu Mono}
 
 % Поддержка русского языка с переносами.
 \usepackage{polyglossia}
@@ -46,8 +46,7 @@
 \VerbatimFootnotes % allows verbatim text in footnotes
 
 % Определяем синтаксическую подсветку для примеров исходного кода.
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},baselinestretch=0.9,samepage=true,frame=single,rulecolor=\color{white},framesep=3mm}
 \newenvironment{Shaded}{}{}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}

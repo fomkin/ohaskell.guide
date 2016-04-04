@@ -29,9 +29,9 @@ main = putStrLn (checkLocalhost "173.194.22.100")
 Здесь компонуются две функции, `putStrLn` и `checkLocalhost`, потому что тип выражения на выходе функции `checkLocalhost` совпадает с типом выражения на входе функции `putStrLn`. Схематично это можно изобразить так:
 
 ```haskell
-         +--------------+            +--------+
-String ->|checkLocalhost|-> String ->|putStrLn|-> ...
-         +--------------+            +--------+
+         ┌──────────────┐            ┌────────┐
+String ->│checkLocalhost│-> String ->│putStrLn│-> ...
+         └──────────────┘            └────────┘
 
 IP-адрес                    сообщение             текст
                             об этом               в нашем
@@ -60,20 +60,18 @@ putStrLn . checkLocalhost
 происходит маленькая &laquo;магия&raquo;: две функции объединяются в новую функцию. Вспомним наш конвейер:
 
 ```haskell
-         +--------------+            +--------+
-String ->|checkLocalhost|-> String ->|putStrLn|-> ...
-         +--------------+            +--------+
-
+         ┌──────────────┐            ┌────────┐
+String ->│checkLocalhost│-> String ->│putStrLn│-> ...
+         └──────────────┘            └────────┘
 A                           B                     C
 ```
 
 Раз нам нужно попасть из точки `A` в точку `C`, нельзя ли сделать это сразу? Можно, и в этом заключается суть композиции: мы берём две функции и объединяем их в третью функцию. Раз `checkLocalhost` приводит нас из точки `A` в точку `B`, а функция `putStrLn` &mdash; из точки `B` в `C`, тогда композиция этих двух функций будет представлять собой функцию, приводящую нас сразу из точки `A` в точку `C`:
 
 ```haskell
-         +-------------------------+
-String ->|checkLocalhost + putStrLn|-> ...
-         +-------------------------+
-
+         ┌─────────────────────────┐
+String ->│checkLocalhost + putStrLn│-> ...
+         └─────────────────────────┘
 A                                      C
 ```
 
@@ -144,7 +142,7 @@ putStrLn  .            checkLocalhost
 ```haskell
 main = putStrLn . checkLocalhost $ "173.194.22.100"
 
-       объединённая функция        |_ её аргумент _|
+       объединённая функция        └─ её аргумент ─┘
 ```
 
 а можем и так:
@@ -152,7 +150,7 @@ main = putStrLn . checkLocalhost $ "173.194.22.100"
 ```haskell
 main = putStrLn $ checkLocalhost "173.194.22.100"
 
-       обычная    |________ её аргумент ________|
+       обычная    └──────── её аргумент ────────┘
        функция
 ```
 
@@ -183,14 +181,11 @@ WARNING: Province 'Gia Vi?n' isn't on the map!
 ```haskell
 warning . correctSpaces . asciiOnly $ rawMessage
 
-          ============= ^ =========
+                        ^
+          └── первая композиция ──┘
 
-          |__ первая композиция __|
-
-
-+++++++ ^ +++++++++++++++++++++++++
-
-|_______ вторая композиция _______|
+        ^
+└────── вторая композиция ────────┘
                                       аргумент
 ```
 
@@ -206,15 +201,15 @@ logWarn = warning . correctSpaces . asciiOnly
 Погодите, но где же имя аргумента? А его больше нет, оно нам не нужно. Ведь мы знаем, что применение функции можно легко заменить внутренним выражением функции. А раз так, выражение `logWarn` может быть заменено на выражение `warning . correctSpaces . asciiOnly`. Сделаем же это:
 
 ```haskell
-logWarn "Province   'Gia Viễn' isn't on the map! " =
+  logWarn "Province   'Gia Viễn' isn't on the map! "
 
-(warning
- . correctSpaces
- . asciiOnly) "Province   'Gia Viễn' isn't on the map! " =
+= (warning
+   . correctSpaces
+   . asciiOnly) "Province   'Gia Viễn' isn't on the map! "
 
-warning
-. correctSpaces
-. asciiOnly $ "Province   'Gia Viễn' isn't on the map! "
+=   warning
+  . correctSpaces
+  . asciiOnly $ "Province   'Gia Viễn' isn't on the map! "
 ```
 
 И всё работает! В мире Haskell принято именно так: если что-то может быть упрощено &mdash; мы это упрощаем.

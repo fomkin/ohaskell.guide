@@ -34,7 +34,7 @@ createCover = docTypeHtml ! lang "ru" $ do
             div ! class_ "nav-wrapper" $ do
                 div ! class_ "left author sans" $ do
                     preEscapedToHtml ("&copy; 2016&nbsp;" :: String)
-                    a ! href "http://dshevchenko.biz" ! target "_blank" $
+                    a ! href "https://dshevchenko.biz" ! target "_blank" $
                         "Д. Шевченко"
 
                 contacts Ask
@@ -149,7 +149,7 @@ createSubjectIndex chapterPoints = docTypeHtml ! lang "ru" $ do
         div ! class_ "container" $ do
             H.h1 "Предметный указатель"
 
-            div ! class_ "subject-index-wrapper" $ do
+            div ! class_ "subject-index-wrapper" $
                 mapM_ subjectPoint $ subjectIndexWithHrefs chapterPoints
 
         div ! A.style "padding-bottom: 30px;" $ ""
@@ -159,7 +159,7 @@ subjectPoint (subjectName, hrefs) =
     div ! class_ "row" $ do
         div ! class_ "col s12 m6 l6" $
             H.span ! class_ "" $ toHtml subjectName
-        div ! class_ "col s12 m6 l6" $ do
+        div ! class_ "col s12 m6 l6" $
             mapM_ subjectOneHref hrefs
   where
     subjectOneHref :: HrefWithLabel -> Html

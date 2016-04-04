@@ -4,9 +4,9 @@ module CreateCss (
     createCss
 ) where
 
-import           Prelude        hiding (span, div)
+import           Prelude            hiding (span, div)
 import           Clay
-import qualified Data.Text.Lazy as L
+import qualified Data.Text.Lazy     as L
 
 createCss :: IO ()
 createCss = writeFile "static/css/default.css" . L.unpack . render $ do
@@ -175,7 +175,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         color           "#f17603"
         fontSizePx      18
 
-    ".donate-area" ? do
+    ".donate-area" ?
         centerAlign
 
     pre # ".sourceCode" ? do

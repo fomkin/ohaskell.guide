@@ -5,7 +5,7 @@ module CreatePdf (
     , createPdfMobile
 ) where
 
-import System.Process (callCommand)
+import           System.Process     (callCommand)
 
 createPdfDesktop :: FilePath -> IO ()
 createPdfDesktop pathToSingleMarkdown =
