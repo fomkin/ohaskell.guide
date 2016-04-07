@@ -43,6 +43,7 @@ main = do
     -- pdf/ohaskell-mobile.pdf  -> PDF A5
     -- epub/ohaskell.epub       -> EPUB
 
+    removeTempDirectory
     storeArtefactsInSite
     saveSiteInTempDirectory
     checkoutToGhPages

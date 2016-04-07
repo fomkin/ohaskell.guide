@@ -55,3 +55,7 @@ $ stack exec -- ohaskell --epub
 ```
 
 Проверено на OS X Yosemite, [stack 1.0.2](http://docs.haskellstack.org/en/stable/README/), [pandoc 1.15.2.1](https://github.com/jgm/pandoc/releases/tag/1.15.2) и [LTS Haskell 5.5](https://www.stackage.org/lts-5.5).
+
+## Поддержать проект
+
+Вы можете оказать проекту финансовую помощь на [странице поддержки](https://www.ohaskell.guide/donate.html).
