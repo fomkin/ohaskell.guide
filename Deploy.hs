@@ -51,7 +51,6 @@ main = do
     takeSiteFromTempDirectory
     commitNPushToGhPages
     backToMaster
-    removeTempDirectory
   where
     shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
         unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
