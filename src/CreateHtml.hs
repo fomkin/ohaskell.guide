@@ -4,12 +4,12 @@ module CreateHtml (
     createHtml
 ) where
 
-import Hakyll
-import Control.Exception    (finally)
+import           Hakyll
+import           Control.Exception    (finally)
 
-import PrepareHtmlTOC
-import CreateCss
-import SingleMarkdown
+import           PrepareHtmlTOC
+import           CreateCss
+import           SingleMarkdown
 
 createHtml :: [ChapterPoint] -> IO ()
 createHtml chapterPoints = do

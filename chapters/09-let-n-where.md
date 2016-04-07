@@ -4,7 +4,7 @@
 
 ## Пусть
 
-Рассмотрим следующую функцию:
+В нижеследующих примерах мы вновь будем использовать расширение GHC `MultiWayIf`, не забудьте включить его. Рассмотрим следующую функцию:
 
 ```haskell
 calculateTime :: Int -> Int
@@ -21,8 +21,9 @@ calculateTime timeInS =
   let threshold  = 40
       correction = 120
       delta      = 8
-  in if | timeInS <  threshold -> timeInS + correction
-        | timeInS >= threshold -> timeInS + delta + correction
+  in
+  if | timeInS <  threshold -> timeInS + correction
+     | timeInS >= threshold -> timeInS + delta + correction
 ```
 
 Вот, совсем другое дело! Мы избавились от &laquo;магических чисел&raquo;, введя поясняющие выражения `threshold`, `correction` и `delta`. Конструкция `let-in` вводит поясняющие выражения по схеме:
@@ -49,13 +50,26 @@ let threshold = 40
 Эта конструкция легко читается:
 
 ```haskell
-let    threshold  =      40       ... in  ...
+let    threshold  =      40       ... in ...
 
-пусть  это        будет  этому        в   том
-       выражение  равно  выражению        выражении
+пусть  это        будет  этому        в  том
+       выражение  равно  выражению       выражении
 ```
 
-С помощью ключевого слова `let` можно ввести сколько угодно пояснительных/промежуточных выражений, что делает наш код, во-первых, понятнее, а во-вторых, короче. Да, в этом конкретном случае код стал чуть длиннее, но в последующих главах мы увидим ситуации, когда промежуточные значения сокращают код в разы.
+С помощью ключевого слова `let` можно ввести сколько угодно пояснительных/промежуточных выражений, что делает наш код понятнее, а во многих случаях ещё и короче.
+
+И кстати, мы ведь можем упростить условную конструкцию, воспользовавшись `otherwise`:
+
+```haskell
+calculateTime :: Int -> Int
+calculateTime timeInS =
+  let threshold  = 40
+      correction = 120
+      delta      = 8
+  in
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS + delta + correction
+```
 
 Важно помнить, что введённое конструкцией `let-in` выражение существует лишь в рамках выражения, следующего за словом `in`. Изменим функцию:
 
@@ -64,14 +78,15 @@ calculateTime :: Int -> Int
 calculateTime timeInS =
   let threshold  = 40
       correction = 120
-  in if | timeInS <  threshold -> timeInS + correction
-        | timeInS >= threshold ->
-          let delta     = 8 in timeInS
-                               + delta
-                               + correction
+  in
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise ->
+        let delta     = 8 in timeInS
+                             + delta
+                             + correction
 
-              это              существует лишь в
-              выражение        рамках этого выражения
+            это              существует лишь в
+            выражение        рамках этого выражения
 ```
 
 Мы сократили область видимости промежуточного выражения `delta`, сделав его видимым лишь в выражении `timeInS + delta + correction`.
@@ -81,9 +96,10 @@ calculateTime timeInS =
 ```haskell
   ...
   let threshold = 40; correction = 120
-  in if | timeInS <  threshold -> timeInS + correction
-        | timeInS >= threshold ->
-          let delta = 8 in timeInS + delta + correction
+  in
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise ->
+        let delta = 8 in timeInS + delta + correction
 ```
 
 В этом случае мы перечисляем их через точку с запятой. Лично мне такой стиль не нравится, но выбирать вам.
@@ -95,8 +111,10 @@ calculateTime timeInS =
 ```haskell
 calculateTime :: Int -> Int
 calculateTime timeInS =
-  if | timeInS <  threshold -> timeInS + correction
-     | timeInS >= threshold -> timeInS + delta + correction
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS +
+                    delta +
+                    correction
   where
     threshold  = 40
     correction = 120
@@ -106,7 +124,7 @@ calculateTime timeInS =
 Ключевое слово `where` делает примерно то же, что и `let`, но промежуточные выражения задаются в конце функции. Такая конструкция читается подобно научной формуле:
 
 ```haskell
-  S = V * t,        -- Выражение
+  S = V * t,      -- Выражение
 где
   -- Всё то, что
   -- используется
@@ -126,8 +144,8 @@ calculateTime timeInS =
 calculateTime :: Int -> Int
 calculateTime timeInS =
   let threshold = 40 in
-  if | timeInS <  threshold -> timeInS + correction
-     | timeInS >= threshold -> timeInS + delta + correction
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS + delta + correction
   where
     correction = 120
     delta      = 8
@@ -141,8 +159,8 @@ calculateTime timeInS =
 calculateTime :: Int -> Int
 calculateTime timeInS =
   let threshold = 40 in
-  if | timeInS <  threshold -> timeInS + correction
-     | timeInS >= threshold -> timeInS + delta + correction
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS + delta + correction
   where
     -- Это промежуточное выражение зависит от аргумента...
     correction = timeInS * 2
@@ -155,8 +173,9 @@ calculateTime timeInS =
 ```haskell
   ...
   let threshold = 40
-  in if | timeInS <  threshold -> timeInS + correction
-        | timeInS >= threshold -> timeInS + delta + correction
+  in
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS + delta + correction
   where
     delta      = correction - 4
     correction = timeInS * 2
@@ -169,8 +188,9 @@ calculateTime :: Int -> Int
 calculateTime timeInS =
   let delta     = correction - 4
       threshold = 40
-  in if | timeInS <  threshold -> timeInS + correction
-        | timeInS >= threshold -> timeInS + delta + correction
+  in
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS + delta + correction
   where
     correction = timeInS * 2
 ```
@@ -183,10 +203,10 @@ calculateTime timeInS =
   let delta     = correction - 4
       threshold = 40
   in
-  if | timeInS <  threshold -> timeInS + correction
-     | timeInS >= threshold -> timeInS + delta + correction
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS + delta + correction
   where
-    correction = timeInS * 2 * threshold  -- Из let??
+    correction = timeInS * 2 * threshold -- Из let??
 ```
 
 При попытке скомпилировать такой код мы получим ошибку:

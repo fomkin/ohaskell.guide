@@ -1,14 +1,15 @@
 module Main where
 
-import SingleMarkdown
-import CreatePdf
-import CreateEpub
-import CreateHtml
-import CreateHtmlTemplates
+import           SingleMarkdown
+import           CreatePdf
+import           CreateEpub
+import           CreateHtml
+import           CreateHtmlTemplates
 
-import Control.Concurrent.Async
-import System.Environment
-import System.Exit
+import           Control.Monad              (when)
+import           Control.Concurrent.Async   (async, wait)
+import           System.Environment         (getArgs, withArgs)
+import           System.Exit                (exitFailure)
 
 main :: IO ()
 main = do
@@ -23,43 +24,35 @@ main = do
 
 buildEpubIfNecessary :: [String] -> FilePath -> IO ()
 buildEpubIfNecessary args pathToSingleMarkdown =
-    if buildAllOrJust epub args then do
+    when (buildAllOrJust epub args) $ do
         buildingVersion epub
         createEpub pathToSingleMarkdown
-    else
-        return ()
 
 buildPdfIfNecessary :: [String] -> FilePath -> IO ()
 buildPdfIfNecessary args pathToSingleMarkdown =
-    if buildAllOrJust pdf args then do
+    when (buildAllOrJust pdf args) $ do
         -- Самые тяжеловесные операции.
         buildingVersion pdf
         pdfDesktopDone <- async $ createPdfDesktop pathToSingleMarkdown
         pdfMobileDone  <- async $ createPdfMobile pathToSingleMarkdown
         wait pdfDesktopDone
         wait pdfMobileDone
-    else
-        return ()
 
 buildHtmlIfNecessary :: [String] -> [ChapterPoint] -> IO ()
 buildHtmlIfNecessary args chapterPoints =
-    if buildAllOrJust html args then do
+    when (buildAllOrJust html args) $ do
         buildingVersion html
         createHtmlTemplates chapterPoints
         -- Аргумент rebuild нужен для Hakyll.
         withArgs ["rebuild"] $ createHtml chapterPoints
-    else
-        return ()
 
 check :: [String] -> IO ()
 check args =
-    if someInvalidArgs then do
+    when someInvalidArgs $ do
         putStrLn $ "Usage: ohaskell ["  ++ pdf ++
                                     "|" ++ epub ++
                                     "|" ++ html ++ "]"
         exitFailure
-    else
-        return ()
   where
     someInvalidArgs = not . null $ filter invalid args
     invalid arg     =    arg /= pdf
@@ -69,13 +62,9 @@ check args =
 buildAllOrJust :: String -> [String] -> Bool
 buildAllOrJust some args = some `elem` args || null args
 
-pdf :: String
-pdf = "--pdf"
-
-epub :: String
+pdf, epub, html :: String
+pdf  = "--pdf"
 epub = "--epub"
-
-html :: String
 html = "--html"
 
 buildingVersion :: String -> IO ()

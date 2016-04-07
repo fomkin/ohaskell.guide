@@ -116,6 +116,7 @@ main =
 
 ```haskell
 let (host, alias) = makeAlias "173.194.71.106" "www.google.com"
+
 let (host, alias) = ("173.194.71.106", "www.google.com")
 
                      данное значение
@@ -259,11 +260,11 @@ patientEmail (_, _, email, _) = email
 К счастью, в этом случае компилятор строго обратит наше внимание на ошибку:
 
 ```bash
-    Couldn't match type ‘(t0, t1, String, t2)’
-                   with ‘(UUID, FullName, Email, Age, DiseaseId)’
-    Expected type: Patient
-      Actual type: (t0, t1, String, t2)
-    In the pattern: (_, _, email, _)
+Couldn't match type ‘(t0, t1, String, t2)’
+               with ‘(UUID, FullName, Email, Age, DiseaseId)’
+Expected type: Patient
+  Actual type: (t0, t1, String, t2)
+In the pattern: (_, _, email, _)
 ```
 
 Оно и понятно: функция `patientEmail` использует образец, который уже некорректен. Вот почему при использовании паттерн матчинга следует быть внимательным.

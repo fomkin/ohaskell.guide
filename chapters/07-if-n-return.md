@@ -100,7 +100,7 @@ No, it's not a localhost.
 main :: IO ()
 main = putStrLn (checkLocalhost "173.194.22.100")
 
-                 |___ выражение типа String ___|
+                 └─── выражение типа String ───┘
 ```
 
 То есть функция `putStrLn` видит не применение функции `checkLocalhost` к строке, а просто выражение типа `String`. Если бы мы опустили скобки и написали так:

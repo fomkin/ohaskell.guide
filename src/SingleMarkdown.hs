@@ -7,10 +7,12 @@ module SingleMarkdown (
     , ChapterPoint
 ) where
 
+import           Data.Maybe             (fromMaybe)
+import           Data.List              (sort)
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
 import           System.Directory       (getDirectoryContents)
-import           System.FilePath.Posix
+import           System.FilePath.Posix  (takeExtensions, replaceExtension)
 
 type ChapterName     = T.Text
 type ChapterPath     = FilePath
@@ -21,7 +23,7 @@ type ChapterPoint    = (ChapterName, ChapterPath)
 createSingleMarkdown :: IO (FilePath, [ChapterPoint])
 createSingleMarkdown = do
     allPathsToMarkdownFiles <- getDirectoryContents "chapters"
-    let pathsToMarkdownFiles = filter markdownOnly allPathsToMarkdownFiles
+    let pathsToMarkdownFiles = filter markdownOnly $ sort allPathsToMarkdownFiles
     chaptersInfo <- mapM readMarkdownFile pathsToMarkdownFiles
     let singleMarkdown = composeSingleMarkdownFrom chaptersInfo
         chapterPoints  = collectChapterPointsFrom chaptersInfo
@@ -38,13 +40,11 @@ readMarkdownFile path = do
     return (content, name, htmlPath)
   where
     -- Убираем `01-` из глав, на уровне путей они не нужны.
-    htmlPath = "/" ++ (drop 3 $ replaceExtension path "html")
+    htmlPath = "/" ++ drop 3 (replaceExtension path "html")
     extractChapterNameFrom aContent = aName
       where
         firstLine = head . T.lines $ aContent
-        aName     = T.strip $ case T.stripPrefix "#" firstLine of
-                                  Nothing      -> firstLine
-                                  Just rawName -> rawName
+        aName     = T.strip $ fromMaybe firstLine (T.stripPrefix "#" firstLine)
 
 composeSingleMarkdownFrom :: [(ChapterContent, ChapterName, ChapterPath)] -> ChaptersContent
 composeSingleMarkdownFrom chaptersInfo =
