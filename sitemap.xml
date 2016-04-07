@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2015/11/28/haskell-first-month.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2015/11/24/ten-commandments.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2015/08/20/breadunit-counter.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2015/07/21/my-answer-to-evil-wisher.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2015/06/26/haskell-and-perfection.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2015/06/21/meetup-2015-my-thoughts.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/29/haskell-ru-place.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/27/yesod-raw-deploy.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/26/yesod-i18n.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/24/yesod-widgets.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/23/yesod-templates.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/22/yesod-structure-others.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/21/yesod-structure-templates.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/20/yesod-structure-handler.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/19/yesod-structure-config.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/18/yesod-hello-world.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/13/buildbot-hello-world.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/12/10/ohaskell-continue.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/10/06/habr-goodbye.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/09/30/ohaskell-answer.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/09/24/sppr-my-view.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/09/18/from-gitbook-to-hakyll.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/09/16/sppr-crowdfunding.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/08/27/goodbye-jekyll-hi-hakyll.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/06/07/haskell-data-analysis-cookbook.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/06/06/haskell-fp-ide.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/06/04/cv-in-haskell.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/06/01/haskell-and-linux.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/05/29/haskell-new-site.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/05/19/haskell-transformers-begin.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/05/15/haskell-cookbook.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/05/11/haskell-discussion.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/29/waffle-io.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/28/eaxcast-campaign.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/27/paper-book-thoughts.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/22/goodbye-drupal.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/14/ohaskell-online.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/07/gitbook.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/04/01/ohaskell-fourth-edition.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/03/17/ohaskell-translation.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/03/05/ohaskell-first-edition.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/02/27/getters-and-setters.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/02/22/it-books.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/02/12/after-long-silence.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2014/01/22/russian-letters-in-names.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/29/haskell-idea.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/26/haskell-higher-order-functions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/25/haskell-infix-functions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/23/haskell-hackage.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/23/haskell-functions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/20/haskell-lambda-functions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/19/disqus.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/14/haskell-types-again.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/10/haskell-types.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/12/01/about-memory.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/11/30/haskell-make-project.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/11/28/language-studying.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/11/28/haskell-laziness.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/11/08/sizeof-sizeof-sizeof.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/11/01/apple.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/10/21/holywar.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/10/14/c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/10/10/exceptions-in-constructors.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/09/25/c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/09/21/c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/09/18/master-fu-again.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/09/11/about-remote-work.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/08/28/cpp-complexity-again.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/08/16/goods-and-services.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/08/13/objective-c.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/08/08/xcode.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/08/02/qt-5-cocoa.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/07/24/sparkle.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/06/19/objective-c-boost-xpressive.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/06/06/objective-c.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/06/06/crossplatform-pros-and-cons.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/05/07/without-resume.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/04/16/about-native-interface.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/04/05/clang-gcc-os-x.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/03/11/iterators-again.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/02/16/vim.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/01/30/master-fu-another-coans.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/01/29/software-crisis-and-solution.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2013/01/10/objective-c.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/12/13/about-language-wars-again.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/11/01/search-in-string.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/10/19/paradigm.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/08/15/os-x.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/08/09/enabled-and-disabled-buttons.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/08/08/os-x.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/08/02/about-data.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/07/29/linux-os-x.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/07/03/asking-signal.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/06/22/strange-problem-with-exceptions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/06/10/gcc-4-7-os-x-lion.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/06/06/about-crossplatform-development.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/06/04/about-demand-and-prognosis.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/05/30/cancel.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/05/29/about-optimization.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/05/25/31.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/05/24/c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/05/14/bool.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/05/10/tmp.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/27/haskell.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/26/haskell.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/20/haskell.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/19/math-functions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/18/class-data-members.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/12/hardware_concurrency.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/04/11/stdchrono.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/03/29/im-not-going-to-create-the-best-product.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/03/17/terminal-message.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/03/08/deadlines-why.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/03/06/boost-datetime.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/03/01/boost-uuid.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/02/28/community-wow.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/02/18/without-coments.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/02/17/answer-to-my-friends.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/02/10/professional-ethics.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/02/02/while.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/01/26/highlight-code-qt.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/01/25/2011-results.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/01/17/line.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/01/16/respect-your-user.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/01/14/big-classes.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2012/01/13/bools-in-functions-signature.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/29/linux-3-x.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/28/microisv.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/27/ok-windows-95.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/24/rttitypeidgcc.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/23/about-brace-again.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/08/app-and-right-assumptions.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/07/user-didnt-want-your-app.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/07/host-build-target.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/12/02/warnings-warnings-warnings.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/11/21/boost-uuid.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/11/17/dont-make-me-think.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/11/12/haskell.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/11/09/haskell.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/11/04/boost-datetime.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/11/03/business-for-developers-why.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/28/13-ways-to-fault-commercial-development.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/27/boost-1-48-0-beta1.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/25/blub.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/24/7-reasons-to-hate-your-code.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/22/haskell-c-unix.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/21/haskell-c.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/21/boost.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/20/work-for-man.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/10/task-and-tools.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/08/c11-static_assert.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/07/main.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/06/functor-predicate.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/05/operator.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/10/02/read-and-understand.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/23/auto.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/22/use-and-know.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/21/cnext.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/wise-thoughts.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/vim.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/kiss.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/gcc-windows.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/cmake.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/c11-stdunordered_map-stdmap.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/c11-enum-class.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/c11-auto.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/c.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/c-c.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/boost_foreach.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/boost-test-segmentation-fault.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/boost-c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/boost-assign-2-0.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/19/accumulate.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/gcc.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/func.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/c11.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/c11-range-for.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/c11-auto.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/c-in-c%2B%2B.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/boostptr_container.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/boost_foreach.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/boost_foreach-for.html</loc>
+    </url>
+
+    <url>
+        <loc>http://blog.dshevchenko.biz/2011/09/18/boost.html</loc>
+    </url>
+
+</urlset>

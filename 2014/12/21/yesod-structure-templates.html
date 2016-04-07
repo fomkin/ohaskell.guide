@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Структура Yesod-проекта: шаблоны</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Структура Yesod-проекта: шаблоны</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "21 декабря 2014"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Yesod.html">Yesod</a>, <a href="../../../tags/Haskell.html">Haskell</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Приветствую!</p>
+<p>Итак, продолжим изучение структуры нашего Yesod-проекта. Пришла пора взглянуть на содержимое каталога <code>templates</code>.</p>
+<h2 id="шаблоны">Шаблоны</h2>
+<p>Заглянем внутрь этого каталога:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">default-layout-wrapper.hamlet</span>
+<span class="kw">default-layout.hamlet</span>
+<span class="kw">homepage.hamlet</span>
+<span class="kw">homepage.julius</span>
+<span class="kw">homepage.lucius</span></code></pre></div>
+<p>Выглядит необычно, не правда ли ли? Какие-то странные расширения <code>.hamlet</code>, <code>.julius</code> и <code>.lucius</code>… Не беспокойтесь, сейчас всё объясню.</p>
+<p>Начнём с трёх файлов <code>homepage.*</code>. Как вы уже знаете, <code>GET</code>- и <code>POST</code>-запросы, направленные по корневому пути нашего приложения, обрабатываются соответствующими функциями, определёнными в файле <code>Handler/Home.hs</code>. В частности:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">getHomeR ::</span> <span class="dt">Handler</span> <span class="dt">Html</span>
+getHomeR <span class="fu">=</span> <span class="kw">do</span>
+    <span class="co">-- Обрабатываем GET-запросы...</span></code></pre></div>
+<p>Когда мы набираем <code>http://localhost:3001</code>, мы ожидаем увидеть некую страницу. То есть функция <code>getHomeR</code> должна вернуть некий HTML-код, который (в конечном итоге) и будет возвращён нашему браузеру. Но откуда же функция <code>getHomeR</code> возьмёт этот HTML-код, спросите вы? Отвечаю: она возьмёт его из шаблонов.</p>
+<p>Файлы, расположенные в каталоге <code>templates</code> - это шаблоны наших будущих страниц. И как вы уже могли догадаться, три файла <code>homepage.*</code> соответствуют нашей корневой странице: именно в этих трёх файлах содержится то, что будет использовано для построения HTML-кода, возвращаемого по запросу <code>http://localhost:3001</code>.</p>
+<h2 id="шаблонная-троица">Шаблонная троица</h2>
+<p>Как мы знаем, конечная страница - это смесь HTML, CSS и JS. Именно этой троице соответствуют упомянутые выше файлы: в <code>homepage.hamlet</code> живёт HTML-код для домашней страницы, в <code>homepage.lucius</code> живёт CSS для неё же, а в <code>homepage.julius</code> живёт JS.</p>
+<p>Но вас, очевидно, интересует, почему такие необычные расширения? Дело в том, что автор Yesod любит Уильяма Шекспира, потому и решил воспользоваться именами его знаменитых персонажей: “Hamlet” - это Гамлет, “Lucius” - это Луций, а <code>Julius</code> - это Юлий.</p>
+<p>На данный момент я не буду открывать вам тайну содержимого файлов шаблонов, этому будет посвящена одна из следующих заметок.</p>
+<h2 id="базовые-шаблоны">Базовые шаблоны</h2>
+<p>Ну хорошо, с троицей разобрались, а для чего нужны файлы <code>default-layout-wrapper.hamlet</code> и <code>default-layout.hamlet</code>? Эти файлы, как можно догадаться из их названия, содержат умолчальные HTML-заготовки. В частности, файл <code>default-layout-wrapper.hamlet</code> включает в себя скелетную HTML-структуру, с тегами <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code> и т.д. На основе этой структуры формируется большинство страниц приложения, поэтому в этот файл удобно вставлять общие вещи, такие как скелетные <code>&lt;div&gt;</code>-ы, код Google Analytics, <code>&lt;meta&gt;</code>-теги и т.п.</p>
+<h2 id="иерархия">Иерархия</h2>
+<p>Естественно, если в нашем приложении будет страниц эдак тридцать, соответствующих шаблонных файлов окажется в три раза больше, и держать их в корне каталога <code>templates</code> неудобно. Поэтому рекомендуется располагать их иерархично, например так:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">templates/</span>
+    <span class="kw">home/</span>
+        <span class="kw">login/</span>
+            <span class="kw">login.hamlet</span>
+            <span class="kw">login.julius</span>
+            <span class="kw">login.lucius</span>
+        <span class="kw">register/</span>
+            <span class="kw">register.hamlet</span>
+            <span class="kw">register.julius</span>
+            <span class="kw">register.lucius</span>
+        <span class="kw">socialLogin/</span>
+            <span class="kw">socialLogin.hamlet</span>
+            <span class="kw">socialLogin.julius</span>
+            <span class="kw">socialLogin.lucius</span></code></pre></div>
+<p>Удобно и наглядно. Но вы можете спросить, почему странице <code>home</code> соответствуют не три шаблонных файла <code>homepage.*</code>, а целых девять? О, это очень интересный вопрос, но об этом мы поговорим в одной из следующих заметок. А для первого знакомства достаточно.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

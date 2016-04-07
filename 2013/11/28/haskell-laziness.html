@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Haskell: что же это за ленивые вычисления такие?</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Haskell: что же это за ленивые вычисления такие?</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "28 ноября 2013"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Haskell.html">Haskell</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Вот формальное определение:</p>
+<p><strong>“Lazy evaluation is an evaluation strategy which delays the evaluation of an expression until its value is needed.”</strong></p>
+<p>Ну вроде бы всё понятно: откладываем вычисление выражения до тех пор, пока оно кому-то не понадобится. Но поскольку я привык думать концепциями языка C++, я не мог понять, где тут изюминка и как это проявляется на практике. И вот недавно, благодаря одному руководству по Haskell, я наконец-то вкурил. Как это обычно бывает, всё оказалось проще нежели я думал.</p>
+<p>Итак, представьте себе, что у нас есть список из 100 одинаковых IP-адресов. Не важно, зачем нам могло бы понадобится такое в реальной жизни, но допустим… И вот нам потребовалось получить первые два из этих адресов с выводом их на консоль.</p>
+<p>На C++ это выглядело бы примерно так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> std::vector&lt;std::string&gt; IP_addresses;
+
+IP_addresses generate_addresses( size_t how_many ) {
+    <span class="dt">const</span> IP_addresses addresses( how_many, <span class="st">&quot;127.0.0.1&quot;</span> );
+    assert( addresses.size() == how_many );
+    <span class="kw">return</span> addresses;
+}
+
+<span class="dt">void</span> take_and_print( size_t how_many, <span class="dt">const</span> IP_addresses&amp; addresses ) {
+    <span class="kw">for</span>( size_t i = <span class="dv">0</span>; i &lt; how_many; ++i ) {
+        std::cout &lt;&lt; addresses[i] &lt;&lt; std::endl;
+    }
+}
+
+<span class="dt">int</span> main() {
+    take_and_print( <span class="dv">2</span>, generate_addresses( <span class="dv">100</span> ) );
+}</code></pre></div>
+<p>Выводом этой программы будет: <bash> 127.0.0.1 127.0.0.1 </bash></p>
+<p>Вопрос: сколько строк, соответствующих IP-адресам, было фактически создано функцией <code>generate_addresses()</code>? Разумеется, 100, о чём нам неопровержимо свидетельствует проверка с помощью <code>assert</code>. А теперь второй вопрос: сколько из этих 100 адресов фактически понадобилось внешнему контексту, а именно вызывающей функции <code>take_and_print()</code>? Только два первых.</p>
+<p>Таким образом, мы можем констатировать, что раз уж из 100 созданных строк фактически потребовались лишь первые две, то оставшиеся 98 строк были созданы абсолютно напрасно. Было затрачено время на создание этих 98 строк, была затрачена память для их сохранения - и всё впустую.</p>
+<p>Это - строгость вычислений, присущая языку C++. Функция <code>generate_addresses()</code> прямолинейна и сразу рвётся в бой. Сказали ей создать 100 адресов - получите 100. Скажут создать миллион - пожалуйста, вот вам миллион. Скажут миллиард - ну что ж, потерпите чуток, но будет вам и миллиард.</p>
+<p>Тем временем функция <code>take_and_print()</code> столь же прямолинейна, и ей абсолютно наплевать на усилия трудолюбивой функции <code>generate_addresses()</code>. Если ей сказали отобразить лишь первые два элемента полученного контейнера, именно так она и сделает. И ей без разницы, сколько там <em>ещё</em> элементов в том контейнере, 2 или 2 миллиарда.</p>
+<p>Результатом такой строгости является лишняя работа (в данном случае аж 98% оказались лишними). Но функции в языке Haskell, в отличие от трудолюбивых коллег из C++, терпеть не могут лишней работы.</p>
+<p>Запустим интерпретатор <strong>ghci</strong> и напишем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">&gt;</span> take <span class="dv">2</span> (replicate <span class="dv">100</span> <span class="st">&quot;127.0.0.1&quot;</span>)
+[<span class="st">&quot;127.0.0.1&quot;</span>,<span class="st">&quot;127.0.0.1&quot;</span>]</code></pre></div>
+<p>Эта строка делает всю ту же работу: функция <code>replicate</code> создаёт список из 100 строк с нашим IP-адресом и передаёт его в качестве второго аргумента функции <code>take</code>, которая в свою очередь берёт лишь первые два элемента из этого списка и выводит их.</p>
+<p>Но весь фокус в том, что функция <code>replicate</code> <em>на самом деле</em> создаёт список вовсе не из 100 строк, а всего из двух. Почему? Потому что внешнему контексту нужно лишь две. :)</p>
+<p>Функция <code>replicate</code> - лентяйка. Она как бы смотрит по сторонам и думает: “Так-с, кому тут нужны мои строки. Ага, функции <code>take</code> нужны. И сколько же? А-а, всего две. Ну так а чего я, глупая что ли, создавать сто, когда требуется всего две?! Вот тебе две и будь счастлива!”</p>
+<p>И несмотря на то, что трудолюбие - это хорошо, а лень - это плохо, в данном случае мне более симпатична функция-лентяйка. Она как хороший рационализатор, делает не столько, сколько её попросили, а столько, сколько реально необходимо. В этом и заключается суть ленивых вычислений в Haskell.</p>
+<p>Разумеется, если аппетиты функции <code>take</code> возрастут и она попросит первые 50 элементов вместо первых двух, то функция <code>replicate</code> создаст список уже из 50 строк. Столько, сколько нужно, и ни капли больше.</p>
+<p>Но внимательный читатель скажет мне: “Э-э, друг, погоди-ка! А откуда мне знать, что функция <code>replicate</code> действительно создаёт лишь столько IP-адресов, сколько нужно? Может, она каждый раз и создаёт 100 строк, как в C++! Докажи обратное!”</p>
+<p>Что ж, с радостью докажу обратное. Дело в том, что в языке Haskell можно оперировать бесконечно большими списками. Нет, не просто очень большими, но именно бесконечными. Перепишем пример следующим образом:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">&gt;</span> take <span class="dv">2</span> (cycle [<span class="st">&quot;127.0.0.1&quot;</span>])</code></pre></div>
+<p>Функция <code>cycle</code> создаёт бесконечно большой список на основе списка, полученного ею в качестве аргумента. В данном случае мы передали ей список из одной-единственной строки “127.0.0.1”, а она создаст из него список с бесконечно большим количеством этих же строк.</p>
+<p>И если бы наша трудолюбивая функция <code>generate_addresses</code> захотела стать похожей на свою ленивую коллегу, её пришлось бы переписать так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">IP_addresses generate_addresses( size_t how_many ) {
+    IP_addresses addresses;
+    <span class="kw">for</span>(;;) {
+        addresses.push_back( <span class="st">&quot;127.0.0.1&quot;</span> );
+    }
+    <span class="kw">return</span> addresses;
+}</code></pre></div>
+<p>Но мой внимательный читатель возразит: “Чё за бред! Это же зависнет намертво, пока процесс не будет убит!”</p>
+<p>Конечно зависнет. И виной тому уже известное нам трудолюбие функции <code>generate_addresses</code>. Сказали создать бесконечно большой список - буду создавать до последнего вздоха.</p>
+<p>Однако если мы выполним это:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">&gt;</span> take <span class="dv">2</span> (cycle [<span class="st">&quot;127.0.0.1&quot;</span>])
+[<span class="st">&quot;127.0.0.1&quot;</span>,<span class="st">&quot;127.0.0.1&quot;</span>]</code></pre></div>
+<p>не будет никакого зависания, и результат мы получим правильный. Ну в самом деле, зачем создавать бесконечно длинный список, если в конечном итоге потребовались лишь первые два его элемента? То есть функция <code>cycle</code> начинает создавать бесконечно большой список, но создав лишь два первых его элемента, сразу останавливается, потому что понимает, что третий и все последующие элементы так никогда и не понадобятся…</p>
+<p>Ах да, я и забыл, что мой читатель внимателен. Он может потребовать доказательств, что функция <code>cycle</code> действительно создаёт бесконечно большой список. Ну что ж, пусть выполнит это:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">&gt;</span> cycle [<span class="st">&quot;127.0.0.1&quot;</span>])</code></pre></div>
+<p>Только пусть держит пальцы на Ctrl+C наготове, потому что на экран очень быстро посыпется очень много строчек… :)</p>
+<p>Итак, вот простая суть ленивых вычислений в Haskell: не важно, сколько приказали сделать, ведь что в конечном итоге будет сделано лишь столько, сколько реально нужно.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

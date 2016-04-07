@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>О Haskell по-человечески: немного вопросов и ответов</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>О Haskell по-человечески: немного вопросов и ответов</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "30 сентября 2014"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Haskell.html">Haskell</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Не так давно один из моих читателей задал мне несколько вопросов относительно книги. И, по его любезному согласию, я публикую ответы здесь, на тот случай, если у кого-то из вас возникли такие же вопросы.</p>
+<blockquote>
+<p>Хотелось бы, чтобы в книге учитывалась и аудитория читателей, работающих под Windows. :) Соответственно, все консольные команды не плохо было бы давать в двух вариантах: Linux и Windows. При этом на Windows в качестве командной строки можно было бы, при желании, использовать PowerShell.exe (и его команды) вместо старого cmd.exe. Хотя отсутствие этой альтернативы, конечно же не является критичным.</p>
+</blockquote>
+<p>Скажу вам честно, я не стану этого делать. Не считайте мне врединой, просто в моём доме уже давно нет компьютеров с Windows (мы с женой работаем на OS X). И, честно говоря, я очень этому рад: с 2008 года я окончательно перешёл в мир Unix, и возвращаться оттуда не хочу.</p>
+<blockquote>
+<p>Неплохо было бы в начале книги дать информацию о важности отступов (пробелов и Tab-ов) в файлах исходного кода (*.hs-файлах). На стр. 19 присутствует замечание об обязательных двух пробелах в файле Real.cabal, но об остальных случаях информация не дана. Например, насколько я вижу, не дана информация как выполнять перенос, если тело функции не помещается в одну строку. Методом тыка можно понять, что в начале переносимой части строки следует поставить пробел (одного у меня было достаточно) или Tab, однако неплохо было бы дать эту информацию и в тексте.</p>
+</blockquote>
+<p>Я рассказываю об этом в главе <a href="http://ohaskell.dshevchenko.biz/ru/miscellaneous/about-formatting.html">О форматировании</a>. Впрочем, вы правы, будет лучше переместить эту главу поближе к началу книги. Учту.</p>
+<blockquote>
+<p>На мой взгляд, неплохо было бы в тексте книги сравнить размеры полученных простеньких exe файлов, выводящих на консоль обычный “Hello World!”, скомпилированных в Haskell и в C++. Мне, как читателю, было бы очень интересно прочесть об этом, дабы не заниматься этой проверкой самостоятельно. Как оказалось, разница получается огромная: файл сгенерированный Haskell у меня весил 1 904 Кб, в то время как файл, созданный C++ (Release) весил всего 10 Кб. Т.е. разница получается почти в 200 раз - это очень много. Если есть какой-нибудь способ уменьшить её (может быть за счёт каких-то опций компилятора Haskell), то интересно было бы прочесть об этом в книге. Я пробовал для ghc-options помимо опции -W указывать и -O (оптимизация, насколько я понял из консольной справки), но размер exe файла после перекомпиляции не изменился.</p>
+</blockquote>
+<p>Вы правы, размер исполняемого файла Haskell-приложения действительно тяжеловат. Однако компиляторная оптимизация тут ни при чём, просто по умолчанию в исполняемый файл жёстко линкуются необходимые библиотеки. В этом есть и свой плюс - меньше внешних зависимостей. Однако, если вам непременно нужен маленький .exe-шник, можно скомпилировать его иначе. Подробнее - в нашем <a href="http://habrahabr.ru/post/214835/#comment_7384549">обсуждении на Хабре</a>.</p>
+<blockquote>
+<p>Неплохо было бы дать информацию о том, что hs-файлы исходного кода, содержащие не англоязычные символы (например кирилицу) нужно сохранять в кодировке UTF-8. Если же таких символов нет, то компилятор Haskell успешно “скушает” и кодировку ANSI.</p>
+</blockquote>
+<p>Согласен, о кодировке и о не-английском тексте в программе необходимо рассказать отдельно. Я планирую выделить под это целую главу.</p>
+<blockquote>
+<p>На стр. 21 последнее предложение начинается со слова “Теперь”. На следующей странице очередное предложение начинается с этого же слова. Хотя второе предложение и числится в новом разделе “Упоминаем”, но поскольку текст читается последовательно, то “Теперь-Теперь” чётко бросается в глаза. Во втором предложении лучше заменить это слово чем-то другим.</p>
+</blockquote>
+<p>Поправлю. Кстати, в нескольких главах я заметил несколько форматных ошибок, скоро исправлю.</p>
+<blockquote>
+<p>Не указано, какие символы, допустимы в имени модуля. Например, на стр. 25 Вы импортируете модуль Data.Text, входящий (как я понял) в состав ранее установленного пакета text. Меня несколько смущает точка… Правильно ли я понимаю, что у такого модуля файл исходного кода будет иметь имя Data.Text.hs, а в самом начале этого файла указана строчка module Data.Text where (по аналогии, как это было сделано для Helpers)? Или же Data - это своего рода некоторое пространство имён, как в C++#?</p>
+</blockquote>
+<p>Я подробно рассказываю об этом в главе <a href="http://ohaskell.dshevchenko.biz/ru/miscellaneous/about-modules.html">О модулях</a>.</p>
+<blockquote>
+<p>В Visual Studio, при помощи механизма MSBuild.exe (используется за кулисами IDE), имеется возможность создавать конфигурации (x86|x64, Debug|Release и в зависимости от этого - разные настройки опций компилятора и линковщика, а так же постфиксной и префиксной дополнительных операций). Можно ли подобное делать при помощи cabal?</p>
+</blockquote>
+<p>Признаться, не знаю. Кстати, нужно будет изучить этот вопрос.</p>
+<blockquote>
+<p>Импортируется всё содержимое модуля или же только то, которое реально используется в коде, к которому этот модуль подключается?</p>
+</blockquote>
+<p>И об этом рассказано в главе <a href="http://ohaskell.dshevchenko.biz/ru/miscellaneous/about-modules.html">О модулях</a>.</p>
+<blockquote>
+<p>На стр. 22 в параметре hs-source-dirs дополнительный каталог указан с новой строки. Однако можно дописывать и в ту же строку через запятую.</p>
+</blockquote>
+<p>Это моя старая привычка, перечислять в столбик. Ведь если каталогов много, то, указывая их через запятую, мы получим длиииную строку.</p>
+<blockquote>
+<p>Вопрос по поводу ленивых (отложенных) вычислений (стр. 33-35):</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print (<span class="kw">let</span> 
+	n <span class="fu">=</span> (replicate <span class="dv">100</span> <span class="st">&quot;127.0.0.1&quot;</span>) 
+	m <span class="fu">=</span> n 
+	k <span class="fu">=</span> m
+ <span class="kw">in</span> take <span class="dv">80</span> n <span class="fu">++</span>
+	take <span class="dv">50</span> m <span class="fu">++</span>
+	take <span class="dv">90</span> k )</code></pre></div>
+<blockquote>
+<p>Сколько элементов в этом случае Haskell закрепит за литералами (если я их верно называю) n, m, и k? Это будет один общий массив с 90 элементами (т.е. берётся наибольший вариант из запрошенных), или же это будет три разных массива с 80, 50 и 90 элементами соответственно? Может быть в книге стоит показать и подобный пример (подправив по необходимости)?</p>
+</blockquote>
+<p>Я не знаю. И скажу вам прямо, таких примеров в книге не будет. Дело в том, что я всегда ориентируюсь на реальную программистскую жизнь. А в реальной жизни писать <em>так</em> ни один вменяемый разработчик не станет. Конечно, при желании можно “развернуть” эту цепочку и ответить на подобный вопрос, но зачем?</p>
+<blockquote>
+<p>Любая функция в Haskell, в т.ч. и пользовательская, ленива автоматически, по своей природе? Или же нужно как-то помечать функцию, чтобы Haskell знал, что именно эта функция является ленивой? Исходя из текста раздела “Лень” на стр. 32, я подозреваю, что ленивыми являются все автоматически, но на всякий случай уточняю (мало ли).</p>
+</blockquote>
+<p>Да, по умолчанию, функция в Haskell ленива. Если же мы непременно хотим строгих вычислений (как в C++), мы должны явно об этом попросить: либо использовать строгую версию ленивой функции (многие пакеты в Hackage предоставляют такие), либо воспользоваться оператором строгого применения функции <code>($!)</code>. <a href="http://www.haskell.org/haskellwiki/Performance/Strictness">Подробнее об этом</a>.</p>
+<blockquote>
+<p>А можно ли в лямбда-функции указывать типы её аргументов и возвращаемого значения? Ведь иначе мы получаем функцию без объявления, что само по себе не рекомендуется (см. стр. 44).</p>
+</blockquote>
+<p>Не рекомендуется оставлять <em>сложную</em> функцию без объявления. Для тривиальных же случаев сигнатура избыточна, а большинство лямбда-функций крайне тривиальны. И об этом я тоже пишу.</p>
+<blockquote>
+<p>Стр 50: этот вызов происходит в два этапа: 1.Функция divide применяется к первому аргументу 10.03 и — внимание! — возвращает функцию типа Double -&gt; Double. 2.Эта возвращённая функция, в свою очередь, применяется ко второму аргументу 2.1 и возвращает конечное значение 4.77. … Функция применяется только к одному значению: сначала к 10.03, а уже потом функция, возвращённая первым вызовом, применяется к 2.1.</p>
+</blockquote>
+<blockquote>
+<p>Я не понял этой информации… Как функция divide может примениться к первому аргументу, если во первых, её сигнатура требует двух аргументов, а во вторых - для её выполнения в принципе необходимы два (там ведь деление выполняется). Кроме того, даже если применять функцию к одному аргументу, то его деление на самого себя даёт единицу. Что-то у меня не укладывается в голове этот момент, на нём я застопорился - прошу пояснить его…</p>
+</blockquote>
+<p>Понимаю вас, в начале это действительно удивляет. Как я пишу в главе, посвящённой <a href="http://ohaskell.dshevchenko.biz/ru/about-functions/higher-order-functions.html">функциям высшего порядка</a>, все чистые функции в Haskell применяются только к одному аргументу. Всегда. Поэтому, когда функция <code>divide</code> объявлена как принимающая два аргумента, воспринимайте это как синтаксический сахар. Рассмотрим её вызов ещё раз:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">divide <span class="fl">10.03</span> <span class="fl">2.1</span></code></pre></div>
+<p>Как я уже говорил, подобный вызов происходит в два этапа. На первом этапе происходит вот это:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">divide <span class="fl">10.03</span></code></pre></div>
+<p>Это совершенно честная запись: функция <code>divide</code> применяется к одному-единственному значению. Более того, с точки зрения этой функции, второго значения, равного <code>2.1</code>, вообще не существует! Но мы-то с вами знаем, что оно существует и терпеливо ждёт своего часа. Поэтому результатом первого этапа вызова функции <code>divide</code> является <em>частично применённая функция</em>. Воспринимайте её как чёрный ящичек, в который мы положили первое значение <code>10.03</code> и - ничего с ним не сделали, просто сохранили. То есть на первом этапе никакого деления ещё не произошло. А весь фокус в том, что этот чёрный ящичек также является чистой функцией от одного аргумента. Поэтому на втором этапе мы применяем эту чёрно-ящичковую функцию к нашему второму значению, что можно изобразить так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">black_box <span class="fl">2.1</span></code></pre></div>
+<p>И благодаря тому, что внутри этого ящичка сохранено первое значение, здесь и происходит маленькое волшебство: функция <code>black_box</code> берёт сохранённое в ней значение <code>10.03</code> и переданное ей значение <code>2.1</code> и наконец-то совершает нужное нам деление, возвращая результат оного в виде числа типа <code>Double</code>. В этом и заключается магия каррирования: сколько бы аргументов ни принимала исходная фукнция, её вызов всегда сводится к пошаговому накапливанию значений аргументов, через механизм частичного применения. И только после того, как были накоплены <em>все</em> необходимые значения, происходит, собственно, вызов функции (то есть производится та реальная работа, ради которой эта функция и была создана).</p>
+<p>Вы спросите, а как именно происходит это накопление? Ведь если вызов <code>divide</code> произошёл в два этапа, то где и как было сохранено первое значение <code>10.03</code> между этими этапами? Отвечаю: это неважно. Всё это, по сути, подкапотные дела, о которых программист не обязан ни заботиться, ни даже знать. Что говорит нам сигнатура функции <code>divide</code>? Что она работает с двумя значениями. Передали ей два значения - и получаем результат деления. Дело сделано.</p>
+<p>Ещё раз напоминаю, что ваши вопросы и пожелания очень важны для развития книги. Так что не стесняемся и спрашиваем. Можно лично мне, а можно в комментариях.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

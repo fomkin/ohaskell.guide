@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>GCC: два компилятора вместе</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>GCC: два компилятора вместе</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "18 сентября 2011"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/gcc.html">gcc</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Причины, подвигшие меня к установке <strong>g++ 4.6.0</strong>, просты: поддержка C++0x. Данная версия вышла 25 марта (любопытное совпадение: именно в этот день Комитетом по стандартизации был принят FDIS), и именно этой версией поддерживается наибольшее число возможностей нового языка.</p>
+Но в моей системе (Debain Linux Squeeze), естественно, уже стоял компилятор версии 4.4.5. Значит, нужно ставить в параллель.<br />
+<h3>
+Что нам понадобится?
+</h3>
+<p>Собственно, сам компилятор. Напомню, что GCC - это семейство компиляторов для разных языков. Но нас интересует только С++, поэтому скачиваем следующие пакеты:</p>
+<pre><code>ftp://ftp.gnu.org/gnu/gcc/gcc-4.6.0/gcc-core-4.6.0.tar.bz2 - ядро компилятора.
+ftp://ftp.gnu.org/gnu/gcc/gcc-4.6.0/gcc-g++-4.6.0.tar.bz2 - собственно g++.</code></pre>
+<p>Но это ещё не всё. Нам понадобятся также три служебные библиотеки - GMP, MPC и MPFR:</p>
+<pre><code>ftp://gcc.gnu.org/pub/gcc/infrastructure/gmp-4.3.2.tar.bz2
+ftp://gcc.gnu.org/pub/gcc/infrastructure/mpc-0.8.1.tar.gz
+ftp://gcc.gnu.org/pub/gcc/infrastructure/mpfr-2.4.2.tar.bz2&lt;br/&gt;</code></pre>
+<h3>
+Подготовка пути
+</h3>
+Кладём все архивы в некую папку, она будет корнем установки нового компилятора. В моей системе это /home/denis/Distros/GCC/. Этот путь будет использован в качестве установочного префикса при сборке. Для краткости далее будем именовать его <strong>INSTALL_PATH</strong>.<br />
+<h3>
+Подготовка компилятора
+</h3>
+<p>Распаковываем <strong>gcc-core-4.6.0.tar.bz2</strong> и получаем папку <strong>gcc-4.6.0</strong>. А вот теперь есть одна хитрость. Дело в том, что когда мы распакуем <strong>gcc-g++-4.6.0.tar.bz2</strong>, то получится такая же папка <strong>gcc-4.6.0</strong>. Поэтому я разношу их при распаковке в разные места.</p>
+Захожу в папку <strong>gcc-4.6.0</strong>, полученную при распаковке <strong>gcc-g++-4.6.0.tar.bz2</strong> и вижу там две папки: <strong>gcc</strong> и <strong>libstdc++-v3</strong>. Теперь:
+<ol>
+<li>
+папку <strong>libstdc++-v3</strong> копирую в корень папки <strong>gcc-4.6.0</strong>, полученной при распаковке <strong>gcc-core-4.6.0.tar.bz2</strong>.
+</li>
+<li>
+в папке gcc берём папку cp и копируем её в подпапку gcc папки <strong>gcc-4.6.0</strong>, полученной при распаковке <strong>gcc-core-4.6.0.tar.bz2</strong>.
+</li>
+</ol>
+Итак, мы получили одну папку <strong>gcc-4.6.0</strong>, в которой есть всё необходимое для сборки. Та папка <strong>gcc-4.6.0</strong>, которая была получена их архива <strong>gcc-g++-4.6.0.tar.bz2</strong>, нам больше не нужна.<br />
+<h3>
+Сборка служебных библиотек
+</h3>
+<p>Теперь распаковываем архивы трёх вышеупомянутых служебных библиотек. Их необходимо собрать и установить <strong><em>перед</em></strong> сборкой компилятора.</p>
+<p>Более того, важен порядок их сборки, поскольку они зависят друг от друга.</p>
+<p>Первой собираем GMP. Не забываем указать упомянутый выше префикс установки:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">./configure</span> --prefix=INSTALL_PATH</code></pre></div>
+<p>Потом make и make install.</p>
+<p>Далее собираем MPFR. Указываем установочный префикс и путь к (уже) установленной GMP:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">./configure</span> --prefix=INSTALL_PATH --with-gmp=INSTALL_PATH</code></pre></div>
+<p>Потом make и make install.</p>
+<p>Последней собираем MPC. Указываем установочный префикс, а также пути к (уже) установленным GMP и MPFR:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">./configure</span> --prefix=INSTALL_PATH --with-gmp=INSTALL_PATH --with-mpfr=INSTALL_PATH</code></pre></div>
+<p>Потом make и make install.</p>
+Итак, служебные библиотеки собраны.<br />
+<h3>
+Сборка компилятора
+</h3>
+<p>Указываем установочный префикс и пути к (уже) установленным служебным библиотекам:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">./configure</span> --prefix=INSTALL_PATH --with-gmp=INSTALL_PATH --with-mpfr=INSTALL_PATH --with-mpc=INSTALL_PATH</code></pre></div>
+Далее make. Начинается компиляция компилятора (приколько звучит).<br />
+<h3>
+Подводный камень №1
+</h3>
+<p>Вы думаете, что всё скомпилируется и готово? Не тут-то было. Компиляция прервётся с ошибкой. А причина в том, что мы забыли передать путь к служебным библиотекам линковщику, а в процессе сборки они понадобятся. Поэтому пропишем путь INSTALL_PATH/lib в <strong>/etc/ld.so.conf</strong>. Не забываем выполнить магическое <strong>ldconfig</strong>.</p>
+После этого снова make. Компиляция продолжится.<br />
+<h3>
+Подводный камень №2
+</h3>
+<p>Ну теперь-то всё? Нет, не всё. Если у вас 64-разрядная система (как у меня), то компиляция снова прервётся. Причина в отсутствии файла <strong>/usr/include/gnu/stubs-32.h</strong>. Если вы посмотрите, то файл stubs-64.h имеется, а stubs-32.h отсутствует. Чтобы это исправить, необходимо установить пакет <strong>libc6-dev-i386</strong>. В репозитории Debian такой имеется. После этого требуемый файл появится.</p>
+После этого снова make. Компиляция продолжится.<br />
+<h3>
+Подводный камень №3
+</h3>
+<p>Итак, компиляция завершена. К слову сказать, займёт она довольно много времени. На моей системе с Corei3 2.4Ггц и 2 Гб DDR3 памяти компиляция забрала часа полтора.</p>
+<p>После этого вы делаете make install. И в INSTALL_PATH появятся несколько дополнительных папок, такие как lib32, lib64, bin, libexec, share.</p>
+<p>И вот вы, в предвкушении испытаний, пишете свой hello world и скармливаете его новому компилятору. Компиляция проходит успешно, только вот запустить программу не удастся. Причина проста: стандартная библиотека.</p>
+<p>Проверим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ldd</span> my_program
+    <span class="kw">...</span>
+    <span class="kw">libstdc++.so.6</span> =<span class="kw">&gt;</span> /usr/lib/libstdc++.so.6  
+    <span class="kw">...</span></code></pre></div>
+<p>Итак, причина в том, что стандартная библиотека С++ берётся из старого пути, из <strong>/usr/lib</strong>. Но ведь там лежит библиотека, используемая нашим “старым” компилятором (в моём случае g++ 4.4.5). А нам нужна новая библиотека, собранная с новым компилятором.</p>
+<p>Решение простое: пропишем путь к новой стандартной библиотеке INSTALL_PATH/lib64 (для 64-разрядной системы) в <strong>/etc/ld.so.conf.d/libc.conf</strong>. Я у себя прописал этот путь первым по счёту в данном файле.</p>
+<p>После этого снова компилируем программу, и проверяем вновь:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ldd</span> my_program
+    <span class="kw">...</span>
+    <span class="kw">libstdc++.so.6</span> =<span class="kw">&gt;</span> INSTALL_PATH/lib64/libstdc++.so.6  
+    <span class="kw">...</span></code></pre></div>
+Теперь используется новая стандартная библиотека, как нам и нужно.<br />
+<h3>
+Завершение
+</h3>
+<p>Ну что ж, сборка и настройка завершена. В подтверждение этому попробуем скомпилировать программу с новейшими возможностями стандарта. В частности, проверим range for. Разумеется, необходимо также указать флаг <strong>-std=c++0x</strong>, всё-таки поддержка нового стандарта носит (формально) экспериментальный характер.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> main() {
+    std::vector&lt; <span class="dt">int</span> &gt; v = { <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> };
+    <span class="kw">for</span> ( <span class="kw">auto</span> i : v ) {
+        std::cout &lt;&lt; i &lt;&lt; std::endl;
+    }
+}</code></pre></div>
+<p>Итак, как видите, всё работает. Теперь в нашей системе есть два компилятора, и мы можем продолжить наши эксперименты с новейшими возможностями C++0x.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

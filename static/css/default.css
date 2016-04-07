@@ -1,0 +1,329 @@
+
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Ubuntu+Mono:400,400italic,700&subset=latin,cyrillic);
+body
+{
+  color            : rgb(0,43,54);
+  font-size        : 17px;
+  font-family      : "PT Serif", serif;
+  background-color : rgb(253,246,227);
+  text-align       : justify;
+}
+
+h1
+{
+  color          : rgb(88,110,117);
+  font-size      : 30px;
+  text-align     : center;
+  padding-top    : 40px;
+  padding-bottom : 35px;
+}
+
+h2
+{
+  color          : rgb(88,110,117);
+  font-size      : 22px;
+  text-align     : left;
+  padding-top    : 30px;
+  padding-bottom : 20px;
+}
+
+h3
+{
+  color          : rgb(88,110,117);
+  font-size      : 20px;
+  text-align     : left;
+  padding-top    : 15px;
+  padding-bottom : 10px;
+}
+
+
+p > code
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
+}
+
+
+span > code
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
+}
+
+
+li > code
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
+}
+
+a
+{
+  color : rgb(38,139,210);
+}
+
+a:hover
+{
+  text-decoration : none;
+}
+
+a:visited
+{
+  text-decoration : none;
+}
+
+a:active
+{
+  text-decoration : none;
+}
+
+blockquote
+{
+  margin-left  : 0;
+  padding-left : 20px;
+  color        : rgb(119,119,119);
+  border-left  : solid 5px rgb(238,110,115);
+}
+
+.cover-title
+{
+  color       : rgb(88,110,117);
+  font-size   : 48px;
+  padding-top : 15px;
+}
+
+.cover-v2
+{
+  color          : rgb(88,110,117);
+  font-size      : 22px;
+  padding-top    : 20px;
+  padding-bottom : 70px;
+}
+
+.sans
+{
+  font-family : "PT Sans", sans-serif;
+}
+
+.mono
+{
+  font-family : "Ubuntu Mono", monospace;
+}
+
+.get-button
+{
+  width : 138px;
+}
+
+.get-button-separator
+{
+  padding-bottom : 25px;
+}
+
+.smaller-text
+{
+  font-size : 100%;
+}
+
+
+.side-nav a
+{
+  text-align : left;
+  font-size  : 17px;
+}
+
+.side-nav li
+{
+  padding : 0 0 0 0;
+}
+
+nav
+{
+  opacity          : 0.9;
+  background-color : rgb(42,161,152);
+}
+
+nav .brand-logo
+{
+  font-size : 26px;
+}
+
+
+nav ul a
+{
+  font-size : 26px;
+}
+
+
+div#logo .navbar-brand
+{
+  font-size : 16px;
+}
+
+
+.navbar a
+{
+  border-bottom   : solid 0 rgb(0,0,0);
+  text-decoration : none;
+}
+
+
+.navbar-header a
+{
+  border-bottom   : solid 0 rgb(0,0,0);
+  text-decoration : none;
+}
+
+.navbar-default
+{
+  background-color : rgb(255,255,255);
+  border-color     : rgb(231,231,231);
+  opacity          : 0.91;
+}
+
+.navbar-default .navbar-nav > li > a:hover
+{
+  color : rgb(34,34,34);
+}
+
+.navbar-default .navbar-nav > li > a:focus
+{
+  color : rgb(34,34,34);
+}
+
+.author
+{
+  padding-left : 15px;
+}
+
+.chapter-arrow
+{
+  font-size : 21px;
+}
+
+
+.sourceCode code
+{
+  font-family : "Ubuntu Mono", monospace;
+}
+
+.donate
+{
+  padding-top : 50px;
+}
+
+.donate-button
+{
+  text-transform : none;
+  color          : rgb(241,118,3);
+  font-size      : 18px;
+}
+
+.donate-area
+{
+  text-align : center;
+}
+
+pre.sourceCode
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
+  padding          : 7px 7px 7px 7px;
+  margin-top       : 18px;
+  margin-bottom    : 18px;
+}
+
+pre.sourceCode span.kw
+{
+  color       : rgb(0,112,32);
+  font-weight : bold;
+}
+
+pre.sourceCode span.dt
+{
+  color : rgb(144,32,0);
+}
+
+pre.sourceCode span.dv
+{
+  color : rgb(64,160,112);
+}
+
+pre.sourceCode span.bn
+{
+  color : rgb(64,160,112);
+}
+
+pre.sourceCode span.fl
+{
+  color : rgb(64,160,112);
+}
+
+pre.sourceCode span.ch
+{
+  color : rgb(64,112,160);
+}
+
+pre.sourceCode span.st
+{
+  color : rgb(64,112,160);
+}
+
+pre.sourceCode span.co
+{
+  color      : rgb(96,160,176);
+  font-style : italic;
+}
+
+pre.sourceCode span.ot
+{
+  color : rgb(0,112,32);
+}
+
+pre.sourceCode span.al
+{
+  color       : rgb(255,0,0);
+  font-weight : bold;
+}
+
+pre.sourceCode span.fu
+{
+  color : rgb(6,40,126);
+}
+
+pre.sourceCode span.er
+{
+  color       : rgb(255,0,0);
+  font-weight : bold;
+}
+
+
+/* Generated with Clay, http://fvisser.nl/clay */

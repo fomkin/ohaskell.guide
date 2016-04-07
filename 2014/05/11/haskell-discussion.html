@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>В защиту Haskell: по следам одного Хабра-спора...</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>В защиту Haskell: по следам одного Хабра-спора...</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "11 мая 2014"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Haskell.html">Haskell</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>На бескрайних просторах Хабра встретилась мне одна <a href="http://habrahabr.ru/post/133277/">любопытнейшая тема</a>. Она довольно стара (ноябрь 2011 года), но это не делает её менее интересной. И интересна она не только тем, что предельно понятным языком объясняет суть теории категорий (да-да, того самого “страшного” математического раздела, из которого вышли понятия монады, моноида и иже с ними), но и тем, что в комментариях к этой теме завязалась примечательная дискуссия. На самом деле, дискуссия там весьма обширна, но меня зацепили комментарии одного пользователя, некоего Бахтерева Михаила Олеговича (зарегистрированного под ником <code>mikhanoid</code>).</p>
+<p>Вот с чего всё началось:</p>
+<blockquote>
+<p>Эх. Вот было бы ещё в Haskell так же просто байтик по адресу 0xb8000 записать, цены бы ему не было. А так. Ну да, математика, на да, формально, ну да, можно мозг поупражнять. А дальше? А ведь не особо опытные менджеры уже начинают пытаться внедрять Haskell в production. Ужас.</p>
+</blockquote>
+<p>Затравка цепляет. Ему совершенно справедливо отвечают, мол, не все задачи сводятся к «записать байтик». На что он говорит:</p>
+<blockquote>
+<p>В разработке software — все. Как бы всё равно никому ещё не удалось разработать не-фон-Неймановский универсальный процессор. А там запись байтиков направо и налево :) И вот нам говорят: машина работает одним способом, но нет, мы не будем придумывать язык, который позволит естественное для машины поведение программировать наиболее естественным образом. Мы, наоборот, абстрагируемся, а потом будем ковыряться левой пяткой в правом ухе для решения простейших задач. Не понимаю я, к чему это?</p>
+</blockquote>
+<p>Выходит, абстрагирование от архитектуры процессора вынуждает нас ковыряться левой пяткой в правом ухе для решения простейших задач… Довод из прошлого тысячелетия, но ладно уж, продолжим:</p>
+<blockquote>
+<p>Дело не собственно в памяти. Чтобы организовать обмен данными с внешним миром, нам нужно иметь канал связи с этим миром. А канал связи — это система, у которой нужно явно менять состояния. Если мы рассматриваем сам Haskell (ну, или любой чистый функциональный язык), то там нет такой концепции. Нельзя изменить состояние канала, можно только лишь создать новый канал. Но как внешний мир может узнать об изменении канала связи?</p>
+</blockquote>
+<blockquote>
+<p>Вот в чём проблема. В Haskell, конечно, есть и указатели, и ссылки, и IO, но их невозможно запрограммировать на самом Haskell, поэтому они создаются искусственно, через специальные монады связанные со внешними библиотеками на Си. И эти монады отличаются от тех, которые можно создать на самом Haskell.</p>
+</blockquote>
+<p>И ещё:</p>
+<blockquote>
+<p>Так это и есть философская проблема. Скажем, для Си или даже, допустим, Lua, вывод на консоль может быть написан на самих Си или Lua. А чистый функциональный язык уже не допускает этого.</p>
+</blockquote>
+<blockquote>
+<p>И тут нельзя сказать, что это просто консоль неправильная, не функциональная, потому что не может быть функциональной консоли.</p>
+</blockquote>
+<p>И вывод:</p>
+<blockquote>
+<p>Поэтому нельзя на функциональном языке выразить работу с оборудованием и внешним миром. Нужны всякие костыли разной степени костыльности.</p>
+</blockquote>
+<p>Вот такие доводы. К слову, этот Михаил Олегович - человек очень опытный, достаточно взглянуть на его темы на Хабре. Разумеется, вступать с таким человеком в дискуссию на его уровне я бы не стал, ибо занимаюсь задачами куда как менее сложными, чем он. Поэтому выскажу своё мнение как практик.</p>
+<p>Рассмотрим вот такую строку:</p>
+<p>{% highlight haskell %} main = readFile “/Users/dshevchenko/text” &gt;&gt;= putStr {% endhighlight %}</p>
+<p>Содержимое файла <code>/Users/dshevchenko/text</code> выводится на консоль. Вы представляете себе, сколько различных программных действий совершается от момента запуска такого кода до момента отображения текста файла в терминале? Их очень много, начиная от вызовов библиотечных функций и заканчивая работой ряда драйверов. И если бы мы очень захотели, то могли бы перечислить все эти действия. Только нужно ли нам это? Нет, нам нужно вывести содержимоей файла на консоль. И такой код прекрасно справляется с этой задачей.</p>
+<p>К чему это я… Михаил Олегович совершенно справедливо отмечает, что на Haskell <em>как таковом</em> нельзя напрямую взаимодействовать с адресами байтов, и поэтому, разумееется, вывод на консоль не может быть написан на чисто функциональном языке. Однако, насколько я понял тон Михаила Олеговича, он ставит сей факт в укор чисто функциональному подходу как таковому. Мол, раз на нём нельзя явно изменять состояние областей памяти, значит этот язык пригоден исключительно для теоретически-академических целей, а места в real world ему нету…</p>
+<p>И вот сижу я и думаю - а почему, собственно, это такая проблема? Понятно, что где-то под капотом Haskell есть системные функции, написанные на старом добром C, и именно эти функции выполняют всю низкоуровневую работу. Но мне-то зачем об этом знать? Я, как программист-практик, знать этого не хочу, да и не обязан. Разумеется, в процессе выполненения кода, выводящего текст на консоль, происходит многократное изменение различных программных состояний, но мне до этого нет никакого дела. Если всё это под капотом, пусть там и остаётся, а я лучше буду думать о моих задачах, а не о том, как там байтики записываются.</p>
+<p>И я считаю, это очень хорошо и правильно, что вся низкоуровневая работа делегируется коду, написанному на языке C. Вы что думаете, в том же C++ память выделяется оператором <code>new</code>? Нет, она выделяется старой доброй <code>malloc</code>, а <code>new</code> есть не более чем удобный синтаксический сахар. Значит ли это, что мы не должны пользоваться оператором <code>new</code>? Едва ли…</p>
+<p>Так что в наших процессорах байтики пусть записываются направо и налево, а мы, живущие в 2014 году, позволим себе думать уже не о байтиках, а о других вещах.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Д. Шевченко</title>
+        <link>http://blog.dshevchenko.biz</link>
+        <description><![CDATA[Мысли и опыт]]></description>
+        <atom:link href="http://blog.dshevchenko.biz/feed.xml" rel="self"
+                   type="application/rss+xml" />
+        <lastBuildDate>Sat, 28 Nov 2015 00:00:00 UT</lastBuildDate>
+        <item>
+    <title>Первый месяц работы с Haskell</title>
+    <link>http://blog.dshevchenko.biz/2015/11/28/haskell-first-month.html</link>
+    <description><![CDATA[Уже месяц пролетел. Быстро...]]></description>
+    <pubDate>Sat, 28 Nov 2015 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2015/11/28/haskell-first-month.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Десять Заповедей Смиренного Программирования</title>
+    <link>http://blog.dshevchenko.biz/2015/11/24/ten-commandments.html</link>
+    <description><![CDATA[Это обязан знать каждый программист.]]></description>
+    <pubDate>Tue, 24 Nov 2015 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2015/11/24/ten-commandments.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Простейший счётчик ХЕ</title>
+    <link>http://blog.dshevchenko.biz/2015/08/20/breadunit-counter.html</link>
+    <description><![CDATA[На днях сделал простейший счётчик хлебных единиц (ХЕ). Полезно для диабетиков I типа.]]></description>
+    <pubDate>Thu, 20 Aug 2015 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2015/08/20/breadunit-counter.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Мой ответ бывшему коллеге</title>
+    <link>http://blog.dshevchenko.biz/2015/07/21/my-answer-to-evil-wisher.html</link>
+    <description><![CDATA[Мой ответ бывшему коллеге]]></description>
+    <pubDate>Tue, 21 Jul 2015 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2015/07/21/my-answer-to-evil-wisher.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>О совершенстве: Haskell и иже с ним</title>
+    <link>http://blog.dshevchenko.biz/2015/06/26/haskell-and-perfection.html</link>
+    <description><![CDATA[Об идеальных мечтах и неидельных инструментах.]]></description>
+    <pubDate>Fri, 26 Jun 2015 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2015/06/26/haskell-and-perfection.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Первая встреча сообщества ruHaskell: итоги и мысли</title>
+    <link>http://blog.dshevchenko.biz/2015/06/21/meetup-2015-my-thoughts.html</link>
+    <description><![CDATA[Итак, наш первый митап завершился, и вот мои мысли по этому поводу.]]></description>
+    <pubDate>Sun, 21 Jun 2015 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2015/06/21/meetup-2015-my-thoughts.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Haskell: вопрос о русскоязычном ресурсе</title>
+    <link>http://blog.dshevchenko.biz/2014/12/29/haskell-ru-place.html</link>
+    <description><![CDATA[Этот вопрос назрел давно: нужен ли русскоязычный ресурс, целиком и полностью посвящённый языку Haskell? Мои две копейки.]]></description>
+    <pubDate>Mon, 29 Dec 2014 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2014/12/29/haskell-ru-place.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Yesod: разворачиваем приложение без Keter</title>
+    <link>http://blog.dshevchenko.biz/2014/12/27/yesod-raw-deploy.html</link>
+    <description><![CDATA[Yesod - это мощный веб-фреймворк, написанный на языке Haskell. Сегодня поговорим о разворачивании нашего приложения без использования Keter.]]></description>
+    <pubDate>Sat, 27 Dec 2014 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2014/12/27/yesod-raw-deploy.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Yesod: и17я</title>
+    <link>http://blog.dshevchenko.biz/2014/12/26/yesod-i18n.html</link>
+    <description><![CDATA[Yesod - это мощный веб-фреймворк, написанный на языке Haskell. Сегодня чуть подробнее поговорим об интернационализации.]]></description>
+    <pubDate>Fri, 26 Dec 2014 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2014/12/26/yesod-i18n.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+<item>
+    <title>Yesod: виджеты</title>
+    <link>http://blog.dshevchenko.biz/2014/12/24/yesod-widgets.html</link>
+    <description><![CDATA[Yesod - это мощный веб-фреймворк, написанный на языке Haskell. Сегодня поговорим о важной концепции Yesod - о виджете.]]></description>
+    <pubDate>Wed, 24 Dec 2014 00:00:00 UT</pubDate>
+    <guid>http://blog.dshevchenko.biz/2014/12/24/yesod-widgets.html</guid>
+    <dc:creator>Денис Шевченко</dc:creator>
+</item>
+
+    </channel>
+</rss>

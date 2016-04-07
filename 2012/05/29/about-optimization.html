@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Замечание про оптимизацию</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Замечание про оптимизацию</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "29 мая 2012"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/IT.html">IT</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p><em>Сразу уточню: в этой заметке я не говорю о тех программных нишах, где скорость выполнения является критическим требованием. Я говорю о приложениях, взаимодействующих с человеком через графический интерфейс.</em></p>
+<p>Никто из нас не любит тормозных программ. И, зная эту простую истину, многие разработчики оптимизируют свои приложения. Оптимизируют, стараясь выгадать… Кстати, а что же они стараются выгадать?</p>
+<p>Представим себе кнопку, клик по которой инициирует некое действие, ну, скажем, появление какого-нибудь обычного диалогового окна. Естественно, между кликом и полной отрисовкой виджета (когда наши глаза скажут нам, что окно полностью появилось) существует некая временнАя задержка. Эта задержка бывает разной и зависит от множества факторов (начиная от используемой оконной среды и заканчивая мощностью компьютера), но суть не в этом. Суть в фактической значимости этой задержки глазами пользователя.</p>
+<p>Если данное окно появится через 3 секунды после клика на кнопке, большинство пользователей воспримет это как очень сильные тормоза. Если через 1 секунду - это всё ещё можно будет назвать тормозами, но уже никак не сильными (и многие пользователи будут вполне удовлетворены такой задержкой). Если через 0.5 секунды - это уже нельзя будет назвать тормозами (и такая задержка полностью удовлетворит 99% пользователей). Если через 0.1 секунды - появление окна будет воспринято (любым) пользователем как очень быстрое событие. Если через 0.05 секунды и менее - у (любого) пользователя сложится впечатление абсолютно мгновенной реакции.</p>
+<p>Итак, будем исходить из того, что мы (как создатели приложения) хотим полностью избавить пользователя от ощущения тормозов. В таком случае в нашем распоряжении есть запас в 50 мс. Целых 50 мс. Мы хорошо знаем, что на любом мало-мальски современном компьютере это весьма большой период, однако, повторю, в глазах (любого) пользователя этот период абсолютно незаметен.</p>
+<p>А теперь представим себе, что мы решили-таки оптимизировать появление этого диалога и снизили задержку с 50 мс до 10 мс. То есть в пять раз. Согласитесь, звучит сильно: в пять раз! Но что это означает на практике? А означает это вот что…</p>
+<p>Во-первых, пользователь не заметит эту разницу, как бы внимательно он ни смотрел на экран. Таким образом, с точки зрения пользователя ценность нашей оптимизации равна нулю. Без палочки.</p>
+<p>Во-вторых, во имя данной оптимизации мы (неизбежно) усложнили код. Как именно? Ну, скажем, заранее создали, настроили и сохранили виджет диалога, чтобы по клику на кнопку лишь отрисовать его. Или ввели некий буфер данных, предназначенных для отображения в диалоге, или ещё как-то. А что это означает? Это означает, что код стал (потенциально) менее надёжным. В нём стало (потенциально) проще допустить ошибку. В нём стало (потенциально) труднее искать ошибку. Его стало (потенциально) сложнее сопровождать.</p>
+<p>И что же в итоге? В итоге мы усложнили код ценою выигрыша, о котором пользователь даже не узнает! Таким образом, можно смело констатировать: <strong>подобного рода оптимизация объективно вредна, поскольку не только не улучшает, но ухудшает приложение</strong>.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

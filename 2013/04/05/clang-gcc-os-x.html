@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Clang вместо GCC на OS X: первый опыт</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Clang вместо GCC на OS X: первый опыт</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "05 апреля 2013"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/gcc.html">gcc</a>, <a href="../../../tags/clang.html">clang</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>В общем, не GCC единым жив программист…</p>
+<p>Я слышал о Clang уже давно. “Замена для GCC” - так позиционируется Clang в википедии. Признаться, я не очень понимал, зачем нужно заменять GCC, если он стал уже стандартом де-факто во всех Unix-подобных системах. Однако, как выяснилось, я отстал от жизни, ведь уже год назад разработчики FreeBSD заменили GCC на Clang. И это при том, что FreeBSD всегда считалась весьма консервативной ОС.</p>
+<p>В общем, я решил рискнуть - и попробовать это хозяйство. Дело в том, что шальная мысль - а именно перейти с Qt 4.8.1 на Qt 5.0.1 для Style Revisor - вылилась в твёрдое решение, и я подумал: а что если скомпилировать новую версию Style Revisor с помощью Clang? (Вообще-то была мысль попробовать свеженький GCC 4.8.0, но как вспомню, сколько часов его нужно компилить… В общем, поленился я…)</p>
+<p>Сказано - сделано. А что сделано - о том и раскажу.</p>
+Итак:
+<ol>
+<li>
+Идём на страницу скачивания: http://llvm.org/releases/download.html#3.2.
+</li>
+<li>
+Находим ссылку: <strong>Clang Binaries for MacOS X/x86_64</strong>.
+</li>
+<li>
+Скачиваем и распаковываем архив.
+</li>
+<li>
+Переименовываем с длинного <strong>clang+llvm-3.2-x86_64-apple-darwin11</strong> во что-нибудь покороче, я решил назвать просто <strong>clang</strong>.
+</li>
+<li>
+Копируем это хозяйство в какое-нибудь удобное место. У меня это <strong>/Users/dshevchenko/Tools</strong>.
+</li>
+</ol>
+<p>Возможно, вы будете удивлены, но это всё. :)</p>
+<p>Создаём в домашней папке пробный main.cpp, и вводим следующую команду:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">~/Tools/clang/bin/clang++ -std=c+<span class="dv">+11</span> -stdlib=libc++ -I/usr/local/include/libcxx main.cpp -o hello</code></pre></div>
+<p>А вот теперь пару слов об этой самой команде…</p>
+<p>Ну, флаг <strong>-std=c++11</strong> знаком нам уже очень хорошо (а если кто не знает - этот флаг говорит компилятору о необходимости вспомнить стандарт C++11), но что такое <strong>-stdlib=libc++</strong> и зачем мы указываем Clang-у какие-то дополнительные заголовочники через флаг <strong>-I</strong>?</p>
+<p>Дело в том, что Clang в качестве стандартной библиотеки C++ может использовать два варианта: либо стандартную библиотеку, идущую вместе с GCC (а именно libstdc++), либо свою собственную. Я решил не мудрствовать лукаво, и использовать первый вариант. В конце концов, стоило ли брать компилятор А, чтобы использовать вместе с ним библитеку, идущую с компилятором Б?</p>
+Итак, стандартная библиотека C++, о которой пойдёт речь, носит имя <strong>libc++</strong>. Вот её страница: http://libcxx.llvm.org. В описании читаем:
+<pre>
+libc++ is a new implementation of the C++ standard library, targeting C++11.
+</pre>
+<p>Ну что ж, звучит обнадёживающе. Более того, собирать эту библиотеку мне не пришлось, ибо она уже лежала в <strong>/usr/lib</strong>.</p>
+Однако STL-заголовочники я решил обновить, дабы свежее было. Тут всё просто:
+<ol>
+<li>
+Выполняем команду <strong>svn co http://llvm.org/svn/llvm-project/libcxx/trunk/include libcxx</strong>.
+</li>
+<li>
+Копируем папку в какое-нибудь понятное место, у меня это <strong>/usr/local/include</strong>.
+</li>
+</ol>
+<p>Собственно, всё. Именно поэтому мы и должны указать Clang-у факт того, что хотим использовать <strong>libc++</strong> в качестве стандартной библиотеки, а также путь к новым STL-заголовочникам.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

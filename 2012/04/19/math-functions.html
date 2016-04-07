@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>К вопросу о математических функциях...</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>К вопросу о математических функциях...</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "19 апреля 2012"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/C%252B%252B.html">C++</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Продолжая своё изучение фукционального программирования, я неожиданно для себя самого осознал, что чистый функтор/функция, <ins>отражающий математическую модель</ins>, является наиболее простым решением.</p>
+<p>Известно, что <em>“математическое понятие функции выражает интуитивное представление о том, как одна величина полностью определяет значение другой величины.”</em> Пример:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> square {
+    <span class="dt">int</span> <span class="kw">operator</span>()( <span class="dt">int</span> <span class="dt">const</span> i ) <span class="dt">const</span> {
+        <span class="kw">return</span> i * i;
+    }
+};</code></pre></div>
+<p>Итак, вот простейший случай чистого функтора, отражающего математическую модель: результат использования этого функтора будет зависеть только от входного значения. Всегда.</p>
+И вот я подумал: а ведь это же чрезвычайно удобно! Если результат вызова функции полностью определён входными значениями, то:
+<ol>
+<li>
+при отладке программы такую функцию легко убрать (заменив значением-заглушкой), и это никак не отразиться на остальной программе,
+</li>
+<li>
+тело такой функции легко изучать, поскольку оное изолировано от окружающего мира в силу отсутствия побочных эффектов и каких-либо косвенных связей,
+</li>
+<li>
+в такой функции легче искать (и труднее допустить) ошибки.
+</li>
+</ol>
+<p>Поэтому чем больше подобных функторов/функций будет в программе, тем легче оная станет.</p>
+<p>Ну вот, скажем, такой пример:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> storage {
+    storage() :
+            m_capacity( <span class="dv">0</span> ) {
+        obtain_capacity();
+    }
+<span class="kw">private</span>:
+    size_t m_capacity;
+<span class="kw">private</span>:
+    <span class="dt">void</span> obtain_capacity() {
+        size_t obtained_capacity = <span class="dv">0</span>;
+        <span class="co">// Получаем откуда-то извне ёмкость...</span>
+        m_capacity = obtained_capacity;
+    }
+};</code></pre></div>
+<p>Итак, вот нам канонический побочный эффект: функция внутри себя изменяет то, что находится вне её. Если же подобных функций десять, или тридцать, то отслеживание побочных эффектов ощутимо усложняется. Горький опыт ловли багов убедителен…</p>
+<p>А что если написать так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> storage {
+    storage() :
+            m_capacity( obtain_capacity() ) {}
+<span class="kw">private</span>:
+    size_t m_capacity;
+<span class="kw">private</span>:
+    size_t obtain_capacity() <span class="dt">const</span> {
+        size_t obtained_capacity = <span class="dv">0</span>;
+        <span class="co">// Получаем откуда-то извне ёмкость...</span>
+        <span class="kw">return</span> obtained_capacity;
+    }
+};</code></pre></div>
+<p>Смотрите, мы изолировали функцию obtain_capacity от этого побочного эффекта. И это упростило функцию (а чаще всего это позволит нам вообще вынести её в отдельный чистый функтор).</p>
+<p>Вот из таких мелочей и состоит простота…</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

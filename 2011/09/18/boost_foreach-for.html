@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>BOOST_FOREACH или for</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>BOOST_FOREACH или for</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "18 сентября 2011"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/boost.html">boost</a>, <a href="../../../tags/C%252B%252B.html">C++</a>, <a href="../../../tags/%25D1%258D%25D1%2584%25D1%2584%25D0%25B5%25D0%25BA%25D1%2582%25D0%25B8%25D0%25B2%25D0%25BD%25D0%25BE%25D1%2581%25D1%2582%25D1%258C.html">эффективность</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Итак, что же использовать? Проведём честный анализ. Критерия будет два: удобство кода (во всех смыслах слова) и эффективность его выполнения.</p>
+<p>Во всех примерах для простоты будем использовать ставший уже классикой <strong>std::vector&lt; int &gt;</strong> и его typedef-псевдоним:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> std::vector&lt; <span class="dt">int</span> &gt; V;</code></pre></div>
+<h3>
+Удобство кода
+</h3>
+<p>Сравним: <code>cpp V v; for ( V::iterator it = v.begin(); it != v.end(); ++it ) {     std::cout &lt;&lt; *it &lt;&lt; std::endl; }</code>и</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">V v;
+BOOST_FOREACH ( <span class="dt">int</span> i, v ) {
+    std::cout &lt;&lt; i &lt;&lt; std::endl;
+}</code></pre></div>
+<p>Режьте меня на части, но я убеждён: второй код удобнее первого. Добавим typedef-улучшение:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">V v;
+<span class="kw">typedef</span> V::iterator Vit;
+<span class="kw">for</span> ( Vit it = v.begin(); it != v.end(); ++it ) {
+    std::cout &lt;&lt; *it &lt;&lt; std::endl;
+}</code></pre></div>
+<p>Лучше, но код возрос на одну строку.</p>
+<p>Однако дело, конечно, не в typedef и не в том, что цикл for требует чуть большего по объёму кода. Дело в том, что в итеративном цикле легче допустить ошибку. Например: <code>cpp V v; typedef V::iterator Vit; for ( Vit it = v.begin(); it != v.begin(); ++it ) {     std::cout &lt;&lt; *it &lt;&lt; std::endl; }</code>или</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">V v;
+<span class="kw">typedef</span> V::iterator Vit;
+<span class="kw">for</span> ( Vit it = v.begin(); it != v2.end(); ++it ) {
+    std::cout &lt;&lt; *it &lt;&lt; std::endl;
+}</code></pre></div>
+<p>В первом случае мы передали один и тот же итератор v.begin(), а во втором случае в наш код влез другой контейнер v2 (из той же области видимости, и того же типа). Компилятор не покажет вам этих проблем, поскольку это не проблемы языка, это ваши проблемы.</p>
+<p>Скажете, что вы никогда не допустите таких глупых ошибок? Ну-ну, я тоже так думал когда-то… :)</p>
+<p>В BOOST_FOREACH взаимодействия с итераторами нет, значит и ошибиться невозможно.</p>
+<h3>
+Эффективность выполнения
+</h3>
+<p>Итак, с красотой кода разобрались, но что со временем выполнения? Некоторые говорят, мол, в силу того, что BOOST_FOREACH - это макрос, он разворачивается на стадии препроцессирования в монстроподобную конструкцию и, мол, как это ужасно.</p>
+<p>Ну, во-первых, во что он там разворачивается - это не мои заботы, об этом пусть думает компилятор. Увеличивается размер исполняемого файла? Ну и пусть увеличивается, для меня это не проблема.</p>
+<p>Однако вопрос эффективности может быть действительно важен. Его и рассмотрим.</p>
+<p>Проведём серию экспериментов. Используемая система:</p>
+<ul>
+<li>Debian Linux 6.0 amd64</li>
+<li>Corei3 M-370 2.4 ГГц</li>
+<li>g++ 4.4.5</li>
+</ul>
+<p>Итак:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> std::vector&lt; <span class="dt">int</span> &gt; V;
+
+<span class="kw">inline</span> <span class="dt">void</span> time_stamp() {
+    <span class="kw">using</span> <span class="kw">namespace</span> boost::posix_time;
+    std::cout &lt;&lt; to_simple_string( microsec_clock::universal_time() ) &lt;&lt; std::endl; 
+}
+
+<span class="kw">inline</span> <span class="dt">void</span> fill_container( V&amp; v ) {
+    <span class="dt">const</span> size_t max = <span class="dv">10000000</span>;
+    <span class="kw">for</span> ( size_t i = <span class="dv">0</span>; i &lt; max; ++i ) {
+        v.push_back( i );
+    }
+    BOOST_ASSERT ( max == v.size() );
+}
+
+<span class="dt">int</span> main() {
+    V v;
+    fill_container( v );
+    
+    time_stamp();
+    BOOST_FOREACH ( <span class="dt">int</span> i, v ) {
+        <span class="dt">const</span> <span class="dt">int</span> ii = i; <span class="co">// Ну, хоть какая-то работа...</span>
+    }
+    time_stamp();
+
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>Вывод этого кода: 2011-Mar-15 08:01:04.421968 2011-Mar-15 08:01:04.842156</p>
+<p>При повторении запусков выясняю среднее огрублённое время цикла: <strong>421 мс</strong>.</p>
+<p>Теперь изменим код цикла:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">...
+<span class="dt">int</span> main() {
+    V v;
+    fill_container( v );
+    
+    time_stamp();
+    <span class="kw">for</span> ( V::iterator it = v.begin(); it != v.end(); ++it ) {
+        <span class="dt">const</span> <span class="dt">int</span> ii = i; <span class="co">// Ну, хоть какая-то работа...</span>
+    }
+    time_stamp();
+
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>Вывод этого кода: 2011-Mar-15 08:26:21.014594 2011-Mar-15 08:26:21.244632</p>
+<p>При повторении запусков выясняю среднее огрублённое время цикла: <strong>229 мс</strong>.</p>
+<p>Ага, ликуют поклонники цикла for, мы победили! Да, победа очевидна, ибо если очень огрубить, то можно сказать, что итеративный for выполняется почти в два раза быстрее.</p>
+<p>НО! Учтите, что цикл состоял из десяти миллионов итераций. Значит, время <strong>одной</strong> итерации в первом случае составил 42 нс, а во втором - 23 нс. То есть проигрыш одной итерации - менее 20 нс.</p>
+<p>Вывод: при переборе действительно больших контейнеров, особенно когда время перебора критично, BOOST_FOREACH в проигрыше. Но для перебора (критически важного по скорости) лучше использовать стандартные алгоритмы, а не циклы.</p>
+<p>Поэтому для большинства случаев BOOST_FOREACH - однозначно лучший выбор.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

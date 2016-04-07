@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Haskell и C++: сравним решения?</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Haskell и C++: сравним решения?</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "21 октября 2011"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Haskell.html">Haskell</a>, <a href="../../../tags/C%252B%252B11.html">C++11</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Итак, предлагаю вашему вниманию реальный пример использования языка Haskell. Именно этот простой пример показал мне, что функциональное программирование - реальность, а не баловство горстки фанатов.</p>
+<p>Задача простая: программа приглашает пользователя ввести своё имя, и если такое имеется, она привествует пользователя по фамилии, в противном же случае извиняется и говорит, мол, не знаю вас.</p>
+<p>Для интереса сравним два решения: первое - на C++11, второе - на Haskell. Для полноты сравнения привожу полные файлы.</p>
+<h4>
+<ol style="list-style-type: decimal">
+<li>На C++11.
+</h4></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;iostream&gt;</span>
+<span class="ot">#include &lt;string&gt;</span>
+<span class="ot">#include &lt;map&gt;</span>
+
+<span class="kw">typedef</span> std::map &lt;std::string, std::string&gt; Names;
+
+<span class="dt">int</span> main() {
+    Names names
+        {   {<span class="st">&quot;Ivan&quot;</span>,   <span class="st">&quot;Ivanov&quot;</span>}
+          , {<span class="st">&quot;Fedor&quot;</span>,  <span class="st">&quot;Fedorov&quot;</span>}
+          , {<span class="st">&quot;Stepan&quot;</span>, <span class="st">&quot;Stepanov&quot;</span>}
+        };
+    std::cout &lt;&lt; <span class="st">&quot;What is your name?&quot;</span> &lt;&lt; std::endl;
+    std::string first_name;
+    std::cin &gt;&gt; first_name;
+    <span class="dt">const</span> <span class="kw">auto</span> it = names.find( first_name );
+    <span class="kw">if</span> ( it != names.end() )
+        std::cout &lt;&lt; <span class="st">&quot;Hello, mister &quot;</span> &lt;&lt; it-&gt;second &lt;&lt; std::endl;
+    <span class="kw">else</span>
+        std::cout &lt;&lt; <span class="st">&quot;Sorry, I don't know you...&quot;</span> &lt;&lt; std::endl;
+}</code></pre></div>
+<p>Можно было бы и через operator[], но в данном случае это не важно.</p>
+<h4>
+<ol start="2" style="list-style-type: decimal">
+<li>На Haskell
+</h4></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+ 
+<span class="kw">import qualified</span> <span class="dt">Data.Map</span> <span class="kw">as</span> <span class="dt">Names</span>
+ 
+names <span class="fu">=</span> Names.fromList
+    [   (<span class="st">&quot;Ivan&quot;</span>,   <span class="st">&quot;Ivanov&quot;</span>)
+      , (<span class="st">&quot;Fedor&quot;</span>,  <span class="st">&quot;Fedorov&quot;</span>)
+      , (<span class="st">&quot;Stepan&quot;</span>, <span class="st">&quot;Stepanov&quot;</span>) 
+    ]
+ 
+main <span class="fu">=</span> <span class="kw">do</span> putStrLn <span class="st">&quot;What is your name?&quot;</span>
+          first_name <span class="ot">&lt;-</span> getLine
+          <span class="kw">case</span> Names.lookup first_name names <span class="kw">of</span>
+              <span class="dt">Just</span> last_name <span class="ot">-&gt;</span> <span class="kw">do</span> putStr <span class="st">&quot;Hello, mister &quot;</span>
+                                   print last_name
+              <span class="dt">Nothing</span>        <span class="ot">-&gt;</span> putStrLn <span class="st">&quot;Sorry, I don't know you...&quot;</span></code></pre></div>
+<p>Ну и как вам? Прочтите второй пример, и я не поверю вам, если вы скажете, что он непонятен. Лично мне - предельно понятен. Да, синтакстические особенности, конечно, сразу бросаются в глаза, но мысль автора не вызывает сомнений.</p>
+<p>На самом деле, цель, конечно же, не в том, чтобы сравнивать эти решения в контексте “лучше/хуже” (и уж точно не в том, чтобы подсчитывать количество строчек кода в этих примерах), а в том, чтобы наглядно показать, что Haskell - реальный инструмент для реального программирования. Да, этот пример очень простой, но он повседневный, а не академический.</p>
+<p><em>P.S. И лично мне очень жаль, что такое множество статей о функциональном программировании не содержат вот таких простых и нужных примеров…</em></p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

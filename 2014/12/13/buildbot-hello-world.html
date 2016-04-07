@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Buildbot: CI-инструмент, который мне понравился</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Buildbot: CI-инструмент, который мне понравился</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "13 декабря 2014"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Buildbot.html">Buildbot</a>, <a href="../../../tags/CI.html">CI</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Приветствую, друзья!</p>
+<p>Не так давно понадобилось мне настроить CI. Как вы знаете, на сегодняшний день CI для веб-приложений - это нечто само собою разумеющееся, однако мне предстояло выбрать, ибо CI-инструментов достаточно много. Коммерческие монстры типа TeamCity были отвергнуты сразу, ибо они, во-первых, слишком тяжеловесны, а во-вторых, весьма дороги. После долгих блужданий по Сети я выбрал <a href="http://buildbot.net">Buildbot</a>. И не пожалел.</p>
+<p>Я не стану нахваливать эту систему и кричать о том, какая она великолепная, сексуальная и т.п. Более того, по сравнению с той же TeamCity Buildbot выглядит как студенческое поделие (по крайней мере, с точки зрения GUI). Однако я искал максимально простой и ясный в использовании инструмент, и именно своей простотой Buildbot покорил меня.</p>
+<p>Итак, к делу.</p>
+<h2 id="начало">Начало</h2>
+<p>Идём на <a href="http://buildbot.net">официальный сайт</a>, оглядываемся, а затем переходим <a href="http://trac.buildbot.net/wiki/DownloadInstall">сюда</a>. Здесь мы узнаём две вещи: во-первых, Buildbot написан на Python, а во-вторых, установить его предельно просто.</p>
+<p>Вначале ставим Python-овский разработческий пакет. Для Ubuntu 14.04 это будет:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">sudo</span> apt-get install python-dev</code></pre></div>
+<p>Затем устанавливаем сам Buildbot:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">sudo</span> easy_install buildbot</code></pre></div>
+<p>Немного терпения - и готово. Но прежде чем продолжить, объясню фундаментальную идею Buildbot.</p>
+<h2 id="идея">Идея</h2>
+<p>Всё предельно просто: есть один хозяин (master) и N-дцать подключенных к мастеру слуг (slave). Хозяин - это центр системы. Именно он подлежит настройке, и именно он связан с веб-фронтендом. Слуги - это отдельные процессы, подключающиеся к хозяину и выполняющие роль сборщиков. По аналогии с TeamCity, слугу можно считать билд-агентом. Таким образом, настроенный Buildbot - это один хозяин и хотя бы один слуга. Вот, собственно, и всё.</p>
+<h2 id="создаём-хозяина">Создаём хозяина</h2>
+<p>Выполняем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span>
+$ <span class="kw">mkdir</span> tmp
+$ <span class="kw">buildbot</span> create-master tmp/mhelper_buildmaster</code></pre></div>
+<p>Не обращайте внимания на то, что каталог называется <code>tmp</code>. Это было взято мною из документации.</p>
+<p>После выполнения этой команды у нас появился каталог <code>~/tmp/mhelper_buildmaster</code>. Далее делаем следующее:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> tmp/mhelper_buildmaster
+$ <span class="kw">mv</span> master.cfg.sample master.cfg</code></pre></div>
+<p>Файл <code>master.cfg</code> - это единственный конфигурационный файл нашего CI-инструмента. К его редактированию мы вернёмся чуток позже.</p>
+<h2 id="создаём-слуг">Создаём слуг</h2>
+<p>Моё веб-приложение представлено четырьмя независящими друг от друга стендами. Эти стенды ассоциированы с привычным для программистов жизненным циклом, выраженным в версиях (<code>alpha</code>, <code>beta</code>, <code>rc</code> и <code>stable</code>). Например, версия <code>alpha</code> развёрнута на стенде <code>http://alpha.my-service.com</code>.</p>
+<p>В связи с такой схемой я решил, что логично будет создать четыре слуги вместо одного. Итак:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span>
+$ <span class="kw">sudo</span> easy_install buildbot-slave
+$ <span class="kw">buildslave</span> create-slave tmp/slave_alpha localhost:9989 slave_alpha slave_alpha!
+$ <span class="kw">buildslave</span> create-slave tmp/slave_beta localhost:9989 slave_beta slave_beta!
+$ <span class="kw">buildslave</span> create-slave tmp/slave_rc localhost:9989 slave_rc slave_rc!
+$ <span class="kw">buildslave</span> create-slave tmp/slave_stable localhost:9989 slave_stable slave_stable!</code></pre></div>
+<p>Готово. Теперь у нас есть четыре слуги с именами <code>slave_alpha</code>, <code>slave_beta</code>, <code>slave_rc</code> и <code>slave_stable</code>. Разберём параметры этих команд, на примере первой:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">buildslave</span> create-slave tmp/slave_alpha localhost:9989 slave_alpha slave_alpha!</code></pre></div>
+<p>Первый аргумент - это базовый каталог слуги, в данном случае <code>~/tmp/slave_alpha/</code>. Вторым аргументом задаётся точка подключения к (уже созданному нами) хозяину. По умолчанию хозяин доступен на <code>localhost</code> через порт <code>9989</code> (при желании порт можно будет изменить). Третий аргумент - имя (логин) слуги, <code>slave_alpha</code>. Четвёртым аргументом идёт пароль слуги, в данном случае <code>slave_alpha!</code>. Как вы уже поняли, имя и пароль слуги используются для того, чтобы аутентифицировать слугу в глазах хозяина.</p>
+<h2 id="первичная-настройка-хозяина">Первичная настройка хозяина</h2>
+<p>Помните файл <code>~/tmp/mhelper_buildmaster/master.cfg</code>? Пришла пора взяться за него. Что мне понравилось в Buildbot, так это то, что у него один-единственный конфигурационный файл, в котором задаётся всё, что нам понадобится для работы. Да, при желании один конфиг можно разбить на несколько (путём включения вспомогательных конфигов в корневой), но я решил не заморачиваться с такой схемой.</p>
+<p>Откроем файл и найдём в нём секцию <code>BUILDSLAVES</code>, в которой задан список слуг, начинающийся с команды:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c[<span class="st">'slaves'</span>] <span class="op">=</span> ...</code></pre></div>
+<p>В нашем случае, учитывая четырёх созданных слуг, эта строка будет выглядеть так:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c[<span class="st">'slaves'</span>] <span class="op">=</span> [BuildSlave(<span class="st">&quot;slave_alpha&quot;</span>, <span class="st">&quot;slave_alpha!&quot;</span>),
+               BuildSlave(<span class="st">&quot;slave_beta&quot;</span>, <span class="st">&quot;slave_beta!&quot;</span>),
+               BuildSlave(<span class="st">&quot;slave_rc&quot;</span>, <span class="st">&quot;slave_rc!&quot;</span>),
+               BuildSlave(<span class="st">&quot;slave_stable&quot;</span>, <span class="st">&quot;slave_stable!&quot;</span>)]</code></pre></div>
+<p>Я думаю, подробных пояснений не нужно: перед нами список из четырёх пар “логин/пароль”. Как видите, здесь указаны те самые логины и пароли, которые задавались при создании слуг.</p>
+<p>Теперь выполняем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span>
+$ <span class="kw">buildbot</span> reconfig tmp/mhelper_buildmaster</code></pre></div>
+<p>Поскольку мы изменили конфигурационный файл, нам нужно переконфигурировать нашу систему. И мы будем делать это всякий раз, когда вносим изменения в файл <code>~/tmp/mhelper_buildmaster/master.cfg</code>.</p>
+<h2 id="первый-запуск">Первый запуск</h2>
+<p>Запускаем хозяина:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">buildbot</span> start tmp/mhelper_buildmaster/</code></pre></div>
+<p>Хозяин ожил, теперь запускаем наших слуг:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">buildslave</span> start tmp/slave_alpha/
+$ <span class="kw">buildslave</span> start tmp/slave_beta/
+$ <span class="kw">buildslave</span> start tmp/slave_rc/
+$ <span class="kw">buildslave</span> start tmp/slave_stable/</code></pre></div>
+<p>Готово. По умолчанию, веб-интерфейс доступна через порт <code>8010</code>, поэтому набираем в браузере <code>http://localhost:8010</code> и любуемся. Да, интерфейс очень простой, но зато понятный.</p>
+<h2 id="знакомимся-с-проектом">Знакомимся с проектом</h2>
+<p>Естественно, на данный момент система не представляет для нас никакой ценности. Пришла пора поглужбе разобраться в конфигурационном файле.</p>
+<p>Прежде всего познакомим Buildbot с нашим проектом. Откроем файл <code>~/tmp/mhelper_buildmaster/master.cfg</code> и найдём в нём секцию <code>PROJECT IDENTITY</code>. Пишем:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c[<span class="st">'title'</span>] <span class="op">=</span> <span class="st">&quot;My project's real name&quot;</span>
+c[<span class="st">'titleURL'</span>] <span class="op">=</span> <span class="st">&quot;http://my-project.com&quot;</span></code></pre></div>
+<p>Кстати, если по какой-то причине нас не устраивает умолчальный порт <code>8010</code> (например, у меня он был уже занят), то в этой же секции указываем другой:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c[<span class="st">'buildbotURL'</span>] <span class="op">=</span> <span class="st">&quot;http://localhost:8020/&quot;</span></code></pre></div>
+<h2 id="указываем-пользователей">Указываем пользователей</h2>
+<p>Очевидно, что работать с нашей системой должны лишь те, кому это позволено. Укажем наших будущих пользователей-разработчиков. Находим секцию <code>STATUS TARGETS</code> и меняем там следующее:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">users <span class="op">=</span> [(<span class="st">&quot;denis.shevchenko&quot;</span>,<span class="st">&quot;super_password&quot;</span>)]
+
+authz_cfg <span class="op">=</span> authz.Authz(
+    <span class="co"># change any of these to True to enable; see the manual for more</span>
+    <span class="co"># options</span>
+    auth <span class="op">=</span> auth.BasicAuth(users),
+    view <span class="op">=</span> <span class="st">'auth'</span>,
+    gracefulShutdown <span class="op">=</span> <span class="va">False</span>,
+    forceBuild <span class="op">=</span> <span class="st">'auth'</span>, <span class="co"># use this to test your slave once it is set up</span>
+    forceAllBuilds <span class="op">=</span> <span class="st">'auth'</span>,  <span class="co"># ..or this</span>
+    pingBuilder <span class="op">=</span> <span class="va">False</span>,
+    stopBuild <span class="op">=</span> <span class="va">True</span>,
+    stopAllBuilds <span class="op">=</span> <span class="va">False</span>,
+    cancelPendingBuild <span class="op">=</span> <span class="va">True</span>,
+)
+c[<span class="st">'status'</span>].append(html.WebStatus(http_port<span class="op">=</span><span class="dv">8020</span>, authz<span class="op">=</span>authz_cfg))</code></pre></div>
+<p>Значение <code>users</code> - это список пар “логин/пароль” для наших пользователей. Как видите, пока там задан только я. Далее обращаю ваше внимание на строку:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">    view <span class="op">=</span> <span class="st">'auth'</span>,</code></pre></div>
+<p>Этой строки нет в умолчальном конфиге, но она очень полезна. Без неё веб-интерфейс будет открыть всему миру, и каждый сможет увидеть наши сборки и прочую информацию. Поэтому мы и добавили эту строку: с ней информация о сборках и настройках будет видна только авторизованным пользователям.</p>
+<p>Также обращаю ваше внимание на строку:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c[<span class="st">'status'</span>].append(html.WebStatus(http_port<span class="op">=</span><span class="dv">8020</span>, authz<span class="op">=</span>authz_cfg))</code></pre></div>
+<p>Видите значение <code>http_port</code>? Если необходимо, измените его в соответствие со значением порта в параметре <code>c['buildbotURL']</code>.</p>
+<p>Теперь пользователи, зайдя на главную страницу сервиса, смогут авторизоваться, введя указанные здесь логин и пароль в верхнем правом углу.</p>
+<h2 id="указываем-наши-исходники">Указываем наши исходники</h2>
+<p>Используемый мною CI-воркфлоу предельно прост: <code>git push</code> в соответствующую ветку, и ассоциированный с нею стенд автоматически обновляется. Например, чтобы пересобрать стенд <code>http://alpha.my-service.com</code>, необходимо запушить изменения в ветку <code>alpha</code> (далее я подразумеваю, что репозиторий у вас уже есть и упомянутые здесь ветки уже созданы).</p>
+<p>Теперь находим секцию <code>CHANGESOURCES</code> и пишем там следующее:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> buildbot.changes.gitpoller <span class="im">import</span> GitPoller
+
+poll_interval_in_seconds <span class="op">=</span> <span class="dv">60</span>
+
+git_poller <span class="op">=</span> GitPoller(repourl <span class="op">=</span> <span class="st">'git@localhost:service/mhelper.git'</span>,
+                       workdir <span class="op">=</span> <span class="st">'gitpoller-workdir'</span>,
+                       branches <span class="op">=</span> [<span class="st">'alpha'</span>, <span class="st">'beta'</span>, <span class="st">'rc'</span>, <span class="st">'stable'</span>],
+                       pollinterval <span class="op">=</span> poll_interval_in_seconds)
+
+c[<span class="st">'change_source'</span>] <span class="op">=</span> [git_poller]</code></pre></div>
+<p><code>git_poller</code> - наш верный сторожевой пёс. Каждый 60 секунд он опрашивает четыре ветки в нашем репозитории.</p>
+<p>Обратите внимание на необычный URL репозитория <code>git@localhost:service/mhelper.git</code>. Дело в том, что мой репозиторий уютно живёт в <a href="https://about.gitlab.com">GitLab</a>, а этот GitLab физически установлен на той же разработческой виртуалке, где и Buildbot. Поэтому я создал беспарольный ssh-ключик, добавил его в GitLab (через его веб-интерфейс), и теперь пользователь <code>denis</code> имеет право выполнять команды для работы с репозиторием от имени пользователя <code>git</code>. Напомню, что пользователь <code>git</code> автоматически создаётся при установке GitLab.</p>
+<h2 id="планировщики">Планировщики</h2>
+<p>Теперь находим секцию <code>SCHEDULERS</code> и пишем:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">alpha_scheduler <span class="op">=</span> SingleBranchScheduler(name <span class="op">=</span> <span class="st">&quot;alpha_scheduler&quot;</span>,
+                                        change_filter <span class="op">=</span> <span class="bu">filter</span>.ChangeFilter(branch <span class="op">=</span> <span class="st">'alpha'</span>),
+                            		    treeStableTimer <span class="op">=</span> <span class="va">None</span>,
+                            	 	    builderNames <span class="op">=</span> [<span class="st">&quot;alpha_builder&quot;</span>])
+
+beta_scheduler <span class="op">=</span> SingleBranchScheduler(name <span class="op">=</span> <span class="st">&quot;beta_scheduler&quot;</span>,
+                           	           change_filter <span class="op">=</span> <span class="bu">filter</span>.ChangeFilter(branch <span class="op">=</span> <span class="st">'beta'</span>),
+                                       treeStableTimer <span class="op">=</span> <span class="va">None</span>,
+                            	       builderNames <span class="op">=</span> [<span class="st">&quot;beta_builder&quot;</span>])
+
+rc_scheduler <span class="op">=</span> SingleBranchScheduler(name <span class="op">=</span> <span class="st">&quot;rc_scheduler&quot;</span>,
+                            	     change_filter <span class="op">=</span> <span class="bu">filter</span>.ChangeFilter(branch <span class="op">=</span> <span class="st">'rc'</span>),
+                            	     treeStableTimer <span class="op">=</span> <span class="va">None</span>,
+                            	     builderNames <span class="op">=</span> [<span class="st">&quot;rc_builder&quot;</span>])
+
+stable_scheduler <span class="op">=</span> SingleBranchScheduler(name <span class="op">=</span> <span class="st">&quot;stable_scheduler&quot;</span>,
+                            		 change_filter <span class="op">=</span> <span class="bu">filter</span>.ChangeFilter(branch <span class="op">=</span> <span class="st">'stable'</span>),
+                            		 treeStableTimer <span class="op">=</span> <span class="va">None</span>,
+                            		 builderNames <span class="op">=</span> [<span class="st">&quot;stable_builder&quot;</span>])
+
+c[<span class="st">'schedulers'</span>] <span class="op">=</span> [alpha_scheduler, beta_scheduler, rc_scheduler, stable_scheduler]</code></pre></div>
+<p>Здесь мы создаём четыре планировщика. Каждый из них работает со своей версией (веткой), и связан со своим сборщиком.</p>
+<h2 id="сборщики">Сборщики</h2>
+<p>Итак, мы дошли до самого интересного. Находим секцию <code>BUILDERS</code> и пишем:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">alpha_factory <span class="op">=</span> BuildFactory()
+alpha_factory.addStep(ShellCommand(command <span class="op">=</span> [<span class="st">&quot;mhelper_update.sh&quot;</span>, <span class="st">&quot;alpha&quot;</span>]))
+
+beta_factory <span class="op">=</span> BuildFactory()
+beta_factory.addStep(ShellCommand(command <span class="op">=</span> [<span class="st">&quot;mhelper_update.sh&quot;</span>, <span class="st">&quot;beta&quot;</span>]))
+
+rc_factory <span class="op">=</span> BuildFactory()
+rc_factory.addStep(ShellCommand(command <span class="op">=</span> [<span class="st">&quot;mhelper_update.sh&quot;</span>, <span class="st">&quot;rc&quot;</span>]))
+
+stable_factory <span class="op">=</span> BuildFactory()
+stable_factory.addStep(ShellCommand(command <span class="op">=</span> [<span class="st">&quot;mhelper_update.sh&quot;</span>, <span class="st">&quot;stable&quot;</span>]))</code></pre></div>
+<p>Мы создали четыре сборочные фабрики. Фабрика - это набор шагов, которые, по нашему замыслу, должны выполниться тогда, когда в одной из наших веток произойдёт некое изменение. Как видите, в каждую из фабрик мы добавили по одному-единственному шагу (с помощью функции <code>addStep</code>). В данном случае шаг - это выполнение одной-единственной shell-команды. Buildbot поддерживает достаточно много различных видов шагов, о чём подробнее рассказано <a href="http://docs.buildbot.net/0.8.9/manual/cfg-buildsteps.html">здесь</a>.</p>
+<p>Команда, выполняемая каждой из фабрик - это вызов скрипта <code>mhelper_update.sh</code>, с передачей оному одного из четырёх аргументов (как видите, это имена версий). Об этом чуть позже.</p>
+<p>Теперь создаём четыре сборщика:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">alpha_builder <span class="op">=</span> BuilderConfig(name <span class="op">=</span> <span class="st">&quot;alpha_builder&quot;</span>,
+      			              slavenames <span class="op">=</span> [<span class="st">&quot;slave_alpha&quot;</span>],
+                              factory <span class="op">=</span> alpha_factory)
+
+beta_builder <span class="op">=</span> BuilderConfig(name <span class="op">=</span> <span class="st">&quot;beta_builder&quot;</span>,
+      			             slavenames <span class="op">=</span> [<span class="st">&quot;slave_beta&quot;</span>],
+                             factory <span class="op">=</span> beta_factory)
+
+rc_builder <span class="op">=</span> BuilderConfig(name <span class="op">=</span> <span class="st">&quot;rc_builder&quot;</span>,
+      			           slavenames <span class="op">=</span> [<span class="st">&quot;slave_rc&quot;</span>],
+                           factory <span class="op">=</span> rc_factory)
+
+stable_builder <span class="op">=</span> BuilderConfig(name <span class="op">=</span> <span class="st">&quot;stable_builder&quot;</span>,
+       	       		           slavenames <span class="op">=</span> [<span class="st">&quot;slave_stable&quot;</span>],
+                               factory <span class="op">=</span> stable_factory)
+
+c[<span class="st">'builders'</span>] <span class="op">=</span> [alpha_builder, beta_builder, rc_builder, stable_builder]</code></pre></div>
+<p>Звенья цепи, как видите, наконец-то собираются воедино. Каждый из сборщиков связан, во-первых, со своей сборочной фабрикой, а во-вторых, со своим слугой. Например, сборщик <code>alpha_builder</code> связан с фабрикой <code>alpha_factory</code> и со слугой <code>slave_alpha</code>. Таким образом, shell-команда, добавленная в качестве сборочного шага в фабрику <code>alpha_factory</code>, будет выполнена силами слуги <code>slave_alpha</code>. Того самого слуги, которого мы создали в самом начале.</p>
+<h2 id="о-скрипте">О скрипте</h2>
+<p>Как вы уже догадались, выполнение скрипта <code>mhelper_update.sh</code> как раз и делает всю фактическую работу по обновлению нашего веб-приложения. Разумеется, можно было обойтись и без него, ведь скрипт есть набор shell-команд, и весь этот набор можно было включить в наши сборочные фабрики. Однако я как-то привык работать с отдельным скриптом. Во-первых, так конфигурационный файл сильно упрощается, а во-вторых, в крайнем случае (ну мало ли что) всегда можно обновить приложение и без CI, запустив этот скрипт вручную. Весьма удобно.</p>
+<p>Содержимое этого скрипта стандартно: берём исходники приложения из нужной ветки, компилируем (в моём случае речь идёт о Yesod-приложении), затем копируем исполняемый файл вместе со статическими файлами на другую, рабочую виртуалку, после чего перезапускаем там процесс. Всё просто.</p>
+<p>Кстати, обратите внимание на то, что скрипт вызывается без указания пути к нему. То есть просто:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">mhelper_update.sh</span> alpha</code></pre></div>
+<p>Я специально сделал так, чтобы этот скрипт (являющийся частью репозитория моего приложения) был доступен из любого места. Дело в том, что если мы напишем так:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">ShellCommand(command <span class="op">=</span> [<span class="st">&quot;/some/path/to/mhelper_update.sh&quot;</span>, <span class="st">&quot;stable&quot;</span>])</code></pre></div>
+<p>Buildbot воспринимает данный путь как относительный, а не как абсолютный! В качестве корня он по умолчанию подразумевает отправную точку внутри своей структуры в каталоге <code>~/tmp/</code>. Помню, я достаточно долго разбирался в этом вопросе, но потом решил идти напролом: указал корень моего репозитория в <code>PATH</code> - и вуаля, исполняемый скрит виден отовсюду.</p>
+<h2 id="выводы">Выводы</h2>
+<p>Вот и весь наш CI. Пушим в ветку - через минуту получаем обновлённый веб-стенд. В общем, этот Buildbot мне очень понравился. Конечно, веб-интерфейс бы ему покрасивше - цены б ему не было. А возможностей у него реально много. То, что описано в данной статье - это так, Hello World. Подробности ищите <a href="http://docs.buildbot.net/current/index.html">здесь</a>.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

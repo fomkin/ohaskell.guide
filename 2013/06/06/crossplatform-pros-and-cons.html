@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Кроссплатформенность: выигрыш для программиста и проигрыш для малого бизнеса</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Кроссплатформенность: выигрыш для программиста и проигрыш для малого бизнеса</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "06 июня 2013"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/GUI.html">GUI</a>, <a href="../../../tags/%25D1%2581%25D0%25BE%25D1%2584%25D1%2582%25D0%25B2%25D0%25B5%25D1%2580%25D0%25BD%25D1%258B%25D0%25B9%2520%25D0%25B1%25D0%25B8%25D0%25B7%25D0%25BD%25D0%25B5%25D1%2581.html">софтверный бизнес</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>История кроссплатформенной идеи довольно-таки продолжительна, особенно по IT-меркам. Так, Qt с нами уже с 1995 года, а wxWidgets - с 1992 года. Да и сама идея, согласитесь, хорошая - одна кодовая база и тут же разные версии итогового приложения.</p>
+<p>Впрочем, зададим себе вопрос: действительно ли идея кроссплатформенного кода столь хороша? Я постараюсь удержаться от оценки (и тем более от сравнения) конкретных инструментариев, сфокусируюсь лишь на самой этой идее.</p>
+<p>С течением времени я пришёл к выводу, что кроссплатформенность, как и любая медаль, имеет две стороны. Первая сторона - взгляд IT-шника, вторая - взгляд бизнеса. А теперь подробнее…</p>
+<p>Хороша ли идея кроссплатформенного кода с точки зрения IT-шника? Уверен, большинство разработчиков ответят “Да”. Ну, давайте непредвзято: одна кодовая база на все (поддерживаемые) платформы - это действительно хорошо. Ты думаешь лишь о языке программирования, о внутренней логике приложения и об API конкретного кроссплатформенного инструментария. Потом три (пере)компиляции - и версии для, скажем, Windows, Linux и OS X готовы. Захотел добавить версию для какой-нибудь Solaris - ставь соответствующую версию инструментария, очередная перекомпиляция - и вот уже четвёртая версия приложения готова. Красота!</p>
+<p>Главное преимущество здесь - экономия. Экономия сил, времени и, соответственно, денег. Представьте себе, что вам одному пришлось бы поддерживать три кодовые базы, предварительно изучив три (совершенно разных) API, да ещё и постоянно синхронизировать состояние трёх репозиториев (в двух баг поправил, а в третьем - забыл) - и вы поймёте, что преимущество это очень весомое. Это - взгляд IT-шника. Именно поэтому во вводном руководстве Qt сказано, что “программисты любят Qt за то, что она им нравится”.</p>
+<p>А теперь взглянем на вторую сторону и попытаемся поставить себя на место предпринимателя. Естественно, когда речь идёт о свободном софте, создаваемом без какого бы то ни было коммерческого интереса, сию вторую сторону можно проигнорировать.</p>
+<p>Итак, сторона предпринимателя, сторона бизнеса. Здесь, казалось бы, вышеупомянутое преимущество кроссплатформенного кода (а именно экономия сил, времени и денег) должно быть <em>ещё более весомым</em>. Теоретически так оно и есть. Практически же, у кроссплатформенного кода есть один ааааграменный недостаток. И недостаток этот, как ни парадокально звучит, заключается именно в универсальности такого кода. Почему? Потому что, как ни крути, нельзя быть всем для всех.</p>
+<p>При чём же тут взгляд предпринимателя, спросите вы. А при том, что, думая о коммерческом успехе приложения, мы обязаны смотреть правде в глаза. А правда в данном случае такова: приложение, родное для платформы Х, в подавляющем большинстве случаев будет на голову выше, чем кроссплатформенное, для этой платформы Х. Родное есть родное…</p>
+<p>Разумеется, речь идёт не о банальностях типа PushButton (поверьте мне, простая кнопка, созданная в Qt-приложении, визуально неотличима от простой кнопки, созданной, скажем, в Cocoa). Речь идёт о вещах более сложных. При всём уважении к Digia, программисты-создатели той же Qt ну никак не смогут успеть за развитием всех (поддерживаемых Qt) платформ. Поэтому графический интерфейс, созданный Qt, всегда будет выглядеть (в тех или иных аспектах) чужеродным по сравнению с родным интерфейсом. И это не плохо и не хорошо, это просто данность. И эта данность приводит к тому, что коммерческий успех родных приложений всегда будет знаааачительно выше, чем кроссплатформенных.</p>
+<p>Впрочем, может быть, это лишь мои субъективные догадки? Нет, друзья, это объективная реальность. И чтобы убедиться в этом, зададим себе вопрос: сколько мы знаем коммерчески успешных приложений, основанных на Qt или wxWidgets? Ну, поскольку мир Linux в данном аспекте выпадает (большинство тамошних пользователей использовали, используют и будут использовать только свободный софт), остаются Windows и Mac. Ну и? Много ли есть коммерчески успешных приложений для этих рынков? Честно признаться, я не знаю ни одного. И даже если таковые имеются, их очень немного.</p>
+<p>Да, есть такая штука, как QML. В ней приложения могут выглядеть идентично на всех поддерживаемых платформах. Но, по моему скромному мнению, это в корне ошибочное решение. Почему? Потому что такое приложение будет выглядеть чужаком на ВСЕХ платформах. Как ни крути, десктопный GUI на тех же Windows и Linux всегда был и всегда будет очень различаться, и это данность, и с этой данностью нужно мириться. По моему мнению, одинаковость графического интерфейса независимо от платформы - это область веб-приложений, но никак не десктопных.</p>
+<p>Ах да, я же совсем забыл про Java! Ведь среди приложений, написанных на Java, есть коммерчески успешные! Есть! Только, по моему личному опыту, скажу: графический интерфейс, созданный на Java, с первой же секунды режет глаз. Ну некрасивый он, как ни крути! К тому же всегда тормозной. Более или менее симпатично он выглядит на Windows, а вот на Linux и Mac… Я ставил несколько коммерческих Java-приложений на Debian и на OS X Lion - это тихий ужас. Поэтому пользователь ВСЕГДА предпочтёт родное приложение написанному на Java, если таковая альтернатива имеется. К тому же, Java уже несколько лет назад попала в большую немилость у Apple, так что этот рынок весьма неприветлив к Java-приложениям. Настолько неприветлив, что многие пользователи, увидев в описании приложения аббревиатуру “JRE”, сразу же закрывают вкладку браузера…</p>
+<p>Единственное, приходящее на ум, исключение составляет JetBrains. Весьма неплохие инструменты они делают, к тому же коммерчески успешные. Но вот я ставил себе их AppCode… Ну тормозит, собака, тормозит и всё тут, и это даже на моём MacBook Pro. Впрочем, к этому наверное, можно привыкнуть.</p>
+<p>Опять-таки, подчеркну: высокий корпоративный сегмент не в счёт! Да, я знаю, что есть очень успешные B2B приложения, написанные на Java. Но речь идёт о специализированных программных решениях, стоимость которых зачастую измеряется десятками тысяч вечнозелёных рублей. Поэтому сия сфера лишь для компаний-миллионеров…</p>
+<p>К чему я это всё? Да к тому, что идея кроссплатформенных десктопных приложений, на мой взгляд, по большей части потерпела крах в малом софтверном бизнесе. Ну неконкурентоспособны они, чего греха таить. Мне ведь довелось однажды участвовать в разработке одной большой программы, основанной на Qt, и на эту программу делали большую ставку. Но, как вспомню сейчас её интерфейс… Мысль о том, что на эту программу делали серьёзную коммерческую ставку, не вызывает у меня теперь ничего, кроме улыбки…</p>
+<p>Так что если желаете (хоть какого-нибудь) успеха вашему приложению на рынке - делайте его нативным для этого рынка. Поверьте мне на слово.</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

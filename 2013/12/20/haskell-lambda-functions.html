@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content>
+        <meta name="author" content="Денис Шевченко">
+        <link rel="icon" href="../../../static/images/favicon.ico">
+
+        <title>Haskell: о лямбда-функциях</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href="../../../static/css/default.css" rel="stylesheet">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div id="logo">
+                <a class="navbar-brand" href="../../../" title="Домой">
+                  Мысли и опыт
+                </a>
+              </div>
+            </div>
+            
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="../../../tags.html">Темы</a></li>
+                <li><a href="../../../archive.html">Архив</a></li>
+                <li><a href="../../../feed.xml">RSS</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://dshevchenko.biz" target="_blank">root</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content">
+            <h1>Haskell: о лямбда-функциях</h1>
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        <div class="post-info">
+            <strong>where</strong> date = "20 декабря 2013"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags = [<a href="../../../tags/Haskell.html">Haskell</a>]
+        </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4"></div>
+  
+    <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+        
+    </div>
+</div>
+
+<p>Помню как в школе я довольно долго не мог понять, что же такое функция. Да, я уже решал многие задания с использованием функций, да, уже рисовал разнообразные графики (помните эти прелестные дуги на тетрадном листе в клеточку?), но при этом не мог бы объяснить ребёнку, что такое функция как <em>понятие</em>. А памятуя о мудрых словах Эйнштейна, если вы не можете объяснить некую идею пятилетнему ребёнку, значит вы и сами её не понимаете…</p>
+<p>А ведь понятие-то оказалось предельно простым:</p>
+<p><strong>Функция - это описание зависимости чего-то от чего-то.</strong></p>
+<p>Всё. Если у нас есть описание того, <em>как</em> конкретное входное значение определяет конкретное выходное значение - значит это описание и есть функция.</p>
+<p>Однако в мире языка C (и подобных ему языков) функция никогда не ассоциировалась с таким определением. Напротив, функция там есть не что иное, как <em>подпрограмма</em>, а имя функции есть не что иное, как указатель на первую инструкцию этой подпрограммы.</p>
+<p>Кроме того, функция в C является глобальной в рамках текущей единицы трансляции. И поэтому вызов функции - это как бы “глобальный <strong><code>goto</code></strong>” в её тело (с последующим возвратом из него). Именно поэтому функция в языке C не может быть безымянной, потому что иначе её невозможно было бы вызывать.</p>
+<p>Всё это я напоминаю вам для того, чтобы, продолжив чтение этой заметки, вы увидели, насколько концепция λ-функций отличается от концепции функций в языке C.</p>
+<h3>
+Так что же это за лямбды такие?
+</h3>
+<p>В основе идеи λ-функций лежит λ-исчисление, названное так по имени этой красивой греческой буквы. У понятия λ-исчисления довольно-таки долгая академическая история, нам нет смысла её здесь разбирать по косточкам. Нас интересует лишь суть, поэтому сразу пример.</p>
+<p>Представим себе, что нам нужна функция, принимающая некое целочисленное значение и возвращающая квадрат этого значения. Причём функция именно в том самом, математическом смысле. Как бы мы могли это отобразить? Примерно так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dv">5</span> -&gt; f -&gt; <span class="dv">25</span></code></pre></div>
+<p>Итак, подаём на вход значение 5, а на выходе получаем 25. Проще некуда. Но как же нам записать внутренности функции <code>f</code>? Ну, например, так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dv">5</span> -&gt; (x * x) -&gt; <span class="dv">25</span></code></pre></div>
+<p>Тут тоже всё ясно: поданный на вход аргумент умножается сам на себя.</p>
+<p>Ну а теперь главный вопрос: как эту функцию описать <em>формально</em>, или <em>унифицированно</em>? Вот тут-то на сцену и выходит λ-исчисление, ибо оно как раз и предлагает такой вот унифицированный способ записи функции.</p>
+<p>Вот λ-выражение для нашей функции:</p>
+<pre>
+&lambda;x.x*x
+</pre>
+<p>Буква λ - это признак λ-функции. А читать это выражение следует примерно так:</p>
+<p>λ-функция от одного аргумента <code>x</code>, умножающая этот аргумент сам на себя.</p>
+<p>Таким образом, выражение до разделяющей точки:</p>
+**
+<pre>
+&lambda;x
+</pre>
+<p>**</p>
+<p>это список аргументов (в данном случае он один), а выражение после разделяющей точки:</p>
+**
+<pre>
+x*x
+</pre>
+<p>**</p>
+<p>это “тело” функции, описывающее ту самую зависимость выходного значения от значения входного.</p>
+<p>Как видите, весьма простое и элегантное описание. Как говорится, ничего лишнего.</p>
+<p>Обратите также внимание на то, что здесь нет имени. Особенностью λ-функции является её безымянность. Почему? Потому что имя ей не нужно. И это принципиально отличает её от функции в языке C, потому что там я могу обратиться к функции не иначе, как через её имя (даже вызов через указатель всё равно требует хотя бы единократное использование имени функции).</p>
+<h3>
+Ну хорошо, а как это будет выглядеть в коде?
+</h3>
+<p>λ-функции присутствуют во многих языках программирования. Но есть один язык, в котором синтаксис λ-выражения максимально приближен к приведённому здесь математическому. Угадайте с трёх раз, о каком языке я говорю… :)</p>
+<p>Итак, вот наша функция в Haskell:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> x<span class="fu">*</span>x</code></pre></div>
+<p>Ну, что я говорил? Прямое сходство. Ведь даже обратный слэш вначале подходит как нельзя лучше: рассматривайте его как “спинку” буквы λ. Фактически, единственное отличие - это замена точки стрелочкой, потому что символ ‘<code>-&gt;</code>’ присущ языку Haskell как признак (любой) функции. Нда-с, сразу чувствуется, что язык Haskell создал математик.</p>
+<p>А теперь, вероятно, вас интересует, как же можно <em>вызывать</em> такую функцию? Вероятно, мой ответ удивит вас, но λ-функции, строго говоря, не вызывают.</p>
+<p>Да-да, я уже вижу расширающиеся от удивления глаза. Точно такие же были и у меня, когда я впервые прочитал об этом. Но на самом деле здесь имеет место лишь игра слов. А для того, чтобы всё встало на свои места, мы опять вынуждены на пару минут вернуться в математику.</p>
+<p>Идея λ-функции базируется на принципе “аппликации” (application), или “применения”. Это означает, что λ-функции не вызывают, а применяют (или, если хотите, прикладывают) к аргументу. Знаю, это звучит странновато для уха программистов из мира C, потому что там аргумент “прикладывают” к функции, но в математике договорились на таком определении. Поэтому запись вида:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">f a</code></pre></div>
+<p>принято читать так: применение функции <code>f</code> к аргументу <code>a</code>.</p>
+<p>Вот как это выглядит в Haskell:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(\x <span class="ot">-&gt;</span> x<span class="fu">*</span>x) <span class="dv">5</span></code></pre></div>
+<p>Как видите, тут тоже прямое сходство с математической записью. Выражение в скобках - это уже знакомое нам λ-выражение. Оно “порождает” λ-функцию, которая сразу же применяется (прикладывается) к аргументу 5, результатом чего и явится значение 25.</p>
+<p>Таким образом, можно сказать, что перед нами - вызов λ-функции с аргументом 5, но учитывая математические корни языка Haskell, можно сказать, что перед нами - применение λ-функции к аргументу 5.</p>
+<h3>
+Да, но какая же от всего этого польза?
+</h3>
+<p>Действительно, пора и к практике переходить.</p>
+<p>В языке C принят стандартный “круг трёх шагов” по работе с функцией:</p>
+<ol>
+<li>
+объявление,
+</li>
+<li>
+определение,
+</li>
+<li>
+вызов.
+</li>
+</ol>
+<p>И потому работа с нашей функцией возведения в квадрат, применительно к языку C, могла бы выглядеть так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> f( <span class="dt">int</span> i ) {
+    <span class="kw">return</span> i * i;
+}
+
+<span class="dt">int</span> main() {
+    printf( <span class="st">&quot;</span><span class="ch">%d</span><span class="st">&quot;</span>, f( <span class="dv">5</span> ) );
+}</code></pre></div>
+<p>Мы подготовили нашу “глобальную подпрограмму”, в которую чуть позже зайдём через вызов (фактически - через разыменование указателя <code>f</code>).</p>
+<p>А вот как это выглядело бы на Haskell:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    putStrLn (show ((\x <span class="ot">-&gt;</span> x <span class="fu">*</span> x) <span class="dv">5</span>))</code></pre></div>
+<p>Как видите, мы ничего не готовим заранее. Напротив, мы <em>создаём</em> функцию (или, если хотите, функциональный объект) локально и непосредственно перед использованием. Создаём - и сразу апплицируем его к аргументу 5.</p>
+<p>Для большей простоты и похожести на нашу функцию мы можем написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    <span class="kw">do</span> putStrLn (show (f <span class="dv">5</span>))
+    <span class="kw">where</span> f <span class="fu">=</span> (\x <span class="ot">-&gt;</span> x<span class="fu">*</span>x)</code></pre></div>
+<p>Выражение</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">where</span> f <span class="fu">=</span> (\x <span class="ot">-&gt;</span> x<span class="fu">*</span>x)</code></pre></div>
+<p>это не присваивание (напомню, в Haskell его нет), это как бы ассоциация. Мы вводим локальный псевдоним для λ-функции и называем его <code>f</code>.</p>
+<p>Вы можете спросить меня, мол, какова же реальная польза от λ-функции, если у нас есть функция обыкновенная? Ведь мы могли бы написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">f ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span>
+f x <span class="fu">=</span>
+    x <span class="fu">*</span> x
+
+main <span class="fu">=</span>
+    putStrLn (show (f <span class="dv">5</span>))</code></pre></div>
+<p>Тут всё как обычно: мы определили функцию <code>f</code> заранее, а потом апплицировали её к аргументу 5.</p>
+<p>Так вот одно из преимуществ λ-функции как раз и заключается в её локальности. Зачем нам определять (подготавливать заранее) некую “глобальную подпрограмму”, если мы можем создать и использовать её непосредственно в том месте, где она нужна? Очень часто в реальных программах случается такое, что функция определяется лишь для того, чтобы быть вызванной в одном-единственном месте. Ну и зачем же нам определяеть её “глобально”?</p>
+<p>Анонимность λ-функции также видится мне преимуществом, по крайней мере в ряде случаев. Если действие, совершаемое с помощью конкретной λ-функции, тривиально (и может быть понято из её “тела”, как в случае с функцией возведения в квадрат) - зачем же нам придумывать имя? Мы можем спокойно обойтись без него. Однако, в том случае, когда λ-функция нужна нам во многих местах кода, мы можем, во избежание дубляжа, “определить” λ-функцию глобально. Делается это в нашем случае так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f <span class="fu">=</span> \x <span class="ot">-&gt;</span> x <span class="fu">*</span> x
+
+main <span class="fu">=</span>
+    <span class="kw">do</span> putStrLn (show ((f <span class="dv">5</span>) <span class="fu">+</span> (f <span class="dv">6</span>)))</code></pre></div>
+<p>Как видите, мы “определили” нашу функцию глобально и ассоциировали её с выражением <code>f</code>. Теперь мы можем многократно использовать это выражение в коде, для апплицирования его к различным аргументам (в данном случае к 5 и к 6).</p>
+<p>Ну вот, собственно, и всё. Конечно, это далеко не вся информация о λ-функциях, но этого базиса нам пока достаточно. Продолжение следует…</p>
+
+<div id="socialButtons">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dshevchenko'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+        </div> 
+
+        <div id="searchForm">
+            <script>
+              (function() {
+                var cx = '007697214108744450483:ccjauglh7ao';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+
+        <footer class="footer">
+            Сайт работает на <strong><a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></strong> и живёт на <strong><a href="https://github.com/denisshevchenko/blog" target="_blank">GitHub</a></strong>.
+            <div class="copyright-note">
+                Исходный код данного сайта, а также все опубликованные на нём материалы распространяются на условиях <a href="https://github.com/denisshevchenko/blog/blob/master/LICENSE" target="_blank">свободной лицензии MIT</a>.
+            </div>
+        </footer>
+    </div>
+  </body>
+</html>
+
