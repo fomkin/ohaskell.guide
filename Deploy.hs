@@ -14,7 +14,7 @@
 
 module Main where
 
-import Control.Monad            (unless)
+import Control.Monad            (unless, when)
 import Data.List                (intercalate)
 import System.Directory         ( createDirectory
                                 , copyFile
@@ -107,11 +107,14 @@ main = do
     checkoutToGhPages           = git_ ["checkout", "gh-pages"]
     resetLastCommit             = git_ ["reset", "--hard", "HEAD~1"]
     takeSiteFromTempDirectory   = callProcess "cp" ["-R", "/tmp" </> fullWeb ++ "/.", "."]
-    removeTempDirectory         = removeDirectoryRecursive $ "/tmp" </> fullWeb
     backToMaster                = git_ ["checkout", "master"]
 
     cleanGhPages = do
         git_ ["add", "."]
         git_ ["commit", "-a", "-m", "Trash."]
         git_ ["reset", "--hard", "HEAD~2"]
+
+    removeTempDirectory = do
+        yep <- doesDirectoryExist $ "/tmp" </> fullWeb
+        when yep $ removeDirectoryRecursive $ "/tmp" </> fullWeb
 
